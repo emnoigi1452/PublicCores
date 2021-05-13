@@ -20,12 +20,19 @@ databases - For player's with custom BuildWands to use.
 
 **How does it work?** The following part will give a more in-depth look into the code, and
 how it works, to give the viewer a better understanding of what's going on.
+
 ***Part I: Condense - Craft blocks from ores inside data files.***
 
 This is the main usage of the script, being able to freely manipulate the data files in order
-for the quick and easy compression of ores into blocks. For this, we first kick the player
-from the server to begin the process of modifying the data files:
+for the quick and easy compression of ores into blocks. First off, we begin by checking if
+the input material type is valid, as well as getting information from the in-game storage
+of the player requesting to compress their minerals:
 ```javascript
-var message = "&8[&eKho&8] &fĐã nén khối thành công &a✔ &8[&a+" + block_count.toString() + " khối&8]";
-p.kickPlayer(message.replace(/&/g, "§"));
+		  var backup_node = args[1].toLowerCase(); var update = "javascript_preventhopper_update";
+		  if(numeric_id(backup_node) == -1)
+		  	return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
+		  PlaceholderAPI.static.setPlaceholders(p, "%" + update + "%");
+		  var placeholder = "javascript_preventhopper_get," + backup_node;
+		  var count = parseInt(PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%"));
+		  if(count < 9) return "&8[&eKho&8] &cLỗi: &fBạn không có đủ khoáng sản để thực hiện nén khối!";
 ```
