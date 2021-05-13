@@ -66,3 +66,22 @@ We can check the input via the backup variable defined earlier
 if(numeric_id(backup_node) == -1)
   return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
 ```
+If the input is valid, we shall move to the next step, which is to parse an update to the
+user's data, then we check if the amount of minerals is enough to perform a compression
+process to be executed. The default check value will be 9, as opposed to a single block.
+```javascript
+var update = "javascript_preventhopper_update"; // The placeholder to update the player's data (1)
+PlaceholderAPI.static.setPlaceholders(p, "%" + update + "%"); // Parsing the placeholder (1)
+var placeholder = "javascript_preventhopper_get," + backup_node; // The placeholder to get the mineral count (1)
+var count = parseInt(PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%")); // Parsing the placeholder (2)
+if(count < 9) return "&8[&eKho&8] &cLỗi: &fBạn không có đủ khoáng sản để thực hiện nén khối!"; // Checking...
+```
+If our player manages to went through all the checks, the compression process shall begin. Starting
+off, we will perform a kick command to temporaily block the user from the user, which will give
+us time to modify the user's data file. The kick message will be a sort of prediction as to how
+many blocks were compressed from the data file
+```javascript
+var block_count = Math.floor(count / 9);
+var message = "&8[&eKho&8] &fĐã nén khối thành công &a✔ &8[&a+" + block_count.toString() + " khối&8]";
+p.kickPlayer(message.replace(/&/g, "§"));
+```
