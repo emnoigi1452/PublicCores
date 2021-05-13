@@ -36,3 +36,33 @@ var placeholder = "javascript_preventhopper_get," + backup_node;
 var count = parseInt(PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%"));
 if(count < 9) return "&8[&eKho&8] &cLỗi: &fBạn không có đủ khoáng sản để thực hiện nén khối!";
 ```
+
+This code snippet may look quite messy, but once you break it down, it should be quite simple to
+understand what's going on. First we allow ourselves to backup the users input, as we will be
+parsing other placeholders in the process of our code
+```javascript
+var backup_node = args[1].toLowerCase();
+```
+Next, we begin checking whether the input is valid or not, we can check through the function
+defined near the beginning of the code, which is **numeric_id**, which looks like this
+```javascript
+function numeric_id(param) {
+	switch(param.toLowerCase()) {
+		case "coal": return 173;
+		case "lapis": return 22;
+		case "redstone": return 152;
+		case "iron": return 42;
+		case "gold": return 41;
+		case "diamond": return 57;
+		case "emerald": return 133;
+		default: return -1;
+	}
+}
+```
+The function returns all of the block ids in mMinecraft, if the input is not any of minerals
+other than the 7 mineral blocks, it'll return **-1**, indicating that the input is invalid.
+We can check the input via the backup variable defined earlier
+```javascript
+if(numeric_id(backup_node) == -1)
+  return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
+```
