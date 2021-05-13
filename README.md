@@ -28,11 +28,11 @@ for the quick and easy compression of ores into blocks. First off, we begin by c
 the input material type is valid, as well as getting information from the in-game storage
 of the player requesting to compress their minerals:
 ```javascript
-		  var backup_node = args[1].toLowerCase(); var update = "javascript_preventhopper_update";
-		  if(numeric_id(backup_node) == -1)
-		  	return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
-		  PlaceholderAPI.static.setPlaceholders(p, "%" + update + "%");
-		  var placeholder = "javascript_preventhopper_get," + backup_node;
-		  var count = parseInt(PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%"));
-		  if(count < 9) return "&8[&eKho&8] &cLỗi: &fBạn không có đủ khoáng sản để thực hiện nén khối!";
+var backup_node = args[1].toLowerCase(); var update = "javascript_preventhopper_update";
+if(numeric_id(backup_node) == -1)
+  return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
+PlaceholderAPI.static.setPlaceholders(p, "%" + update + "%");
+var placeholder = "javascript_preventhopper_get," + backup_node;
+var count = parseInt(PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%"));
+if(count < 9) return "&8[&eKho&8] &cLỗi: &fBạn không có đủ khoáng sản để thực hiện nén khối!";
 ```
