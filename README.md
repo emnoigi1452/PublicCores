@@ -85,3 +85,89 @@ var block_count = Math.floor(count / 9);
 var message = "&8[&eKho&8] &fĐã nén khối thành công &a✔ &8[&a+" + block_count.toString() + " khối&8]";
 p.kickPlayer(message.replace(/&/g, "§"));
 ```
+Afterwards, we begin by initializing the path to our data file, as well as setting up the data lines
+in an ArrayList object, to which can be imported via the NashornAPI
+```javascript
+var server = BukkitServer; 
+var plugin_instance = server.getPluginManager().getPlugin("PreventHopper-ORE"); 
+var ArrayList = Java.type("java.util.ArrayList");
+var p = BukkitPlayer; var p_uid = p.getUniqueId().toString(); 
+var data = new ArrayList();
+var path = plugin_instance.getDataFolder() + "\\userdata\\" + p_uid + ".yml";
+```
+Once completed, we begin scanning the file to initialize our ArrayList:
+```javascript
+var File = Java.type(java.io.File); var Scanner = Java.type("java.util.Scanner");
+var data_file = new File(path); var file_reader = new Scanner(data_file);
+while(file_reader.hasNextLine()) {
+	var string = file_reader.nextLine(); data.add(string);
+}
+```
+After we finish setting things up, we begin the compression, first we calculated the
+amount of minerals remaining, then replacing it into the ArrayList, which we can
+get the line of the exact mineral type via a function written above:
+```javascript
+function read_data_line(param) {
+	switch(param.toLowerCase()) {
+		case "coal": return 3;
+		case "lapis": return 4;
+		case "redstone": return 5;
+		case "iron": return 6;
+		case "gold": return 7;
+		case "diamond": return 8;
+		case "emerald": return 9;
+	}
+}
+
+var remain = count - (block_count*9);
+var new_string = data.get(read_data_line(backup_node)).replace(count, remain);
+data.set(read_data_line(backup_node), new_string);
+```
+After that, we simply rewrite the file to save the new, edited data.
+```javascript
+var PrintWriter = Java.type("java.io.PrintWriter"); var writer = new PrintWriter(data_file);
+for each(var s in data)
+	writer.println(s);
+writer.flush(); writer.close();
+```
+Once completed, we new begin loading in the blocks the the player's block database, which
+is accessable via the Data object provided by JavaScriptExpansion. We will generate a
+new HashMap object, referring to the data map that the script holds.
+```javascript
+var HashMap = Java.type("java.util.HashMap");
+var data_map = Data.exists(p_uid) ? Data.get(p_uid) : new HashMap();
+```
+We then initialize the map, filling in missing keys, if there's one:
+```javascript
+function initializeMap(map) {
+	if(!map.containsKey("COAL_BLOCK")) 
+		map.put("COAL_BLOCK", 0);
+	if(!map.containsKey("REDSTONE_BLOCK"))
+		map.put("REDSTONE_BLOCK", 0);
+	if(!map.containsKey("LAPIS_BLOCK"))
+		map.put("LAPIS_BLOCK", 0);
+	if(!map.containsKey("IRON_BLOCK"))
+		map.put("IRON_BLOCK", 0);
+	if(!map.containsKey("GOLD_BLOCK"))
+		map.put("GOLD_BLOCK", 0);
+	if(!map.containsKey("DIAMOND_BLOCK"))
+		map.put("DIAMOND_BLOCK", 0);
+	if(!map.containsKey("EMERALD_BLOCK"))
+		map.put("EMERALD_BLOCK", 0);
+	return map;
+}
+data_map = initializeMap(data_map);
+```
+Then, we begin modifying the database's saved data of our player:
+```javascript
+function read_name(param) {
+	return param.toUpperCase() + "_BLOCK";
+}
+var storage_count = data_map.get(read_name(backup_node));
+storage_count += block_count;
+data_map.put(read_name(backup_node), storage_count);
+Data.set(p_uid, data_map); 
+Placeholder.saveData();
+```
+And there we go, our player has successfully crafted all their minerals into
+blocks in the matter of seconds.
