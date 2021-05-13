@@ -1,7 +1,8 @@
 # CustomCore - Public cores (13/05/2021)
-**Core No.1** PreventBlock - A custom block-compression system for **PreventHopper-ORE**.
 
-Part I - Introduction
+**Core No.1** - PreventBlock - A custom block-compression system for **PreventHopper-ORE**.
+
+Part I - Introduction.
 **What is PreventBlock?** As stated above, it's a custom JavaScript expansion that
 allow players/users to interact with the PreventHopper's data file, therefore allowing
 for the modification of ore data, which then allow for the creation of the block
