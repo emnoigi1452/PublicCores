@@ -171,3 +171,6 @@ Placeholder.saveData();
 ```
 And there we go, our player has successfully crafted all their minerals into
 blocks in the matter of seconds.
+
+***I'm too lazy to write the explanation of the other mods. I'll try and complete
+them when I have free time again, bye.***
