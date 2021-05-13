@@ -17,3 +17,15 @@ a "plugin", if you could say it that way. As of right now, the core can do sever
 such as: Compress ores into blocks, Send blocks within your storage to others, Convert
 the blocks to SuperiorCore's Wand Database, and send the blocks to other SuperiorCore
 databases - For player's with custom BuildWands to use.
+
+**How does it work?** The following part will give a more in-depth look into the code, and
+how it works, to give the viewer a better understanding of what's going on.
+***Part I: Condense - Craft blocks from ores inside data files.***
+
+This is the main usage of the script, being able to freely manipulate the data files in order
+for the quick and easy compression of ores into blocks. For this, we first kick the player
+from the server to begin the process of modifying the data files:
+```javascript
+var message = "&8[&eKho&8] &fĐã nén khối thành công &a✔ &8[&a+" + block_count.toString() + " khối&8]";
+p.kickPlayer(message.replace(/&/g, "§"));
+```
