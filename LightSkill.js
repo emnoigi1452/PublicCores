@@ -19,12 +19,12 @@ function getItemDamage(item_stack) {
 
 function not_in_pvp(player) {
 	if(player.getWorld().getName() != "world") return true;
+	var region = "worldguard_region_name"; var loc = player.getLocation();
+	if(PlaceholderAPI.static.setPlaceholders(player, "%" + region + "%") == "nopvp")
+		return true;
 	else {
-		var location = player.getLocation();
-		var x = location.getBlockX()
-		var z = location.getBlockZ()
-		if(x_array.indexOf(x) != -1 && z_array.indexOf(z) != -1)
-			return true;
+		var x = loc.getBlockX(); var z = loc.getBlockZ();
+		return x_array.indexOf(x) != -1 && z_array.indexOf(z) != -1;
 	}
 }
 
