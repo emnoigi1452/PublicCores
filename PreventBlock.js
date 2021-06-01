@@ -199,6 +199,7 @@ function PreventBlock() {
 			if(isNaN(amount) || amount < 1) return "&bSealAPI &8&l| &cLỗi: &fSố nhập vào đéo hợp lệ tí nào cả nha &d:3";
 			load_config.set("BlockData." + get_key(args[2]), load_config.get("BlockData." + get_key(args[2])) + amount); load_config.save(file);
 			var target_message = "&eBlock &8&l| &fMột quản trị viên đã gửi cho bạn &ax" + amount.toFixed() + " " + get_translated_name(args[2]);
+			target.sendMessage(update_color(target_message));
 			return "&bSealAPI &8&l| &fĐã chuyển khoản &ax" + amount.toFixed() + " " + get_translated_name(args[2]) + " &fcho &a" + target.getName();
 		case "remove":
 			var target = server.getPlayerExact(args[1]); if(target == null) return "&bSealAPI &8&l| &cLỗi: &fÊ mày hình như nó đéo on hay sao á &d:v";
@@ -209,6 +210,7 @@ function PreventBlock() {
 			var balance = load_config.get("BlockData." + get_key(args[2])); if(amount > balance) return "&bSealAPI &8&l| &cLỗi: &fEm nó có &a" + balance.toFixed() + " &fthôi!";
 			load_config.set("BlockData." + get_key(args[2]), balance - amount); load_config.save(file);
 			var target_message = "&eBlock &8&l| &fMột quản trị viên đã rút từ kho của bạn &ax" + amount.toFixed() + " " + get_translated_name(args[2]);
+			target.sendMessage(update_color(target_message));
 			return "&bSealAPI &8&l| &fĐã rút &ax" + amount.toFixed() + " " + get_translated_name(args[2]) + " &fcủa thanh niên &a" + target.getName();
 	}
 }
