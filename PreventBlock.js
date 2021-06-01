@@ -69,7 +69,7 @@ function get_slots(player, type) {
 	var inventory_instance = player.getInventory(); var c = 0;
 	for(var k = 0; k < 36; k++) {
 		var item = inventory_instance.getItem(k);
-		if(k == null) c+=64;
+		if(item == null) c+=64;
 		else {
 			if(item.getType().name() == type)
 			  c += 64 - item.getAmount();
@@ -146,7 +146,7 @@ function PreventBlock() {
 				var placeholder = "javascript_superior-core_util,add," + type + "," + valid_amount.toFixed(0);
 				PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%");
 				config.set("BlockData." + get_key(type), 0); config.save(block_file);
-				return "&eHookCore &8&l| &fĐã chuyển đổi thành công &a" + valid_amount.toFixed() + " " + get_translated_name + " &fsang &6SuperiorWand"; 
+				return "&eHookCore &8&l| &fĐã chuyển đổi thành công &a" + valid_amount.toFixed() + " " + get_translated_name(type) + " &fsang &6SuperiorWand"; 
 			}
 		case "sendtowand":
 			var block_data = get_file(p); var config = YamlConfiguration.loadConfiguration(block_data); var type = args[2];
