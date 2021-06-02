@@ -81,7 +81,7 @@ function get_file(player) {
 	var player_file = new File(player_path);
 	if(!player_file.exists()) {
 		var configuration = YamlConfiguration.loadConfiguration(player_file);
-		configuration.set("UserName", p.getName());
+		configuration.set("UserName", player.getName());
 		configuration.set("BlockData.COAL_BLOCK", 0);
 		configuration.set("BlockData.LAPIS_BLOCK", 0);
 		configuration.set("BlockData.REDSTONE_BLOCK", 0);
