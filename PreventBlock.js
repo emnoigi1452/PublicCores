@@ -130,6 +130,7 @@ function PreventBlock() {
 			if(get_id(args[1]) == -1) return "&eBlock &8&l| &cLoại khoáng sản &a" + args[1] + " &fkhông tồn tại!";
 			var block_file = get_file(p); var config = YamlConfiguration.loadConfiguration(block_file);
 			var count = config.get("BlockData." + get_key(args[1]));
+			if(count < 1) return "&eBlock &8&l| &cLỗi: &fBạn không có đủ " + get_translated_name(args[1]) + " &ftrong kho!";
 			var available = get_slots(p, get_key(args[1]));
 			if(count >= available) count -= available; else { available = count; count = 0; }
 			server.dispatchCommand(Console, "give " + p.getName() + " " + get_id(args[1]) + " " + available.toFixed());
