@@ -1,537 +1,633 @@
-var _0x19cd = [
-    'getPluginManager',
-    'toString',
-    'type',
-    'nanoTime',
-    'trim',
-    'substring',
-    'store-log',
-    'PreventHopper-ORE',
-    'wandshop.display.diamond',
-    'status',
-    'getTargetBlock',
-    'SuperiorWorld',
-    'getBlockX',
-    '498990htMqsu',
-    'null',
-    'ms&f)',
-    'next',
-    'emptyslot',
-    'containsKey',
-    'hasPermission',
-    '%status%',
-    '\x20xu&f!',
-    'MyItems',
-    'GOLD_BLOCK',
-    'setAmount',
-    'AIR',
-    '\x20&flỗi\x20trong\x20quá\x20trình\x20mua!\x0a',
-    'DIAMOND_BLOCK',
-    'hasDisplayName',
-    'put',
-    'getBlockZ',
-    'getPlugin',
-    '\x20permission\x20set\x20',
-    'abs',
-    'getWorld',
-    'toUpperCase',
-    'wandshop.display.gold',
-    'clone',
-    '&eSuperiorWand\x20&8&l|\x20&fĐã\x20mua\x20sản\x20phẩm\x20thành\x20công\x20&a✔\x0a',
-    'close',
-    'lp\x20user\x20%player_name%\x20permission\x20unset\x20wandshop.display.',
-    '\x20Xu',
-    'getItemMeta',
-    'gold',
-    'ARMOR_STAND',
-    'deposit',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20đứng\x20cách\x20quá\x20xa\x20khỏi\x20block!',
-    'give\x20',
-    'emerald',
-    'java.util.Scanner',
-    'flush',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fĐã\x20xảy\x20ra\x20&a',
-    '_INGOT',
-    'dispatchCommand',
-    'name',
-    'getX',
-    'getName',
-    'EMERALD_BLOCK',
-    'format',
-    'getUniqueId',
-    'print',
-    'length',
-    'hasNextLine',
-    'getInventory',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20hiện\x20đang\x20&cTắt\x20&fsử\x20dụng\x20đũa!',
-    'getY',
-    '&6Khối\x20Vàng',
-    'performCommand',
-    'set',
-    'getItem',
-    'superiorwand.',
-    'getAmount',
-    'nextLine',
-    'keySet',
-    'island\x20admin\x20setblockamount\x20',
-    'replace',
-    'java.util.Calendar',
-    'Diamond\x20Block',
-    'database',
-    '&cTắt',
-    'is\x20level',
-    'java.text.DecimalFormat',
-    'static',
-    'superiorwand.universal',
-    'kickPlayer',
-    'getTime',
-    '1030754hjRxtm',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20không\x20có\x20đủ\x20khối\x20để\x20thực\x20hiện\x20xếp\x20chồng!',
-    '&eSuperiorWand\x20&8&l|\x20&fĐã\x20dọn\x20dữ\x20liệu\x20thành\x20công\x20&a✔',
-    'hasNext',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20Bạn\x20chưa\x20lưu\x20gì\x20trong\x20cơ\x20sở\x20dữ\x20liệu\x20cả!',
-    '1pfSsqO',
-    'hasEnchants',
-    'getEntities',
-    'getSize',
-    '.yml',
-    '611PhDnnn',
-    'clear',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fTrong\x20túi\x20không\x20có\x20đủ\x20&a',
-    '&f\x20&f\x20&f\x20&8[&6+&8]\x20&fThời\x20gian\x20mua:\x20&a',
-    'java.text.SimpleDateFormat',
-    '&eSuperiorWand\x20&8&l|\x20&fĐã\x20rút\x20từ\x20kho\x20chứa\x20&a',
-    'toLowerCase',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fKhông\x20có\x20đủ\x20plugin\x20để\x20khởi\x20động\x20&6SuperiorCore&f!',
-    '2XkvSAn',
-    'setPlaceholders',
-    'javascript_superior-core_util,status,get',
-    'getDataFolder',
-    'mi\x20load\x20custom\x20bw-',
-    'SuperiorSkyblock2',
-    '&8]\x0a',
-    '&eSuperiorWand\x20&8&l|\x20&fĐã\x20%status%\x20&fchế\x20độ\x20xây\x20dựng\x20của\x20đũa!',
-    '\x5cuserdata\x5c',
-    '&6Vàng',
-    'diamond',
-    'getZ',
-    'add',
-    'getCustomName',
-    '\x20&f(&a',
-    'java.util.ArrayList',
-    'saveData',
-    '#0.0',
-    'playerpoints:p\x20take\x20',
-    '&f\x20&f\x20&f\x20&8[&6+&8]\x20&fTên\x20sản\x20phẩm:\x20&5Đũa\x20Ma\x20Thuật\x20&8[',
-    'hasLore',
-    '\x20&fđể\x20dùng\x20đũa!',
-    'exists',
-    '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20không\x20có\x20quyền\x20sử\x20dụng\x20đũa,\x20bởi\x20bạn\x20không\x20phải\x20chủ\x20của\x20nó!',
-    '%javascript_superior-core_util,emptyslot%',
-    'resetperm',
-    '390401iuAEQU',
-    'lp\x20user\x20',
-    'getChunk',
-    '&f\x20&f\x20&f\x20&8[&6+&8]\x20&fThành\x20tiền:\x20&a',
-    'Status',
-    '53121gegEuT',
-    'false',
-    '&eSuperiorWand\x20&8&l|\x20&fMáy\x20chủ\x20đang\x20xử\x20lí\x20kho\x20của\x20bạn....\x20&a✔',
-    'switch',
-    'get',
-    'java.text.NumberFormat',
-    '\x20&fvào\x20cơ\x20sở\x20dữ\x20liệu\x20&a✔',
-    'yes',
-    'count',
-    '98762PZwenc',
-    'fromString',
-    'math_0:_',
-    '1707ETpSMy',
-    'Emerald\x20Block',
-    'size',
-    'getLocation',
-    'phm',
-    'Essentials',
-    '499307qePARU',
-    '\x20&fđể\x20có\x20thể\x20dùng\x20đũa!',
-    'indexOf',
-    'iterator',
-    'getType',
-    '&bKhối\x20Kim\x20Cương',
-    '&bKim\x20Cương',
-    'println',
-    '\x20permission\x20set\x20superiorwand.universal\x20true',
-    'location'
-];
+'use strict';
+/** @type {!Array} */
+var _0x19cd = ["getPluginManager", "toString", "type", "nanoTime", "trim", "substring", "store-log", "PreventHopper-ORE", "wandshop.display.diamond", "status", "getTargetBlock", "SuperiorWorld", "getBlockX", "498990htMqsu", "null", "ms&f)", "next", "emptyslot", "containsKey", "hasPermission", "%status%", " xu&f!", "MyItems", "GOLD_BLOCK", "setAmount", "AIR", " &fl\u1ed7i trong qu\u00e1 tr\u00ecnh mua!\n", "DIAMOND_BLOCK", "hasDisplayName", "put", "getBlockZ", "getPlugin", " permission set ", "abs", 
+"getWorld", "toUpperCase", "wandshop.display.gold", "clone", "&eSuperiorWand &8&l| &f\u0110\u00e3 mua s\u1ea3n ph\u1ea9m th\u00e0nh c\u00f4ng &a\u2714\n", "close", "lp user %player_name% permission unset wandshop.display.", " Xu", "getItemMeta", "gold", "ARMOR_STAND", "deposit", "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n \u0111\u1ee9ng c\u00e1ch qu\u00e1 xa kh\u1ecfi block!", "give ", "emerald", "java.util.Scanner", "flush", "&eSuperiorWand &8&l| &cL\u1ed7i: &f\u0110\u00e3 x\u1ea3y ra &a", "_INGOT", 
+"dispatchCommand", "name", "getX", "getName", "EMERALD_BLOCK", "format", "getUniqueId", "print", "length", "hasNextLine", "getInventory", "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n hi\u1ec7n \u0111ang &cT\u1eaft &fs\u1eed d\u1ee5ng \u0111\u0169a!", "getY", "&6Kh\u1ed1i V\u00e0ng", "performCommand", "set", "getItem", "superiorwand.", "getAmount", "nextLine", "keySet", "island admin setblockamount ", "replace", "java.util.Calendar", "Diamond Block", "database", "&cT\u1eaft", "is level", "java.text.DecimalFormat", 
+"static", "superiorwand.universal", "kickPlayer", "getTime", "1030754hjRxtm", "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n kh\u00f4ng c\u00f3 \u0111\u1ee7 kh\u1ed1i \u0111\u1ec3 th\u1ef1c hi\u1ec7n x\u1ebfp ch\u1ed3ng!", "&eSuperiorWand &8&l| &f\u0110\u00e3 d\u1ecdn d\u1eef li\u1ec7u th\u00e0nh c\u00f4ng &a\u2714", "hasNext", "&eSuperiorWand &8&l| &cL\u1ed7i: B\u1ea1n ch\u01b0a l\u01b0u g\u00ec trong c\u01a1 s\u1edf d\u1eef li\u1ec7u c\u1ea3!", "1pfSsqO", "hasEnchants", "getEntities", "getSize", 
+".yml", "611PhDnnn", "clear", "&eSuperiorWand &8&l| &cL\u1ed7i: &fTrong t\u00fai kh\u00f4ng c\u00f3 \u0111\u1ee7 &a", "&f &f &f &8[&6+&8] &fTh\u1eddi gian mua: &a", "java.text.SimpleDateFormat", "&eSuperiorWand &8&l| &f\u0110\u00e3 r\u00fat t\u1eeb kho ch\u1ee9a &a", "toLowerCase", "&eSuperiorWand &8&l| &cL\u1ed7i: &fKh\u00f4ng c\u00f3 \u0111\u1ee7 plugin \u0111\u1ec3 kh\u1edfi \u0111\u1ed9ng &6SuperiorCore&f!", "2XkvSAn", "setPlaceholders", "javascript_superior-core_util,status,get", "getDataFolder", 
+"mi load custom bw-", "SuperiorSkyblock2", "&8]\n", "&eSuperiorWand &8&l| &f\u0110\u00e3 %status% &fch\u1ebf \u0111\u1ed9 x\u00e2y d\u1ef1ng c\u1ee7a \u0111\u0169a!", "\\userdata\\", "&6V\u00e0ng", "diamond", "getZ", "add", "getCustomName", " &f(&a", "java.util.ArrayList", "saveData", "#0.0", "playerpoints:p take ", "&f &f &f &8[&6+&8] &fT\u00ean s\u1ea3n ph\u1ea9m: &5\u0110\u0169a Ma Thu\u1eadt &8[", "hasLore", " &f\u0111\u1ec3 d\u00f9ng \u0111\u0169a!", "exists", "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n kh\u00f4ng c\u00f3 quy\u1ec1n s\u1eed d\u1ee5ng \u0111\u0169a, b\u1edfi b\u1ea1n kh\u00f4ng ph\u1ea3i ch\u1ee7 c\u1ee7a n\u00f3!", 
+"%javascript_superior-core_util,emptyslot%", "resetperm", "390401iuAEQU", "lp user ", "getChunk", "&f &f &f &8[&6+&8] &fTh\u00e0nh ti\u1ec1n: &a", "Status", "53121gegEuT", "false", "&eSuperiorWand &8&l| &fM\u00e1y ch\u1ee7 \u0111ang x\u1eed l\u00ed kho c\u1ee7a b\u1ea1n.... &a\u2714", "switch", "get", "java.text.NumberFormat", " &fv\u00e0o c\u01a1 s\u1edf d\u1eef li\u1ec7u &a\u2714", "yes", "count", "98762PZwenc", "fromString", "math_0:_", "1707ETpSMy", "Emerald Block", "size", "getLocation", "phm", 
+"Essentials", "499307qePARU", " &f\u0111\u1ec3 c\u00f3 th\u1ec3 d\u00f9ng \u0111\u0169a!", "indexOf", "iterator", "getType", "&bKh\u1ed1i Kim C\u01b0\u01a1ng", "&bKim C\u01b0\u01a1ng", "println", " permission set superiorwand.universal true", "location"];
+/** @type {function(number, ?): ?} */
 var _0x43c78a = _0x4782;
-(function (_0x1c6193, _0x1a091f) {
-    var _0xe4fb9c = _0x4782;
-    while (!![]) {
-        try {
-            var _0x5594a1 = -parseInt(_0xe4fb9c(0x149)) + -parseInt(_0xe4fb9c(0x140)) + parseInt(_0xe4fb9c(0x13b)) * parseInt(_0xe4fb9c(0x121)) + -parseInt(_0xe4fb9c(0x119)) * parseInt(_0xe4fb9c(0x14c)) + parseInt(_0xe4fb9c(0x152)) * parseInt(_0xe4fb9c(0x114)) + parseInt(_0xe4fb9c(0x10f)) + -parseInt(_0xe4fb9c(0x169));
-            if (_0x5594a1 === _0x1a091f)
-                break;
-            else
-                _0x1c6193['push'](_0x1c6193['shift']());
-        } catch (_0x7ecc47) {
-            _0x1c6193['push'](_0x1c6193['shift']());
-        }
+(function(data, oldPassword) {
+  /** @type {function(number, ?): ?} */
+  var toMonths = _0x4782;
+  for (; !![];) {
+    try {
+      /** @type {number} */
+      var userPsd = -parseInt(toMonths(329)) + -parseInt(toMonths(320)) + parseInt(toMonths(315)) * parseInt(toMonths(289)) + -parseInt(toMonths(281)) * parseInt(toMonths(332)) + parseInt(toMonths(338)) * parseInt(toMonths(276)) + parseInt(toMonths(271)) + -parseInt(toMonths(361));
+      if (userPsd === oldPassword) {
+        break;
+      } else {
+        data["push"](data["shift"]());
+      }
+    } catch (_0x7ecc47) {
+      data["push"](data["shift"]());
     }
-}(_0x19cd, 0x96a35));
-var p = BukkitPlayer, server = BukkitServer, console_object = server['getConsoleSender'](), System = Java[_0x43c78a(0x15e)]('java.lang.System'), NumberFormat = Java['type'](_0x43c78a(0x145)), DecimalFormat = Java['type'](_0x43c78a(0x1ad)), HashMap = Java[_0x43c78a(0x15e)]('java.util.HashMap'), Calendar = Java[_0x43c78a(0x15e)](_0x43c78a(0x1a8)), SimpleDateFormat = Java[_0x43c78a(0x15e)]('java.text.SimpleDateFormat'), File = Java[_0x43c78a(0x15e)]('java.io.File'), PrintWriter = Java['type']('java.io.PrintWriter'), Scanner = Java['type'](_0x43c78a(0x18d)), ArrayList = Java[_0x43c78a(0x15e)](_0x43c78a(0x130)), UUID = Java[_0x43c78a(0x15e)]('java.util.UUID'), Calendar = Java[_0x43c78a(0x15e)](_0x43c78a(0x1a8)), SimpleDateFormat = Java[_0x43c78a(0x15e)](_0x43c78a(0x11d));
-function parseBlockCount(_0x21c24e) {
-    var _0x541181 = _0x43c78a, _0x12afb1 = _0x21c24e[_0x541181(0x13d)](), _0x36a328 = _0x21c24e[_0x541181(0x181)]()[_0x541181(0x12d)](0.5, 0x1, 0.5);
-    for (var _0x24830a = 0x0; _0x24830a < _0x12afb1[_0x541181(0x116)]()['length']; ++_0x24830a) {
-        var _0x479c9e = _0x12afb1[_0x541181(0x116)]()[_0x24830a], _0xd3aa0a = _0x479c9e[_0x541181(0x14f)]();
-        if (_0x479c9e[_0x541181(0x156)]()[_0x541181(0x192)]() == _0x541181(0x188) && _0xd3aa0a[_0x541181(0x193)]() == _0x36a328[_0x541181(0x193)]() && _0xd3aa0a[_0x541181(0x19d)]() == _0x36a328['getY']() && _0xd3aa0a[_0x541181(0x12c)]() == _0x36a328[_0x541181(0x12c)]()) {
-            var _0x4f3e0f = _0x479c9e[_0x541181(0x12e)]()[_0x541181(0x1a7)]('§', '*');
-            return _0x4f3e0f[_0x541181(0x161)](0x3, _0x4f3e0f[_0x541181(0x154)]('\x20'))[_0x541181(0x160)]();
-        }
+  }
+})(_0x19cd, 617013);
+var p = BukkitPlayer;
+var server = BukkitServer;
+var console_object = server["getConsoleSender"]();
+var System = Java[_0x43c78a(350)]("java.lang.System");
+var NumberFormat = Java["type"](_0x43c78a(325));
+var DecimalFormat = Java["type"](_0x43c78a(429));
+var HashMap = Java[_0x43c78a(350)]("java.util.HashMap");
+var Calendar = Java[_0x43c78a(350)](_0x43c78a(424));
+var SimpleDateFormat = Java[_0x43c78a(350)]("java.text.SimpleDateFormat");
+var File = Java[_0x43c78a(350)]("java.io.File");
+var PrintWriter = Java["type"]("java.io.PrintWriter");
+var Scanner = Java["type"](_0x43c78a(397));
+var ArrayList = Java[_0x43c78a(350)](_0x43c78a(304));
+var UUID = Java[_0x43c78a(350)]("java.util.UUID");
+Calendar = Java[_0x43c78a(350)](_0x43c78a(424));
+SimpleDateFormat = Java[_0x43c78a(350)](_0x43c78a(285));
+/**
+ * @param {?} left
+ * @return {?}
+ */
+function parseBlockCount(left) {
+  var parseInt = _0x43c78a;
+  var frontpageItems = left[parseInt(317)]();
+  var _controlCommandNames = left[parseInt(385)]()[parseInt(301)](0.5, 1, 0.5);
+  /** @type {number} */
+  var i = 0;
+  for (; i < frontpageItems[parseInt(278)]()["length"]; ++i) {
+    var _fn = frontpageItems[parseInt(278)]()[i];
+    var BASAL_TYPES = _fn[parseInt(335)]();
+    if (_fn[parseInt(342)]()[parseInt(402)]() == parseInt(392) && BASAL_TYPES[parseInt(403)]() == _controlCommandNames[parseInt(403)]() && BASAL_TYPES[parseInt(413)]() == _controlCommandNames["getY"]() && BASAL_TYPES[parseInt(300)]() == _controlCommandNames[parseInt(300)]()) {
+      var frontpageItems = _fn[parseInt(302)]()[parseInt(423)]("\u00a7", "*");
+      return frontpageItems[parseInt(353)](3, frontpageItems[parseInt(340)](" "))[parseInt(352)]();
     }
-    return 0x1;
+  }
+  return 1;
 }
-function count_empty(_0x13a011, _0x4b73da) {
-    var _0x5484c4 = _0x43c78a, _0x3d37bd = _0x13a011[_0x5484c4(0x19b)](), _0x447cfd = 0x0;
-    for (var _0x4b1020 = 0x0; _0x4b1020 < 0x24; ++_0x4b1020) {
-        var _0x45dfd8 = _0x13a011['getInventory']()[_0x5484c4(0x1a1)](_0x4b1020);
-        if (_0x45dfd8 == null)
-            _0x447cfd += 0x40;
-        else {
-            if (_0x45dfd8[_0x5484c4(0x156)]()[_0x5484c4(0x192)]() == _0x4b73da)
-                _0x447cfd += 0x40 - _0x45dfd8['getAmount']();
-        }
-    }
-    return _0x447cfd;
-}
-function _0x4782(_0x1b9105, _0xbc30a4) {
-    _0x1b9105 = _0x1b9105 - 0x10c;
-    var _0x19cd24 = _0x19cd[_0x1b9105];
-    return _0x19cd24;
-}
-function interactInventory(_0x17981c, _0x4c83f9, _0x4bcf9b) {
-    var _0x30ee8e = _0x43c78a, _0xbb016b = _0x17981c[_0x30ee8e(0x19b)](), _0x546dc3 = 0x0;
-    for (var _0x31319c = 0x0; _0x31319c < _0xbb016b[_0x30ee8e(0x117)](); ++_0x31319c) {
-        var _0x3c8e69 = _0xbb016b[_0x30ee8e(0x1a1)](_0x31319c);
-        if (_0x3c8e69 == null || _0x31319c == 0x28)
-            continue;
-        else {
-            if (_0x3c8e69['getType']()[_0x30ee8e(0x192)]() == _0x4c83f9) {
-                var _0xdae0d5 = _0x3c8e69[_0x30ee8e(0x186)]();
-                if (!(_0xdae0d5[_0x30ee8e(0x178)]() || _0xdae0d5['hasLore']() || _0xdae0d5[_0x30ee8e(0x115)]())) {
-                    if (_0x4bcf9b)
-                        _0x3c8e69[_0x30ee8e(0x174)](0x0);
-                    else
-                        _0x546dc3 += _0x3c8e69[_0x30ee8e(0x1a3)]();
-                }
-            }
-        }
-    }
-    return _0x4bcf9b ? null : _0x546dc3;
-}
-function getMaterialCount(_0x22c5ee, _0x55fc0a) {
-    var _0x371dd0 = _0x43c78a, _0x2deced = _0x22c5ee[_0x371dd0(0x19b)](), _0x1a0f21 = 0x0;
-    for (var _0x22981c = 0x0; _0x22981c < 0x24; ++_0x22981c) {
-        var _0x4852cd = _0x2deced[_0x371dd0(0x1a1)](_0x22981c);
-        if (_0x4852cd == null)
-            continue;
-        else {
-            if (_0x4852cd[_0x371dd0(0x156)]()[_0x371dd0(0x192)]() == _0x55fc0a) {
-                var _0x1831eb = _0x4852cd['getItemMeta']();
-                if (!(_0x1831eb[_0x371dd0(0x115)]() || _0x1831eb[_0x371dd0(0x135)]() || _0x1831eb[_0x371dd0(0x178)]()))
-                    _0x1a0f21 += _0x4852cd[_0x371dd0(0x1a3)]();
-            }
-        }
-    }
-    return _0x1a0f21;
-}
-function parseMaterial(_0x30b8fe, _0x13bbb7) {
-    var _0x3b8d0e = _0x43c78a;
-    switch (_0x13bbb7) {
-    case 0x1:
-        switch (_0x30b8fe[_0x3b8d0e(0x11f)]()) {
-        case _0x3b8d0e(0x187):
-            return _0x3b8d0e(0x173);
-        case _0x3b8d0e(0x12b):
-            return _0x3b8d0e(0x177);
-        case _0x3b8d0e(0x18c):
-            return 'EMERALD_BLOCK';
-        default:
-            return null;
-        }
-    case 0x2:
-        switch (_0x30b8fe['toLowerCase']()) {
-        case _0x3b8d0e(0x187):
-            return 'Gold\x20Block';
-        case 'diamond':
-            return _0x3b8d0e(0x1a9);
-        case _0x3b8d0e(0x18c):
-            return _0x3b8d0e(0x14d);
-        default:
-            return null;
-        }
-    case 0x3:
-        switch (_0x30b8fe[_0x3b8d0e(0x11f)]()) {
-        case _0x3b8d0e(0x187):
-            return _0x3b8d0e(0x19e);
-        case 'diamond':
-            return _0x3b8d0e(0x157);
-        case _0x3b8d0e(0x18c):
-            return '&aKhối\x20Ngọc\x20Lục\x20Bảo';
-        default:
-            return null;
-        }
-    default:
-        return null;
-    }
-}
-function getMineralData(_0x183c23, _0x44894e, _0x2b1a54) {
-    var _0x4fb378 = _0x43c78a, _0x56ca80 = _0x183c23[_0x4fb378(0x197)]()[_0x4fb378(0x15d)]();
-    if (!_0x2b1a54) {
-        if (!Data[_0x4fb378(0x137)](_0x56ca80))
-            return _0x4fb378(0x113);
-        else {
-            var _0x167d9c = Data['get'](_0x56ca80);
-            if (_0x167d9c[_0x4fb378(0x16e)](_0x44894e))
-                return _0x167d9c[_0x4fb378(0x144)](_0x44894e);
-            else
-                return _0x4fb378(0x110);
-        }
+/**
+ * @param {!Object} myPreferences
+ * @param {?} suppressDisabledCheck
+ * @return {?}
+ */
+function count_empty(myPreferences, suppressDisabledCheck) {
+  var getPreferenceKey = _0x43c78a;
+  var _0x3d37bd = myPreferences[getPreferenceKey(411)]();
+  /** @type {number} */
+  var _0x447cfd = 0;
+  /** @type {number} */
+  var magnifier = 0;
+  for (; magnifier < 36; ++magnifier) {
+    var $magnifier = myPreferences["getInventory"]()[getPreferenceKey(417)](magnifier);
+    if ($magnifier == null) {
+      /** @type {number} */
+      _0x447cfd = _0x447cfd + 64;
     } else {
-        if (Data['exists'](_0x56ca80)) {
-            var _0x365df5 = Data[_0x4fb378(0x144)](_0x56ca80);
-            if (_0x365df5['containsKey'](_0x44894e))
-                return _0x365df5[_0x4fb378(0x179)](_0x44894e, 0x0), Data['set'](_0x56ca80, _0x365df5), Placeholder['saveData'](), null;
+      if ($magnifier[getPreferenceKey(342)]()[getPreferenceKey(402)]() == suppressDisabledCheck) {
+        /** @type {number} */
+        _0x447cfd = _0x447cfd + (64 - $magnifier["getAmount"]());
+      }
+    }
+  }
+  return _0x447cfd;
+}
+/**
+ * @param {number} totalExpectedResults
+ * @param {?} entrySelector
+ * @return {?}
+ */
+function _0x4782(totalExpectedResults, entrySelector) {
+  /** @type {number} */
+  totalExpectedResults = totalExpectedResults - 268;
+  var _0x19cd24 = _0x19cd[totalExpectedResults];
+  return _0x19cd24;
+}
+/**
+ * @param {?} princ
+ * @param {?} filter_args
+ * @param {boolean} callback
+ * @return {?}
+ */
+function interactInventory(princ, filter_args, callback) {
+  var now = _0x43c78a;
+  var command_codes = princ[now(411)]();
+  /** @type {number} */
+  var regex = 0;
+  /** @type {number} */
+  var data = 0;
+  for (; data < command_codes[now(279)](); ++data) {
+    var filter = command_codes[now(417)](data);
+    if (filter == null || data == 40) {
+      continue;
+    } else {
+      if (filter["getType"]()[now(402)]() == filter_args) {
+        var rpm_traffic = filter[now(390)]();
+        if (!(rpm_traffic[now(376)]() || rpm_traffic["hasLore"]() || rpm_traffic[now(277)]())) {
+          if (callback) {
+            filter[now(372)](0);
+          } else {
+            regex = regex + filter[now(419)]();
+          }
         }
+      }
     }
-    return 0x0;
+  }
+  return callback ? null : regex;
 }
-function clear_amount(_0x2945ef, _0x5d2ca1, _0xa97124) {
-    var _0x3c5f5a = _0x43c78a, _0x36252d = p['getInventory']();
-    for (var _0x12e2de = 0x0; _0x12e2de < 0x24; ++_0x12e2de) {
-        var _0xf13521 = _0x36252d[_0x3c5f5a(0x1a1)](_0x12e2de);
-        if (_0xf13521 == null)
-            continue;
-        else {
-            if (_0xf13521[_0x3c5f5a(0x156)]()['name']() == _0x5d2ca1) {
-                var _0x1bbad2 = _0xf13521[_0x3c5f5a(0x186)]();
-                if (!(_0x1bbad2[_0x3c5f5a(0x178)]() || _0x1bbad2[_0x3c5f5a(0x135)]() || _0x1bbad2[_0x3c5f5a(0x115)]())) {
-                    if (_0xa97124 > _0xf13521[_0x3c5f5a(0x1a3)]())
-                        _0xa97124 -= _0xf13521[_0x3c5f5a(0x1a3)](), _0xf13521[_0x3c5f5a(0x174)](0x0);
-                    else {
-                        _0xf13521[_0x3c5f5a(0x174)](_0xf13521[_0x3c5f5a(0x1a3)]() - _0xa97124), _0xa97124 = 0x0;
-                        break;
-                    }
-                }
-            }
+/**
+ * @param {?} name
+ * @param {?} callback
+ * @return {?}
+ */
+function getMaterialCount(name, callback) {
+  var findMiddlePosition = _0x43c78a;
+  var command_codes = name[findMiddlePosition(411)]();
+  /** @type {number} */
+  var _0x1a0f21 = 0;
+  /** @type {number} */
+  var data = 0;
+  for (; data < 36; ++data) {
+    var nodes = command_codes[findMiddlePosition(417)](data);
+    if (nodes == null) {
+      continue;
+    } else {
+      if (nodes[findMiddlePosition(342)]()[findMiddlePosition(402)]() == callback) {
+        var rightBranch = nodes["getItemMeta"]();
+        if (!(rightBranch[findMiddlePosition(277)]() || rightBranch[findMiddlePosition(309)]() || rightBranch[findMiddlePosition(376)]())) {
+          _0x1a0f21 = _0x1a0f21 + nodes[findMiddlePosition(419)]();
         }
+      }
     }
-    return null;
+  }
+  return _0x1a0f21;
 }
-function getKeyList() {
-    var _0x94d410 = _0x43c78a, _0x5d1694 = new ArrayList(), _0x3ce720 = Data['getData']()[_0x94d410(0x1a5)](), _0x5ea25e = _0x3ce720[_0x94d410(0x155)]();
-    while (_0x5ea25e[_0x94d410(0x112)]()) {
-        var _0x400d19 = _0x5ea25e[_0x94d410(0x16c)]();
-        if (_0x400d19[_0x94d410(0x154)]('.') == -0x1)
-            _0x5d1694[_0x94d410(0x12d)](_0x400d19);
-    }
-    return _0x5d1694;
-}
-function superior_core() {
-    var _0x2c9085 = _0x43c78a;
-    if (server[_0x2c9085(0x15c)]()[_0x2c9085(0x17b)](_0x2c9085(0x126)) == null || server['getPluginManager']()['getPlugin'](_0x2c9085(0x172)) == null || server[_0x2c9085(0x15c)]()[_0x2c9085(0x17b)](_0x2c9085(0x151)) == null || server[_0x2c9085(0x15c)]()[_0x2c9085(0x17b)](_0x2c9085(0x163)) == null || server[_0x2c9085(0x15c)]()[_0x2c9085(0x17b)]('PlayerPoints') == null)
-        return _0x2c9085(0x120);
-    switch (args[0x0][_0x2c9085(0x11f)]()) {
-    case 'build':
-        var _0x4a490e = parseMaterial(args[0x1], 0x1), _0xe1d172 = p[_0x2c9085(0x166)](null, 0x3), _0x4d1ed4 = args[0x1], _0x5d0a57 = _0xe1d172['getLocation'](), _0x2bce79 = p['getLocation'](), _0x50bf53 = _0xe1d172[_0x2c9085(0x17e)]()[_0x2c9085(0x194)](), _0x3f0ed9 = _0x2c9085(0x1a2);
-        switch (_0x4a490e) {
-        case _0x2c9085(0x173):
-            _0x3f0ed9 += _0x2c9085(0x187);
-            break;
-        case _0x2c9085(0x177):
-            _0x3f0ed9 += _0x2c9085(0x12b);
-            break;
-        case _0x2c9085(0x195):
-            _0x3f0ed9 += _0x2c9085(0x18c);
-            break;
+/**
+ * @param {!Object} json
+ * @param {number} node
+ * @return {?}
+ */
+function parseMaterial(json, node) {
+  var get = _0x43c78a;
+  switch(node) {
+    case 1:
+      switch(json[get(287)]()) {
+        case get(391):
+          return get(371);
+        case get(299):
+          return get(375);
+        case get(396):
+          return "EMERALD_BLOCK";
         default:
-            return '&7';
-        }
-        if (!p[_0x2c9085(0x16f)](_0x3f0ed9))
-            return _0x2c9085(0x138);
-        var _0x2cfc7e = _0x2c9085(0x123), _0x564bfd = PlaceholderAPI[_0x2c9085(0x1ae)][_0x2c9085(0x122)](BukkitPlayer, '%' + _0x2cfc7e + '%');
-        if (_0x564bfd == _0x2c9085(0x141))
-            return _0x2c9085(0x19c);
-        if (_0x2bce79[_0x2c9085(0x17e)]()[_0x2c9085(0x194)]() != _0x2c9085(0x167))
-            return '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20chỉ\x20được\x20phép\x20dùng\x20đũa\x20ở\x20đảo\x20bay!';
-        if (Math[_0x2c9085(0x17d)](_0x5d0a57[_0x2c9085(0x168)]() - _0x2bce79['getBlockX']() > 0x2) || Math['abs'](_0xe1d172[_0x2c9085(0x15b)][_0x2c9085(0x17a)]() - _0x2bce79[_0x2c9085(0x17a)]() > 0x2))
-            return _0x2c9085(0x18a);
-        if (_0xe1d172[_0x2c9085(0x156)]()[_0x2c9085(0x192)]() == _0x2c9085(0x175))
-            return '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20đứng\x20cách\x20quá\x20xa\x20khỏi\x20block!';
-        if (_0xe1d172[_0x2c9085(0x156)]()[_0x2c9085(0x192)]() != _0x4a490e)
-            return '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fBạn\x20phải\x20nhìn\x20vào\x20' + parseMaterial(_0x4d1ed4, 0x3) + _0x2c9085(0x153);
-        var _0x3987b9 = parseBlockCount(_0x5d0a57), _0x4732f3 = getMineralData(p, _0x4a490e, ![]);
-        if (_0x4732f3 >= 0x1) {
-            var _0x54a107 = _0x2c9085(0x14b) + _0x3987b9 + '+' + _0x4732f3, _0xc739c3 = PlaceholderAPI[_0x2c9085(0x1ae)]['setPlaceholders'](BukkitPlayer, '%' + _0x54a107 + '%'), _0x2e497d = _0x5d0a57[_0x2c9085(0x193)]() + '\x20' + _0x5d0a57[_0x2c9085(0x19d)]() + '\x20' + _0x5d0a57[_0x2c9085(0x12c)](), _0x7a6762 = _0x2c9085(0x1a6) + _0x50bf53 + '\x20' + _0x2e497d + '\x20' + _0xc739c3, _0x403d98 = System[_0x2c9085(0x15f)]();
-            server['dispatchCommand'](console_object, _0x7a6762), getMineralData(p, _0x4a490e, !![]);
-            var _0x4650d8 = System[_0x2c9085(0x15f)](), _0xe6faf2 = (_0x4650d8 - _0x403d98) / 0xf4240, _0x324303 = new DecimalFormat(_0x2c9085(0x132)), _0x32f464 = _0x324303[_0x2c9085(0x196)](_0xe6faf2);
-            return p[_0x2c9085(0x19f)](_0x2c9085(0x1ac)), '&eSuperiorWand\x20&8&l|\x20&fĐã\x20đặt\x20thành\x20công\x20&a' + _0x4732f3 + '\x20' + parseMaterial(_0x4d1ed4, 0x3) + _0x2c9085(0x12f) + _0x32f464 + _0x2c9085(0x16b);
-        } else
-            return '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fTrong\x20kho\x20của\x20bạn\x20không\x20đủ\x20' + parseMaterial(_0x4d1ed4, 0x3) + _0x2c9085(0x136);
-    case _0x2c9085(0x189):
-        var _0x335c7e = parseMaterial(args[0x1], 0x1), _0x192767 = p[_0x2c9085(0x197)]()[_0x2c9085(0x15d)](), _0x261a87 = Data['exists'](_0x192767) ? Data[_0x2c9085(0x144)](_0x192767) : new HashMap(), _0x466d04 = _0x261a87['containsKey'](_0x335c7e) ? _0x261a87['get'](_0x335c7e) : 0x0, _0x3de715 = getMaterialCount(p, _0x335c7e);
-        if (_0x3de715 < 0x1)
-            return _0x2c9085(0x11b) + parseMaterial(args[0x1], 0x3);
-        else
-            return _0x261a87[_0x2c9085(0x179)](_0x335c7e, _0x466d04 + _0x3de715), Data[_0x2c9085(0x1a0)](_0x192767, _0x261a87), interactInventory(p, _0x335c7e, !![]), Placeholder[_0x2c9085(0x131)](), '&eSuperiorWand\x20&8&l|\x20&fĐã\x20lưu\x20thành\x20công\x20&a' + _0x3de715 + '\x20' + parseMaterial(args[0x1], 0x3) + _0x2c9085(0x146);
-    case _0x2c9085(0x11a):
-        var _0x43b22 = getKeyList();
-        for (var _0x2b9974 = 0x0; _0x2b9974 < _0x43b22[_0x2c9085(0x14e)](); ++_0x2b9974) {
-            var _0x208a92 = Data['get'](_0x43b22[_0x2c9085(0x144)](_0x2b9974));
-            if (_0x208a92[_0x2c9085(0x16e)]('GOLD_BLOCK'))
-                _0x208a92[_0x2c9085(0x179)](_0x2c9085(0x173), 0x0);
-            if (_0x208a92[_0x2c9085(0x16e)](_0x2c9085(0x177)))
-                _0x208a92[_0x2c9085(0x179)](_0x2c9085(0x177), 0x0);
-            if (_0x208a92['containsKey'](_0x2c9085(0x195)))
-                _0x208a92[_0x2c9085(0x179)]('EMERALD_BLOCK', 0x0);
-            Data[_0x2c9085(0x1a0)](_0x43b22[_0x2c9085(0x144)](_0x2b9974), _0x208a92);
-        }
-        Placeholder[_0x2c9085(0x131)]();
-        return _0x2c9085(0x111);
-    case _0x2c9085(0x1aa):
-        var _0x53911a = p[_0x2c9085(0x197)]()[_0x2c9085(0x15d)](), _0x491b1e = parseMaterial(args[0x1], 0x1);
-        if (!Data[_0x2c9085(0x137)](_0x53911a))
-            return 0x0;
-        else {
-            var _0x91c9cd = Data['get'](_0x53911a);
-            return _0x91c9cd['containsKey'](_0x491b1e) ? _0x91c9cd['get'](_0x491b1e) : 0x0;
-        }
-    case 'withdraw':
-        var _0x876b0f = p[_0x2c9085(0x197)]()[_0x2c9085(0x15d)](), _0x53a97b = parseMaterial(args[0x1], 0x1), _0x5553e2 = !Data[_0x2c9085(0x137)](_0x876b0f) ? 0x0 : Data['get'](_0x876b0f)['containsKey'](_0x53a97b) ? Data[_0x2c9085(0x144)](_0x876b0f)[_0x2c9085(0x144)](_0x53a97b) : 0x0, _0x3cb630 = count_empty(p, _0x53a97b);
-        if (_0x3cb630 == 0x0)
-            return '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fTúi\x20của\x20bạn\x20không\x20có\x20đủ\x20chỗ!';
-        else {
-            if (_0x5553e2 == 0x0)
-                return '&eSuperiorWand\x20&8&l|\x20&cLỗi:\x20&fKho\x20của\x20bạn\x20không\x20còn\x20' + parseMaterial(args[0x1], 0x3);
-        }
-        if (_0x3cb630 > _0x5553e2) {
-            var _0x17d829 = _0x53a97b[_0x2c9085(0x1a7)]('_', '')[_0x2c9085(0x11f)]()[_0x2c9085(0x160)](), _0x91c9cd = Data[_0x2c9085(0x144)](_0x876b0f), _0x7a6762 = _0x2c9085(0x18b) + p[_0x2c9085(0x194)]() + '\x20' + _0x17d829 + '\x20' + _0x5553e2;
-            return _0x91c9cd[_0x2c9085(0x179)](_0x53a97b, 0x0), Data['set'](_0x876b0f, _0x91c9cd), server[_0x2c9085(0x191)](console_object, _0x7a6762), Placeholder[_0x2c9085(0x131)](), _0x2c9085(0x11e) + _0x5553e2 + '\x20' + parseMaterial(args[0x1], 0x3);
-        } else {
-            var _0x3cdbd5 = _0x5553e2 - _0x3cb630, _0x1d6457 = Data[_0x2c9085(0x144)](_0x876b0f);
-            _0x1d6457['put'](_0x53a97b, _0x3cdbd5), Data[_0x2c9085(0x1a0)](_0x876b0f, _0x1d6457), Placeholder[_0x2c9085(0x131)]();
-            var _0x17d829 = _0x53a97b[_0x2c9085(0x1a7)]('_', '')[_0x2c9085(0x11f)]()[_0x2c9085(0x160)](), _0x7a6762 = _0x2c9085(0x18b) + p[_0x2c9085(0x194)]() + '\x20' + _0x17d829 + '\x20' + _0x3cb630;
-            return server[_0x2c9085(0x191)](console_object, _0x7a6762), '&eSuperiorWand\x20&8&l|\x20&fĐã\x20rút\x20từ\x20kho\x20chứa\x20&a' + _0x3cb630 + '\x20' + parseMaterial(args[0x1], 0x3);
-        }
-    case 'util':
-        var _0x21ed02 = args[0x1][_0x2c9085(0x11f)]();
-        switch (_0x21ed02) {
-        case _0x2c9085(0x13a):
-            var _0x17a7c7 = _0x2c9085(0x184);
-            if (p[_0x2c9085(0x16f)](_0x2c9085(0x180)))
-                server[_0x2c9085(0x191)](console_object, _0x17a7c7 + 'gold');
-            if (p[_0x2c9085(0x16f)](_0x2c9085(0x164)))
-                server['dispatchCommand'](console_object, _0x17a7c7 + _0x2c9085(0x12b));
-            if (p[_0x2c9085(0x16f)]('wandshop.display.emerald'))
-                server['dispatchCommand'](console_object, _0x17a7c7 + _0x2c9085(0x18c));
-            return '&7';
-        case _0x2c9085(0x16d):
-            for (var _0x45144d = 0x0; _0x45144d < 0x24; ++_0x45144d) {
-                if (p[_0x2c9085(0x19b)]()[_0x2c9085(0x1a1)](_0x45144d) == null)
-                    return _0x2c9085(0x147);
-            }
-            return 'no';
-        case _0x2c9085(0x150):
-            var _0x484547 = _0x2c9085(0x142);
-            p[_0x2c9085(0x10d)](_0x484547[_0x2c9085(0x1a7)](/&/g, '§'));
-            var _0x585d99 = server['getPluginManager']()[_0x2c9085(0x17b)]('PreventHopper-ORE'), _0x2c19cd = p[_0x2c9085(0x197)]()[_0x2c9085(0x15d)](), _0x5675bd = args[0x2] == 'gold' ? args[0x2][_0x2c9085(0x17f)]() + _0x2c9085(0x190) : args[0x2][_0x2c9085(0x17f)](), _0x24ebac = _0x585d99[_0x2c9085(0x124)]() + _0x2c9085(0x129) + _0x2c19cd + _0x2c9085(0x118), _0x2218e0 = '', _0x312e07 = -0x1, _0x1adeed = new File(_0x24ebac), _0x4a83eb = new Scanner(_0x1adeed), _0x321541 = new ArrayList(), _0x21e161 = 0x0;
-            while (_0x4a83eb[_0x2c9085(0x19a)]()) {
-                var _0x3beb8f = _0x4a83eb[_0x2c9085(0x1a4)]();
-                _0x21e161++, _0x321541[_0x2c9085(0x12d)](_0x3beb8f);
-                if (_0x3beb8f['indexOf'](_0x5675bd) != -0x1 && _0x312e07 == -0x1)
-                    _0x312e07 = _0x21e161;
-            }
-            var _0x466d04 = parseInt(_0x321541[_0x2c9085(0x144)](_0x312e07 - 0x1)[_0x2c9085(0x160)]()[_0x2c9085(0x1a7)](_0x5675bd + ':', '')['replace'](/ /g, ''));
-            if (_0x466d04 < 0x9)
-                return null;
-            var _0x58e4ed = parseMaterial(args[0x2], 0x1), _0x500e06 = _0x466d04 - _0x466d04 % 0x9, _0x3cdbd5 = _0x466d04 - _0x500e06, _0x2e737a = _0x321541[_0x2c9085(0x144)](_0x312e07 - 0x1)[_0x2c9085(0x1a7)](_0x466d04[_0x2c9085(0x15d)](), _0x3cdbd5[_0x2c9085(0x15d)]()), _0x5366bd = Data[_0x2c9085(0x137)](_0x2c19cd) ? Data['get'](_0x2c19cd) : new HashMap(), _0x93d99c = _0x5366bd[_0x2c9085(0x16e)](_0x58e4ed) ? _0x5366bd[_0x2c9085(0x144)](_0x58e4ed) : 0x0;
-            _0x5366bd[_0x2c9085(0x179)](_0x58e4ed, _0x93d99c + _0x500e06 / 0x9), Data[_0x2c9085(0x1a0)](_0x2c19cd, _0x5366bd), _0x321541[_0x2c9085(0x1a0)](_0x312e07 - 0x1, _0x2e737a), Placeholder[_0x2c9085(0x131)]();
-            var _0x551c82 = new PrintWriter(_0x1adeed);
-            for (var _0x4a6474 = 0x0; _0x4a6474 < _0x321541[_0x2c9085(0x14e)](); ++_0x4a6474) {
-                if (_0x4a6474 < _0x321541[_0x2c9085(0x14e)]() - 0x1)
-                    _0x551c82[_0x2c9085(0x159)](_0x321541[_0x2c9085(0x144)](_0x4a6474));
-                else
-                    _0x551c82[_0x2c9085(0x198)](_0x321541['get'](_0x4a6474));
-            }
-            _0x551c82[_0x2c9085(0x18e)](), _0x551c82[_0x2c9085(0x183)]();
-            return null;
-            break;
-        case _0x2c9085(0x162):
-            var _0x1c2f72 = getKeyList(), _0x5e4d70 = '', _0x4295e5 = 0x0, _0x23e323 = parseMaterial(args[0x3], 0x1);
-            for (var _0x483af3 = 0x0; _0x483af3 < _0x1c2f72[_0x2c9085(0x14e)](); _0x483af3++) {
-                var _0x91c9cd = Data[_0x2c9085(0x144)](_0x1c2f72['get'](_0x483af3));
-                _0x91c9cd[_0x2c9085(0x16e)](_0x23e323) && (_0x5e4d70 += server['getOfflinePlayer'](UUID[_0x2c9085(0x14a)](_0x1c2f72[_0x2c9085(0x144)](_0x483af3)))[_0x2c9085(0x194)](), _0x4295e5++);
-            }
-            return args[0x2] == _0x2c9085(0x148) ? _0x4295e5 : _0x5e4d70;
-        case _0x2c9085(0x165):
-            var _0x24f66e = p[_0x2c9085(0x197)]()[_0x2c9085(0x15d)](), _0x91c9cd = Data[_0x2c9085(0x137)](_0x24f66e) ? Data['get'](_0x24f66e) : new HashMap(), _0x42bf0b = _0x91c9cd['containsKey'](_0x2c9085(0x13f)) ? _0x91c9cd[_0x2c9085(0x144)](_0x2c9085(0x13f)) : ![];
-            if (args[0x2] == 'toggle') {
-                _0x42bf0b = !_0x42bf0b, _0x91c9cd[_0x2c9085(0x179)]('Status', _0x42bf0b), Data[_0x2c9085(0x1a0)](_0x24f66e, _0x91c9cd), Placeholder[_0x2c9085(0x131)]();
-                var _0x4fb1e0 = _0x2c9085(0x128);
-                return _0x4fb1e0[_0x2c9085(0x1a7)](_0x2c9085(0x170), _0x42bf0b ? '&aBật' : _0x2c9085(0x1ab));
-            } else {
-                if (args[0x2] == _0x2c9085(0x144)) {
-                    if (args[_0x2c9085(0x199)] == 0x4 && args[0x3] == _0x2c9085(0x196))
-                        return _0x42bf0b ? '&aBật' : '&cTắt';
-                    else {
-                        if (args['length'] == 0x4 && args[0x3] == _0x2c9085(0x143))
-                            return _0x42bf0b ? '&cTắt' : '&aBật';
-                        else
-                            return _0x42bf0b['toString']();
-                    }
-                }
-            }
-            return _0x2c9085(0x16a);
-        case 'purchase':
-            var _0xf9aa62 = 0x7530, _0x28969d = 'superiorwand.' + args[0x2][_0x2c9085(0x11f)](), _0x21b881 = '', _0x1c8aa8 = 0x0, _0x1ffb51 = _0x2c9085(0x125) + args[0x2]['toLowerCase']() + '\x20' + p['getName']() + '\x201', _0x437d6c = _0x2c9085(0x13c) + p['getName']() + _0x2c9085(0x15a);
-            switch (args[0x2][_0x2c9085(0x11f)]()) {
-            case _0x2c9085(0x187):
-                _0x21b881 = _0x2c9085(0x12a);
-                break;
-            case _0x2c9085(0x12b):
-                _0x21b881 = _0x2c9085(0x158);
-                break;
-            case _0x2c9085(0x18c):
-                _0x21b881 = '&aLục\x20Bảo';
-                break;
-            default:
-                return null;
-            }
-            var _0x44b775 = PlaceholderAPI[_0x2c9085(0x1ae)][_0x2c9085(0x122)](p, _0x2c9085(0x139)), _0x21382d = parseInt(PlaceholderAPI[_0x2c9085(0x1ae)]['setPlaceholders'](p, '%playerpoints_points%')), _0x56b092 = 0x0, _0x387533 = ![], _0x371ffc = ![];
-            _0x21382d < _0xf9aa62 && (_0x1c8aa8++, _0x56b092 = _0xf9aa62 - _0x21382d, _0x371ffc = !![]);
-            _0x44b775 == 'no' && (_0x1c8aa8++, _0x387533 = !![]);
-            if (_0x1c8aa8 != 0x0) {
-                format = _0x2c9085(0x18f) + _0x1c8aa8[_0x2c9085(0x15d)]() + _0x2c9085(0x176);
-                if (_0x371ffc) {
-                    format += '&f\x20&f\x20&f\x20&c[-]\x20&fBạn\x20không\x20có\x20đủ\x20xu!\x20&fCần\x20thêm\x20&a' + _0x56b092[_0x2c9085(0x15d)]() + _0x2c9085(0x171), _0x1c8aa8--;
-                    if (_0x1c8aa8 > 0x0)
-                        format += '\x0a';
-                }
-                return _0x387533 && (format += '&f\x20&f\x20&f\x20&c[-]\x20&fTúi\x20đồ\x20của\x20bạn\x20hiện\x20không\x20có\x20đủ\x20chỗ!', _0x1c8aa8 = 0x0), format;
-            } else {
-                var _0x523c21 = _0x2c9085(0x133) + p[_0x2c9085(0x194)]() + '\x20' + _0xf9aa62[_0x2c9085(0x15d)]();
-                if (!p[_0x2c9085(0x16f)](_0x2c9085(0x10c)))
-                    server[_0x2c9085(0x191)](console_object, _0x437d6c);
-                var _0x5b83f6 = Calendar['getInstance'](), _0x324303 = new SimpleDateFormat('HH:mm:ss\x20dd-MM-yyyy'), _0xd33df = _0x324303['format'](_0x5b83f6[_0x2c9085(0x10e)]()), _0x4156e8 = _0x2c9085(0x13c) + p['getName']() + _0x2c9085(0x17c) + _0x28969d, _0x390e8c = _0x2c9085(0x182);
-                return server[_0x2c9085(0x191)](console_object, _0x523c21), server[_0x2c9085(0x191)](console_object, _0x1ffb51), _0x390e8c += _0x2c9085(0x134) + _0x21b881 + _0x2c9085(0x127), _0x390e8c += '&f\x20&f\x20&f\x20&8[&6+&8]\x20&fNgười\x20mua:\x20&a' + p[_0x2c9085(0x194)]() + '\x0a', _0x390e8c += _0x2c9085(0x11c) + _0xd33df + '\x0a', _0x390e8c += _0x2c9085(0x13e) + _0xf9aa62 + _0x2c9085(0x185), _0x390e8c;
-            }
-            break;
-        case _0x2c9085(0x12d):
-            var _0x2cf5c1 = p[_0x2c9085(0x197)]()[_0x2c9085(0x15d)](), _0x40850f = parseMaterial(args[0x2], 0x1), _0x2711dd = parseInt(args[0x3]), _0x2172ee = Data['exists'](_0x2cf5c1) ? Data['get'](_0x2cf5c1) : new HashMap(), _0x4295e5 = _0x2172ee[_0x2c9085(0x16e)](_0x40850f) ? _0x2172ee[_0x2c9085(0x144)](_0x40850f) : 0x0;
-            _0x4295e5 += _0x2711dd, _0x2172ee['put'](_0x40850f, _0x4295e5), Data[_0x2c9085(0x1a0)](_0x2cf5c1, _0x2172ee), Placeholder['saveData']();
-            return '&7';
-        }
-    default:
-        return null;
+          return null;
+      }case 2:
+      switch(json["toLowerCase"]()) {
+        case get(391):
+          return "Gold Block";
+        case "diamond":
+          return get(425);
+        case get(396):
+          return get(333);
+        default:
+          return null;
+      }case 3:
+      switch(json[get(287)]()) {
+        case get(391):
+          return get(414);
+        case "diamond":
+          return get(343);
+        case get(396):
+          return "&aKh\u1ed1i Ng\u1ecdc L\u1ee5c B\u1ea3o";
+        default:
+          return null;
+      }default:
+      return null;
+  }
+}
+/**
+ * @param {?} myPreferences
+ * @param {?} PL$44
+ * @param {boolean} isIron
+ * @return {?}
+ */
+function getMineralData(myPreferences, PL$44, isIron) {
+  var getPreferenceKey = _0x43c78a;
+  var PL$29 = myPreferences[getPreferenceKey(407)]()[getPreferenceKey(349)]();
+  if (!isIron) {
+    if (!Data[getPreferenceKey(311)](PL$29)) {
+      return getPreferenceKey(275);
+    } else {
+      var PL$30 = Data["get"](PL$29);
+      if (PL$30[getPreferenceKey(366)](PL$44)) {
+        return PL$30[getPreferenceKey(324)](PL$44);
+      } else {
+        return getPreferenceKey(272);
+      }
     }
+  } else {
+    if (Data["exists"](PL$29)) {
+      var PL$30 = Data[getPreferenceKey(324)](PL$29);
+      if (PL$30["containsKey"](PL$44)) {
+        return PL$30[getPreferenceKey(377)](PL$44, 0), Data["set"](PL$29, PL$30), Placeholder["saveData"](), null;
+      }
+    }
+  }
+  return 0;
+}
+/**
+ * @param {?} deltaX
+ * @param {?} deltaY
+ * @param {number} xFactor
+ * @return {?}
+ */
+function clear_amount(deltaX, deltaY, xFactor) {
+  var findMiddlePosition = _0x43c78a;
+  var command_codes = p["getInventory"]();
+  /** @type {number} */
+  var data = 0;
+  for (; data < 36; ++data) {
+    var nodes = command_codes[findMiddlePosition(417)](data);
+    if (nodes == null) {
+      continue;
+    } else {
+      if (nodes[findMiddlePosition(342)]()["name"]() == deltaY) {
+        var rightBranch = nodes[findMiddlePosition(390)]();
+        if (!(rightBranch[findMiddlePosition(376)]() || rightBranch[findMiddlePosition(309)]() || rightBranch[findMiddlePosition(277)]())) {
+          if (xFactor > nodes[findMiddlePosition(419)]()) {
+            /** @type {number} */
+            xFactor = xFactor - nodes[findMiddlePosition(419)]();
+            nodes[findMiddlePosition(372)](0);
+          } else {
+            nodes[findMiddlePosition(372)](nodes[findMiddlePosition(419)]() - xFactor);
+            /** @type {number} */
+            xFactor = 0;
+            break;
+          }
+        }
+      }
+    }
+  }
+  return null;
+}
+/**
+ * @return {?}
+ */
+function getKeyList() {
+  var parseInt = _0x43c78a;
+  var list = new ArrayList;
+  var frontpageItems = Data["getData"]()[parseInt(421)]();
+  var BASAL_TYPES = frontpageItems[parseInt(341)]();
+  for (; BASAL_TYPES[parseInt(274)]();) {
+    var data = BASAL_TYPES[parseInt(364)]();
+    if (data[parseInt(340)](".") == -1) {
+      list[parseInt(301)](data);
+    }
+  }
+  return list;
+}
+/**
+ * @return {?}
+ */
+function superior_core() {
+  var decodeURIComponent = _0x43c78a;
+  if (server[decodeURIComponent(348)]()[decodeURIComponent(379)](decodeURIComponent(294)) == null || server["getPluginManager"]()["getPlugin"](decodeURIComponent(370)) == null || server[decodeURIComponent(348)]()[decodeURIComponent(379)](decodeURIComponent(337)) == null || server[decodeURIComponent(348)]()[decodeURIComponent(379)](decodeURIComponent(355)) == null || server[decodeURIComponent(348)]()[decodeURIComponent(379)]("PlayerPoints") == null) {
+    return decodeURIComponent(288);
+  }
+  switch(args[0][decodeURIComponent(287)]()) {
+    case "build":
+      var viewpath = parseMaterial(args[1], 1);
+      var bodyparams = p[decodeURIComponent(358)](null, 3);
+      var self = args[1];
+      var ret = bodyparams["getLocation"]();
+      var qry = p["getLocation"]();
+      var hash = bodyparams[decodeURIComponent(382)]()[decodeURIComponent(404)]();
+      var val = decodeURIComponent(418);
+      switch(viewpath) {
+        case decodeURIComponent(371):
+          val = val + decodeURIComponent(391);
+          break;
+        case decodeURIComponent(375):
+          val = val + decodeURIComponent(299);
+          break;
+        case decodeURIComponent(405):
+          val = val + decodeURIComponent(396);
+          break;
+        default:
+          return "&7";
+      }if (!p[decodeURIComponent(367)](val)) {
+        return decodeURIComponent(312);
+      }
+      var host_yaml_uri = decodeURIComponent(291);
+      var current = PlaceholderAPI[decodeURIComponent(430)][decodeURIComponent(290)](BukkitPlayer, "%" + host_yaml_uri + "%");
+      if (current == decodeURIComponent(321)) {
+        return decodeURIComponent(412);
+      }
+      if (qry[decodeURIComponent(382)]()[decodeURIComponent(404)]() != decodeURIComponent(359)) {
+        return "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n ch\u1ec9 \u0111\u01b0\u1ee3c ph\u00e9p d\u00f9ng \u0111\u0169a \u1edf \u0111\u1ea3o bay!";
+      }
+      if (Math[decodeURIComponent(381)](ret[decodeURIComponent(360)]() - qry["getBlockX"]() > 2) || Math["abs"](bodyparams[decodeURIComponent(347)][decodeURIComponent(378)]() - qry[decodeURIComponent(378)]() > 2)) {
+        return decodeURIComponent(394);
+      }
+      if (bodyparams[decodeURIComponent(342)]()[decodeURIComponent(402)]() == decodeURIComponent(373)) {
+        return "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n \u0111\u1ee9ng c\u00e1ch qu\u00e1 xa kh\u1ecfi block!";
+      }
+      if (bodyparams[decodeURIComponent(342)]()[decodeURIComponent(402)]() != viewpath) {
+        return "&eSuperiorWand &8&l| &cL\u1ed7i: &fB\u1ea1n ph\u1ea3i nh\u00ecn v\u00e0o " + parseMaterial(self, 3) + decodeURIComponent(339);
+      }
+      var err = parseBlockCount(ret);
+      var path = getMineralData(p, viewpath, ![]);
+      if (path >= 1) {
+        /** @type {string} */
+        var indexFileURL = decodeURIComponent(331) + err + "+" + path;
+        var _ButtonMap = PlaceholderAPI[decodeURIComponent(430)]["setPlaceholders"](BukkitPlayer, "%" + indexFileURL + "%");
+        var _0x2e497d = ret[decodeURIComponent(403)]() + " " + ret[decodeURIComponent(413)]() + " " + ret[decodeURIComponent(300)]();
+        /** @type {string} */
+        var result = decodeURIComponent(422) + hash + " " + _0x2e497d + " " + _ButtonMap;
+        var pixelSizeTargetMax = System[decodeURIComponent(351)]();
+        server["dispatchCommand"](console_object, result);
+        getMineralData(p, viewpath, !![]);
+        var zeroSizeMax = System[decodeURIComponent(351)]();
+        /** @type {number} */
+        var end = (zeroSizeMax - pixelSizeTargetMax) / 1E6;
+        var response = new DecimalFormat(decodeURIComponent(306));
+        var req = response[decodeURIComponent(406)](end);
+        return p[decodeURIComponent(415)](decodeURIComponent(428)), "&eSuperiorWand &8&l| &f\u0110\u00e3 \u0111\u1eb7t th\u00e0nh c\u00f4ng &a" + path + " " + parseMaterial(self, 3) + decodeURIComponent(303) + req + decodeURIComponent(363);
+      } else {
+        return "&eSuperiorWand &8&l| &cL\u1ed7i: &fTrong kho c\u1ee7a b\u1ea1n kh\u00f4ng \u0111\u1ee7 " + parseMaterial(self, 3) + decodeURIComponent(310);
+      }
+    case decodeURIComponent(393):
+      var i = parseMaterial(args[1], 1);
+      var e = p[decodeURIComponent(407)]()[decodeURIComponent(349)]();
+      var param = Data["exists"](e) ? Data[decodeURIComponent(324)](e) : new HashMap;
+      var pos = param["containsKey"](i) ? param["get"](i) : 0;
+      var start = getMaterialCount(p, i);
+      if (start < 1) {
+        return decodeURIComponent(283) + parseMaterial(args[1], 3);
+      } else {
+        return param[decodeURIComponent(377)](i, pos + start), Data[decodeURIComponent(416)](e, param), interactInventory(p, i, !![]), Placeholder[decodeURIComponent(305)](), "&eSuperiorWand &8&l| &f\u0110\u00e3 l\u01b0u th\u00e0nh c\u00f4ng &a" + start + " " + parseMaterial(args[1], 3) + decodeURIComponent(326);
+      }
+    case decodeURIComponent(282):
+      var B1490 = getKeyList();
+      /** @type {number} */
+      var path2__3736 = 0;
+      for (; path2__3736 < B1490[decodeURIComponent(334)](); ++path2__3736) {
+        var type_obj = Data["get"](B1490[decodeURIComponent(324)](path2__3736));
+        if (type_obj[decodeURIComponent(366)]("GOLD_BLOCK")) {
+          type_obj[decodeURIComponent(377)](decodeURIComponent(371), 0);
+        }
+        if (type_obj[decodeURIComponent(366)](decodeURIComponent(375))) {
+          type_obj[decodeURIComponent(377)](decodeURIComponent(375), 0);
+        }
+        if (type_obj["containsKey"](decodeURIComponent(405))) {
+          type_obj[decodeURIComponent(377)]("EMERALD_BLOCK", 0);
+        }
+        Data[decodeURIComponent(416)](B1490[decodeURIComponent(324)](path2__3736), type_obj);
+      }
+      Placeholder[decodeURIComponent(305)]();
+      return decodeURIComponent(273);
+    case decodeURIComponent(426):
+      var symbol__3148 = p[decodeURIComponent(407)]()[decodeURIComponent(349)]();
+      var PL$16 = parseMaterial(args[1], 1);
+      if (!Data[decodeURIComponent(311)](symbol__3148)) {
+        return 0;
+      } else {
+        var PL$15 = Data["get"](symbol__3148);
+        return PL$15["containsKey"](PL$16) ? PL$15["get"](PL$16) : 0;
+      }
+    case "withdraw":
+      var item = p[decodeURIComponent(407)]()[decodeURIComponent(349)]();
+      var element = parseMaterial(args[1], 1);
+      var id = !Data[decodeURIComponent(311)](item) ? 0 : Data["get"](item)["containsKey"](element) ? Data[decodeURIComponent(324)](item)[decodeURIComponent(324)](element) : 0;
+      var offset = count_empty(p, element);
+      if (offset == 0) {
+        return "&eSuperiorWand &8&l| &cL\u1ed7i: &fT\u00fai c\u1ee7a b\u1ea1n kh\u00f4ng c\u00f3 \u0111\u1ee7 ch\u1ed7!";
+      } else {
+        if (id == 0) {
+          return "&eSuperiorWand &8&l| &cL\u1ed7i: &fKho c\u1ee7a b\u1ea1n kh\u00f4ng c\u00f2n " + parseMaterial(args[1], 3);
+        }
+      }
+      if (offset > id) {
+        var _0x17d829 = element[decodeURIComponent(423)]("_", "")[decodeURIComponent(287)]()[decodeURIComponent(352)]();
+        PL$15 = Data[decodeURIComponent(324)](item);
+        /** @type {string} */
+        result = decodeURIComponent(395) + p[decodeURIComponent(404)]() + " " + _0x17d829 + " " + id;
+        return PL$15[decodeURIComponent(377)](element, 0), Data["set"](item, PL$15), server[decodeURIComponent(401)](console_object, result), Placeholder[decodeURIComponent(305)](), decodeURIComponent(286) + id + " " + parseMaterial(args[1], 3);
+      } else {
+        /** @type {number} */
+        var idx = id - offset;
+        var range = Data[decodeURIComponent(324)](item);
+        range["put"](element, idx);
+        Data[decodeURIComponent(416)](item, range);
+        Placeholder[decodeURIComponent(305)]();
+        _0x17d829 = element[decodeURIComponent(423)]("_", "")[decodeURIComponent(287)]()[decodeURIComponent(352)]();
+        /** @type {string} */
+        result = decodeURIComponent(395) + p[decodeURIComponent(404)]() + " " + _0x17d829 + " " + offset;
+        return server[decodeURIComponent(401)](console_object, result), "&eSuperiorWand &8&l| &f\u0110\u00e3 r\u00fat t\u1eeb kho ch\u1ee9a &a" + offset + " " + parseMaterial(args[1], 3);
+      }
+    case "util":
+      var _0x21ed02 = args[1][decodeURIComponent(287)]();
+      switch(_0x21ed02) {
+        case decodeURIComponent(314):
+          var origin = decodeURIComponent(388);
+          if (p[decodeURIComponent(367)](decodeURIComponent(384))) {
+            server[decodeURIComponent(401)](console_object, origin + "gold");
+          }
+          if (p[decodeURIComponent(367)](decodeURIComponent(356))) {
+            server["dispatchCommand"](console_object, origin + decodeURIComponent(299));
+          }
+          if (p[decodeURIComponent(367)]("wandshop.display.emerald")) {
+            server["dispatchCommand"](console_object, origin + decodeURIComponent(396));
+          }
+          return "&7";
+        case decodeURIComponent(365):
+          /** @type {number} */
+          var postDateGmt = 0;
+          for (; postDateGmt < 36; ++postDateGmt) {
+            if (p[decodeURIComponent(411)]()[decodeURIComponent(417)](postDateGmt) == null) {
+              return decodeURIComponent(327);
+            }
+          }
+          return "no";
+        case decodeURIComponent(336):
+          var qry = decodeURIComponent(322);
+          p[decodeURIComponent(269)](qry[decodeURIComponent(423)](/&/g, "\u00a7"));
+          var bodyparams = server["getPluginManager"]()[decodeURIComponent(379)]("PreventHopper-ORE");
+          var name = p[decodeURIComponent(407)]()[decodeURIComponent(349)]();
+          var B481 = args[2] == "gold" ? args[2][decodeURIComponent(383)]() + decodeURIComponent(400) : args[2][decodeURIComponent(383)]();
+          var editor_file = bodyparams[decodeURIComponent(292)]() + decodeURIComponent(297) + name + decodeURIComponent(280);
+          /** @type {string} */
+          var th_field = "";
+          /** @type {number} */
+          var interestingPoint = -1;
+          /** @type {!File} */
+          var f = new File(editor_file);
+          var s = new Scanner(f);
+          var result = new ArrayList;
+          /** @type {number} */
+          var viewportCenter = 0;
+          for (; s[decodeURIComponent(410)]();) {
+            var radixToPower = s[decodeURIComponent(420)]();
+            viewportCenter++;
+            result[decodeURIComponent(301)](radixToPower);
+            if (radixToPower["indexOf"](B481) != -1 && interestingPoint == -1) {
+              /** @type {number} */
+              interestingPoint = viewportCenter;
+            }
+          }
+          /** @type {number} */
+          pos = parseInt(result[decodeURIComponent(324)](interestingPoint - 1)[decodeURIComponent(352)]()[decodeURIComponent(423)](B481 + ":", "")["replace"](/ /g, ""));
+          if (pos < 9) {
+            return null;
+          }
+          var prop = parseMaterial(args[2], 1);
+          /** @type {number} */
+          var start = pos - pos % 9;
+          /** @type {number} */
+          idx = pos - start;
+          var res = result[decodeURIComponent(324)](interestingPoint - 1)[decodeURIComponent(423)](pos[decodeURIComponent(349)](), idx[decodeURIComponent(349)]());
+          var query = Data[decodeURIComponent(311)](name) ? Data["get"](name) : new HashMap;
+          var previousAlias = query[decodeURIComponent(366)](prop) ? query[decodeURIComponent(324)](prop) : 0;
+          query[decodeURIComponent(377)](prop, previousAlias + start / 9);
+          Data[decodeURIComponent(416)](name, query);
+          result[decodeURIComponent(416)](interestingPoint - 1, res);
+          Placeholder[decodeURIComponent(305)]();
+          var a = new PrintWriter(f);
+          /** @type {number} */
+          var module__1724 = 0;
+          for (; module__1724 < result[decodeURIComponent(334)](); ++module__1724) {
+            if (module__1724 < result[decodeURIComponent(334)]() - 1) {
+              a[decodeURIComponent(345)](result[decodeURIComponent(324)](module__1724));
+            } else {
+              a[decodeURIComponent(408)](result["get"](module__1724));
+            }
+          }
+          a[decodeURIComponent(398)]();
+          a[decodeURIComponent(387)]();
+          return null;
+          break;
+        case decodeURIComponent(354):
+          var PL$65 = getKeyList();
+          /** @type {string} */
+          var pix_color = "";
+          /** @type {number} */
+          var nextLeftGripPositionPx = 0;
+          var PL$55 = parseMaterial(args[3], 1);
+          /** @type {number} */
+          var PL$51 = 0;
+          for (; PL$51 < PL$65[decodeURIComponent(334)](); PL$51++) {
+            PL$15 = Data[decodeURIComponent(324)](PL$65["get"](PL$51));
+            if (PL$15[decodeURIComponent(366)](PL$55)) {
+              pix_color = pix_color + server["getOfflinePlayer"](UUID[decodeURIComponent(330)](PL$65[decodeURIComponent(324)](PL$51)))[decodeURIComponent(404)]();
+              nextLeftGripPositionPx++;
+            }
+          }
+          return args[2] == decodeURIComponent(328) ? nextLeftGripPositionPx : pix_color;
+        case decodeURIComponent(357):
+          var field = p[decodeURIComponent(407)]()[decodeURIComponent(349)]();
+          PL$15 = Data[decodeURIComponent(311)](field) ? Data["get"](field) : new HashMap;
+          var value = PL$15["containsKey"](decodeURIComponent(319)) ? PL$15[decodeURIComponent(324)](decodeURIComponent(319)) : ![];
+          if (args[2] == "toggle") {
+            /** @type {boolean} */
+            value = !value;
+            PL$15[decodeURIComponent(377)]("Status", value);
+            Data[decodeURIComponent(416)](field, PL$15);
+            Placeholder[decodeURIComponent(305)]();
+            var qry = decodeURIComponent(296);
+            return qry[decodeURIComponent(423)](decodeURIComponent(368), value ? "&aB\u1eadt" : decodeURIComponent(427));
+          } else {
+            if (args[2] == decodeURIComponent(324)) {
+              if (args[decodeURIComponent(409)] == 4 && args[3] == decodeURIComponent(406)) {
+                return value ? "&aB\u1eadt" : "&cT\u1eaft";
+              } else {
+                if (args["length"] == 4 && args[3] == decodeURIComponent(323)) {
+                  return value ? "&cT\u1eaft" : "&aB\u1eadt";
+                } else {
+                  return value["toString"]();
+                }
+              }
+            }
+          }
+          return decodeURIComponent(362);
+        case "purchase":
+          /** @type {number} */
+          var id = 3E4;
+          var baseName = "superiorwand." + args[2][decodeURIComponent(287)]();
+          /** @type {string} */
+          var hash = "";
+          /** @type {number} */
+          var queryDict = 0;
+          /** @type {string} */
+          var operation = decodeURIComponent(293) + args[2]["toLowerCase"]() + " " + p["getName"]() + " 1";
+          var hijacker = decodeURIComponent(316) + p["getName"]() + decodeURIComponent(346);
+          switch(args[2][decodeURIComponent(287)]()) {
+            case decodeURIComponent(391):
+              hash = decodeURIComponent(298);
+              break;
+            case decodeURIComponent(299):
+              hash = decodeURIComponent(344);
+              break;
+            case decodeURIComponent(396):
+              /** @type {string} */
+              hash = "&aL\u1ee5c B\u1ea3o";
+              break;
+            default:
+              return null;
+          }var ret = PlaceholderAPI[decodeURIComponent(430)][decodeURIComponent(290)](p, decodeURIComponent(313));
+          /** @type {number} */
+          var lo = parseInt(PlaceholderAPI[decodeURIComponent(430)]["setPlaceholders"](p, "%playerpoints_points%"));
+          /** @type {number} */
+          var x = 0;
+          /** @type {boolean} */
+          var _0x387533 = ![];
+          /** @type {boolean} */
+          var _0x371ffc = ![];
+          if (lo < id) {
+            queryDict++;
+            /** @type {number} */
+            x = id - lo;
+            /** @type {boolean} */
+            _0x371ffc = !![];
+          }
+          if (ret == "no") {
+            queryDict++;
+            /** @type {boolean} */
+            _0x387533 = !![];
+          }
+          if (queryDict != 0) {
+            format = decodeURIComponent(399) + queryDict[decodeURIComponent(349)]() + decodeURIComponent(374);
+            if (_0x371ffc) {
+              format = format + ("&f &f &f &c[-] &fB\u1ea1n kh\u00f4ng c\u00f3 \u0111\u1ee7 xu! &fC\u1ea7n th\u00eam &a" + x[decodeURIComponent(349)]() + decodeURIComponent(369));
+              queryDict--;
+              if (queryDict > 0) {
+                /** @type {string} */
+                format = format + "\n";
+              }
+            }
+            return _0x387533 && (format = format + "&f &f &f &c[-] &fT\u00fai \u0111\u1ed3 c\u1ee7a b\u1ea1n hi\u1ec7n kh\u00f4ng c\u00f3 \u0111\u1ee7 ch\u1ed7!", queryDict = 0), format;
+          } else {
+            var hijacker = decodeURIComponent(307) + p[decodeURIComponent(404)]() + " " + id[decodeURIComponent(349)]();
+            if (!p[decodeURIComponent(367)](decodeURIComponent(268))) {
+              server[decodeURIComponent(401)](console_object, hijacker);
+            }
+            var queryDict = Calendar["getInstance"]();
+            response = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+            var _0xd33df = response["format"](queryDict[decodeURIComponent(270)]());
+            var middlePathName = decodeURIComponent(316) + p["getName"]() + decodeURIComponent(380) + baseName;
+            var prov = decodeURIComponent(386);
+            return server[decodeURIComponent(401)](console_object, hijacker), server[decodeURIComponent(401)](console_object, operation), prov = prov + (decodeURIComponent(308) + hash + decodeURIComponent(295)), prov = prov + ("&f &f &f &8[&6+&8] &fNg\u01b0\u1eddi mua: &a" + p[decodeURIComponent(404)]() + "\n"), prov = prov + (decodeURIComponent(284) + _0xd33df + "\n"), prov = prov + (decodeURIComponent(318) + id + decodeURIComponent(389)), prov;
+          }
+          break;
+        case decodeURIComponent(301):
+          var env__175 = p[decodeURIComponent(407)]()[decodeURIComponent(349)]();
+          var item = parseMaterial(args[2], 1);
+          /** @type {number} */
+          var delta = parseInt(args[3]);
+          var results = Data["exists"](env__175) ? Data["get"](env__175) : new HashMap;
+          nextLeftGripPositionPx = results[decodeURIComponent(366)](item) ? results[decodeURIComponent(324)](item) : 0;
+          nextLeftGripPositionPx = nextLeftGripPositionPx + delta;
+          results["put"](item, nextLeftGripPositionPx);
+          Data[decodeURIComponent(416)](env__175, results);
+          Placeholder["saveData"]();
+          return "&7";
+      }default:
+      return null;
+  }
 }
 superior_core();
