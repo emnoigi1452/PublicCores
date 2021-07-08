@@ -69,8 +69,10 @@ function main() {
       var loc1 = member.getLocation();
       var loc2 = Player.getLocation();
       if(loc1.distance(loc2) < 25) {
-        if(is_galactic(member))
-          victims.add(member);
+        if(!not_in_pvp(member)) {
+          if(is_galactic(member))
+            victims.add(member);
+        }
       }
     }
   }
