@@ -69,13 +69,13 @@ function main() {
       var loc1 = member.getLocation();
       var loc2 = Player.getLocation();
       if(loc1.distance(loc2) < 25) {
-        if(!not_in_pvp(member) && !Player.equals(member)) {
+        if(!not_in_pvp(member)) {
           if(is_galactic(member))
             victims.add(member);
         }
       }
     }
-  }
+  } victims.remove(Player);
   for each(var i in victims) {
     i.damage(Math.floor(dmg*(i.getMaxHealth()/100)));
     i.spawnParticle(Particle.END_ROD, i.getEyeLocation().clone().subtract(0,0.25,0), 25);
