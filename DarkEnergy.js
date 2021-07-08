@@ -26,7 +26,7 @@ function not_in_pvp(player) {
 function setup_damage(inventory) {
   var armor_slots = inventory.getArmorContents(); var damage = 0;
   for each(var slot in armor_slots) {
-    if(slot.hasItemMeta()) {
+    if(slot != null && slot.hasItemMeta()) {
       var meta = slot.getItemMeta();
       if(meta.hasLore()) {
         var lore = meta.getLore();
@@ -47,7 +47,7 @@ function is_galactic(entity) {
                 "Nón Galaxy", "Áo Galaxy", "Quần Galaxy", "Giày Galaxy"];
   var inventory = entity.getInventory(); var armor = inventory.getArmorContents();
   for each(var item in armor) {
-    if(item.hasItemMeta()) {
+    if(item != null && item.hasItemMeta()) {
       var item_meta = item.getItemMeta();
       var name = item_meta.hasDisplayName() ? item_meta.getDisplayName() : "null";
       check_name: for(var names in valids) {
@@ -65,11 +65,11 @@ function main() {
   }
   var dmg = setup_damage(Player.getInventory()); var victims = new ArrayList();
   for each(var member in Server.getOnlinePlayers()) {
-    if(member.getWorld().getName() == Player.getWorld.getName()) {
+    if(member.getWorld().getName() == Player.getWorld().getName()) {
       var loc1 = member.getLocation();
       var loc2 = Player.getLocation();
       if(loc1.distance(loc2) < 25) {
-        if(!not_in_pvp(member)) {
+        if(!not_in_pvp(member) && !Player.equals(member)) {
           if(is_galactic(member))
             victims.add(member);
         }
