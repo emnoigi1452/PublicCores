@@ -12,6 +12,9 @@ var PotionEffectType = org.bukkit.potion.PotionEffectType;
 // Java classes, imported from the NashornAPI
 var ArrayList = Java.type("java.util.ArrayList");
 
+var x_array = [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
+var z_array = [1050, 1051, 1052, 1053, 1054, 1055, 1056, 1057, 1058];
+
 function not_in_pvp(player) {
   if(player.getWorld().getName() != "world") return true;
   var region = "worldguard_region_name"; var loc = player.getLocation();
@@ -50,7 +53,7 @@ function is_galactic(entity) {
     if(item != null && item.hasItemMeta()) {
       var item_meta = item.getItemMeta();
       var name = item_meta.hasDisplayName() ? item_meta.getDisplayName() : "null";
-      check_name: for(var names in valids) {
+      for(var names in valids) {
         if(ChatColor.stripColor(name).contains(names))
           return true;
       }
@@ -59,33 +62,37 @@ function is_galactic(entity) {
 } 
 
 function main() {
-  if(is_galactic(Player)) {
-    Server.dispatchCommand(Console, "smite " + Player.getName() + " " + (setup_damage).toString());
-    return "&5Dark &8&l| &c&oNgươi đâu thể tự làm hại đồng loại của mình?...Nhỉ?...";
-  }
-  var dmg = setup_damage(Player.getInventory()); var victims = new ArrayList();
-  for each(var member in Server.getOnlinePlayers()) {
-    if(member.getWorld().getName() == Player.getWorld().getName()) {
-      var loc1 = member.getLocation();
-      var loc2 = Player.getLocation();
-      if(loc1.distance(loc2) < 25) {
-        if(!not_in_pvp(member)) {
-          if(is_galactic(member))
-            victims.add(member);
+  try {
+    if(is_galactic(Player)) {
+      Server.dispatchCommand(Console, "smite " + Player.getName() + " " + (setup_damage).toString());
+      return "&5Dark &8&l| &c&oNgươi đâu thể tự làm hại đồng loại của mình?...Nhỉ?...";
+    }
+    var dmg = setup_damage(Player.getInventory()); var victims = new ArrayList();
+    for each(var member in Server.getOnlinePlayers()) {
+      if(member.getWorld().getName() == Player.getWorld().getName()) {
+        var loc1 = member.getLocation();
+        var loc2 = Player.getLocation();
+        if(loc1.distance(loc2) < 25) {
+          if(!not_in_pvp(member)) {
+            if(is_galactic(member))
+              victims.add(member);
+          }
         }
       }
+    } victims.remove(Player);
+    for each(var i in victims) {
+      i.damage(Math.floor(dmg*(i.getMaxHealth()/100)));
+      i.spawnParticle(Particle.END_ROD, i.getEyeLocation().clone().subtract(0,0.25,0), 25);
+      var wither = new PotionEffect(PotionEffectType.WITHER, 100, 5);
+      var chance = Math.floor(Math.random() * 2) + 1;
+      if(chance == 2) wither.apply(i);
+      i.sendMessage(ChatColor.translateAlternateColorCodes('&',
+        "&5Dark &8&l| &7&oHãy tận hưởng nỗi đau mà bấy lâu nay bọn ta phải chịu đựng..."));
     }
-  } victims.remove(Player);
-  for each(var i in victims) {
-    i.damage(Math.floor(dmg*(i.getMaxHealth()/100)));
-    i.spawnParticle(Particle.END_ROD, i.getEyeLocation().clone().subtract(0,0.25,0), 25);
-    var wither = new PotionEffect(PotionEffectType.WITHER, 100, 5);
-    var chance = Math.floor(Math.random() * 2) + 1;
-    if(chance == 2) wither.apply(i);
-    i.sendMessage(ChatColor.translateAlternateColorCodes('&',
-      "&5Dark &8&l| &7&oHãy tận hưởng nỗi đau mà bấy lâu nay bọn ta phải chịu đựng..."));
+    Player.setHealth(Math.floor(Player.getMaxHealth() / 2));
+    return "&5Dark &8&l| &7&oNhiệm vụ của ta đã hoàn thành...chúng ta sẽ còn gặp lại...";
+  } catch(err) {
+    return err.message;
   }
-  Player.setHealth(Math.floor(Player.getMaxHealth() / 2));
-  return "&5Dark &8&l| &7&oNhiệm vụ của ta đã hoàn thành...chúng ta sẽ còn gặp lại...";
 }
 main();
