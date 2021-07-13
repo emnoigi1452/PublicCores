@@ -49,7 +49,7 @@ function is_galactic(entity) {
   var valids = ["Mũ Asteroid", "Giáp Asteroid", "Quần Asteroid", "Giày Asteroid",
                 "Nón Galaxy", "Áo Galaxy", "Quần Galaxy", "Giày Galaxy"];
   var inventory = entity.getInventory(); var armor = inventory.getArmorContents();
-  for each(var item in armor) {
+  for each(var item in armor) { 
     if(item != null && item.hasItemMeta()) {
       var item_meta = item.getItemMeta();
       var name = item_meta.hasDisplayName() ? item_meta.getDisplayName() : "null";
@@ -81,7 +81,9 @@ function main() {
       }
     } victims.remove(Player);
     for each(var i in victims) {
+      dmg += setup_damage(i.getInventory());
       i.damage(Math.floor(dmg*(i.getMaxHealth()/100)));
+      dmg -= setup_damage(i.getInventory());
       i.spawnParticle(Particle.END_ROD, i.getEyeLocation().clone().subtract(0,0.25,0), 25);
       var wither = new PotionEffect(PotionEffectType.WITHER, 100, 5);
       var chance = Math.floor(Math.random() * 2) + 1;
