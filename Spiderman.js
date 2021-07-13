@@ -7,7 +7,6 @@ var Plugin = Server.getPluginManager().getPlugin("PlaceholderAPI");
 // Custom java classes - Imported via NashornAPI
 var ArrayList = Java.type("java.util.ArrayList");
 var HashMap = Java.type("java.util.HashMap");
-var System = Java.type("java.lang.System");
 var Thread = Java.type("java.lang.Thread");
 var Runnable = Java.type("java.lang.Runnable");
 // SpigotAPI classes - External usage
