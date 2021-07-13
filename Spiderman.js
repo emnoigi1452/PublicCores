@@ -60,18 +60,12 @@ function setup_cage() {
         block_locs.add(loc.clone().add(0,1,1));
         block_locs.add(loc.clone().add(0,2,1));
         block_locs.add(loc.clone().add(0,3,1));
-        block_locs.add(loc.clone().add(1,1,1));
-        block_locs.add(loc.clone().add(1,2,1));
-        block_locs.add(loc.clone().add(1,3,1));
         block_locs.add(loc.clone().subtract(1,1,0));
         block_locs.add(loc.clone().subtract(1,2,0));
         block_locs.add(loc.clone().subtract(1,3,0));
         block_locs.add(loc.clone().subtract(0,1,1));
         block_locs.add(loc.clone().subtract(0,2,1));
         block_locs.add(loc.clone().subtract(0,3,1));
-        block_locs.add(loc.clone().subtract(1,1,1));
-        block_locs.add(loc.clone().subtract(1,2,1));
-        block_locs.add(loc.clone().subtract(1,3,1));
         cages.put(v, block_locs);
       }
     }
@@ -83,8 +77,9 @@ function main() {
     setup_cage();
     var Trap = Java.extend(Runnable, {
       run: function() {
+        var slow = new PotionEffect(PotionEffectType.SLOW, 250, 10, false);
         for each(var e in victims) {
-          var blocks = cages.get(e);
+          var blocks = cages.get(e); slow.apply(e);
           for each(var b in blocks) {
             if(b.getLocation().getBlock().getType() == "AIR")
               b.setType(Material.COBWEB);
