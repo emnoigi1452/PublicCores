@@ -59,13 +59,6 @@ var ScriptManager = {
 			default: return null;
 		}
 	},
-	getModifyCommand: function(block_location, amount) {
-		var x = block_location.getBlockX();
-		var y = block_location.getBlockY();
-		var z = block_location.getBlockZ();
-		return "is admin setblockamount SuperiorWorld " + 
-		x + " " + y + " " + z + " " + amount.toString();
-	},
 	validBlock: function(block_name) {
 		switch(block_name.toUpperCase()) {
 			case "GOLD_BLOCK":
@@ -118,24 +111,6 @@ var ScriptManager = {
 			case "emerald": return "&aKhối Ngọc Lục Bảo";
 		}
 	},
-	getBlockCount: function(target_block) {
-		var location = target_block.getLocation(); 
-		var chunk = location.getChunk();
-		var offset = location.clone().add(0.5, 1, 0.5);
-		var valid_entities = new ArrayList();
-		for each(var e in chunk.getEntities())
-			if(e.getType() == "ARMOR_STAND")
-				valid_entities.add(e);
-		for each(var e in valid_entities) {
-			var e_loc = e.getLocation();
-			if(e_loc.getX() == offset.getX() &&
-				 e_loc.getY() == offset.getY() &&
-				 e_loc.getZ() == offset.getZ()) {
-				var hologram_tag = ChatColor.stripColor(e.getCustomName());
-			  return parseInt(hologram_tag.substring(1, hologram_tag.indexOf(" ")));
-			}
-		} return 1;
-	},
 	colorHandler: function(param) {
 		return ChatColor.translateAlternateColorCodes('&', param);
 	}
@@ -177,10 +152,8 @@ function main() {
 			  		}
 			  		var Task = Java.extend(Runnable, {
 			  			run: function() {
-			  				var block_count = ScriptManager.getBlockCount(block);
-			  				var command = ScriptManager.getModifyCommand(block.getLocation(), (block_count+block_balance));
 			  				var recalc = "is admin recalc " + Player.getName();
-			  				Server.dispatchCommand(Console, command); // Execute
+			  				Skyblock.getGrid().setBlockAmount(block, Skyblock.getGrid().getBlockAmount(block)+block_balance);
 			  				Server.dispatchCommand(Console, recalc);
 			  				config.set(ScriptManager.CONFIG_PATH(mode), 0);
 			  				config.save(Player_Main_File);
