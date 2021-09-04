@@ -1,8 +1,10 @@
 var Player = BukkitPlayer;
 var Server = BukkitServer;
+var Console = Server.getConsoleSender();
 var Manager = Server.getPluginManager();
 var Scheduler = Server.getScheduler();
 var Plugin = Manager.getPlugin("PlaceholderAPI");
+var Points = Manager.getPlugin("PlayerPoints");
 
 var ChatColor = org.bukkit.ChatColor;
 
@@ -10,8 +12,9 @@ var Runnable = Java.type("java.lang.Runnable");
 var Thread = Java.type("java.lang.Thread");
 
 var ScriptObject = {
-	formatNum: function(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "_").replace("__", ","); }
+	formatNum: function(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "_").replaceAll("__", ","); },
 	getMaxUpgrade: function(p) {
+		if(p == null) return 1;
 		var set = p.getEffectivePermissions(); var max = 300000;
 		for each(var node in set) {
 			var perm = node.getPermission();
@@ -20,6 +23,7 @@ var ScriptObject = {
 		} return max;
 	},
 	getLimit: function(p) {
+		if(p == null) return 1;
 		var set = p.getEffectivePermissions(); var limit = 100000;
 		for each(var node in set) {
 			var perm = node.getPermission();
@@ -30,10 +34,12 @@ var ScriptObject = {
 	getDiscount: function(p) {
 		var max_value = this.getMaxUpgrade(p);
 		switch(max_value) {
-			case 1000000: return 10;
-			case 2500000: return 15;
-			case 5000000: return 20;
-			case 10000000: return 25;
+			case 1000000:
+			case 2500000:
+			  return 10;
+			case 5000000:
+			case 10000000:
+			  return 20;
 			default: return 0;
 		} return -1;
 	},
@@ -59,17 +65,18 @@ var ScriptObject = {
 					var price = this.getPrice(distance, target); var balance = this.getBalance(target);
 					if(isNaN(balance)) throw ScriptObject.colorizeText("&eScript &8&l| &cLỗi: &fBạn chưa cài Placeholder &aPlayerPoints&f!");
 					if(balance < price) {
-					Player.sendMessage(ScriptObject.colorizeText("&ePreventLimit &8&l| &cLỗi: &fBạn không có đủ &6Xu &fđể tiến hành nâng cấp!"));
+					Player.sendMessage(ScriptObject.colorizeText("&eLimit &8&l| &cLỗi: &fBạn không có đủ &6Xu &fđể tiến hành nâng cấp!"));
 					// end process
 					} else {
 						var ExecuteMax = Java.extend(Runnable, {
 							run: function() {
-							var Command = "lp user " + target.getName() + " permission kho.limit." + upgrade_limit.toString();
-							var Price = "playerpoints:p take " + target.getName() + " " + price.toString();
-							Server.dispatchCommand(Console, Command); Server.dispatchCommand(Console, Price);
-							Player.kickPlayer(ScriptObject.colorizeText("&ePreventLimit &8&l| &aThông báo: &fĐã nâng cấp thành công kho! &8&l[&a+" + ScriptObject.formatNum(distance*1000) + "&8&l]"));
+							var Update = "lp user " + target.getName() + " permission unset kho.limit." + current_limit.toString();
+							var Command = "lp user " + target.getName() + " permission set kho.limit." + upgrade_limit.toString();
+							var Price = "points take " + target.getName() + " " + price.toString();
+							Server.dispatchCommand(Console, Update); Server.dispatchCommand(Console, Command); Server.dispatchCommand(Console, Price);
+							Player.kickPlayer(ScriptObject.colorizeText("&eLimit &8&l| &aThông báo: &fĐã nâng cấp thành công kho! &8&l[&a+" + ScriptObject.formatNum(distance*1000) + "&8&l]"));
 							}
-						}); new Thread(new ExecuteMax()).start();
+						}); Scheduler.runTask(Plugin, new ExecuteMax());
 					}
 				}
 			} else throw ScriptObject.colorizeText("&eScript &8&l| &cLỗi: &fCú pháp lệnh không hợp lệ!");
@@ -77,20 +84,21 @@ var ScriptObject = {
 			var current_limit = this.getLimit(target); 
 			var upgrade_limit = this.getMaxUpgrade(target);
 			if(current_limit+value<=upgrade_limit) {
-				var price = this.getPrice(value, target); var balance = this.getBalance(target);
+				var price = this.getPrice(value, target); var balance = this.getBalance(target); value = value * 1000;
 				if(isNaN(balance)) throw ScriptObject.colorizeText("&eScript &8&l| &cLỗi: &fBạn chưa cài Placeholder &aPlayerPoints&f!");
 				if(balance < price) {
-					Player.sendMessage(ScriptObject.colorizeText("&ePreventLimit &8&l| &cLỗi: &fBạn không có đủ &6Xu &fđể tiến hành nâng cấp!"));
+					Player.sendMessage(ScriptObject.colorizeText("&eLimit &8&l| &cLỗi: &fBạn không có đủ &6Xu &fđể tiến hành nâng cấp!"));
 					// end process
 				} else {
-					var Execute = Java.extend(Runnable {
+					var Execute = Java.extend(Runnable, {
 						run: function() {
-							var Command = "lp user " + target.getName() + " permission kho.limit." + (current_limit+value).toString();
+							var Update = "lp user " + target.getName() + " permission unset kho.limit." + current_limit.toString();
+							var Command = "lp user " + target.getName() + " permission set kho.limit." + (current_limit+value).toString();
 							var Price = "playerpoints:p take " + target.getName() + " " + price.toString();
-							Server.dispatchCommand(Console, Command); Server.dispatchCommand(Console, Price);
-							Player.kickPlayer(ScriptObject.colorizeText("&ePreventLimit &8&l| &aThông báo: &fĐã nâng cấp thành công kho! &8&l[&a+" + ScriptObject.formatNum(value*1000) + "&8&l]"));
+							Server.dispatchCommand(Console, Update); Server.dispatchCommand(Console, Command); Server.dispatchCommand(Console, Price);
+							Player.kickPlayer(ScriptObject.colorizeText("&eLimit &8&l| &aThông báo: &fĐã nâng cấp thành công kho! &8&l[&a+" + ScriptObject.formatNum(value) + "&8&l]"));
 						}
-					}); new Thread(new Execute()).start();
+					}); Scheduler.runTask(Plugin, new Execute());
 				}
 			} else throw ScriptObject.colorizeText("Script &8&l| &cLỗi: &fĐã vượt quá giới hạn nâng cấp :/");
 		}
@@ -99,26 +107,48 @@ var ScriptObject = {
 
 function main() {
 	try {
+		if(Manager.getPlugin("PreventHopper-ORE") == null) throw ScriptObject.colorizeText("&eScript &8&l| &cLỗi: &fMáy chủ không có &aPreventHopper&f!");
+		if(Points == null) throw ScriptObject.colorizeText("&eScript &8&l| &cLỗi: &fMáy chủ chưa cài đặt &aPlayerPoints&f!");
 	  switch(args[0].toLowerCase()) {
 	    case "limit":
 	      return args.length == 2 && args[1].toLowerCase() == "display" ?
-	             ScriptObject.formatNum(ScriptManager.getLimit(Player)) :
+	             ScriptObject.formatNum(ScriptObject.getLimit(Player)) :
 	             ScriptObject.getLimit(Player).toString();
 	    case "max-upgrade":
 	      return args.length == 2 && args[1].toLowerCase() == "display" ?
-	             ScriptObject.formatNum(ScriptManager.getMaxUpgrade(Player)) :
+	             ScriptObject.formatNum(ScriptObject.getMaxUpgrade(Player)) :
 	             ScriptObject.getMaxUpgrade(Player).toString();
 	    case "future":
 	      if(!isNaN(parseInt(args[1]))) {
-	      	var add_node = parseInt(args[1]); return (ScriptObject.getLimit(Player)+add_node).toString();
+	      	var add_node = parseInt(args[1]); return ScriptObject.formatNum(ScriptObject.getLimit(Player)+add_node)
 	      } else {
 	      	throw ScriptObject.colorizeText("&eLimit &8&l| &cLỗi: &fSố nhập vào phải là số nguyên!"); // error
 	      }
 	      return 0;
+	    case "status":
+	      var metadata = Player.getMetadata("playerData").get(0).value();
+	      var id = "";
+	      switch(args[1].toLowerCase()) {
+	      	case "coal": id = "COAL"; break;
+	      	case "lapis": id = "LAPIS_LAZULI"; break;
+	      	case "redstone": id = "REDSTONE"; break;
+	      	case "iron": id = "IRON_INGOT"; break;
+	      	case "gold": id = "GOLD_INGOT"; break;
+	      	case "diamond": id = "DIAMOND"; break;
+	      	case "emerald": id = "EMERALD"; break;
+	      	default: throw "Invalid params";
+	      }
+	      return args.length == 3 && args[2] == "display" ? metadata.getBlock(id).toString() : ScriptObject.formatNum(metadata.getBlock(id));
 	    case "get-price":
-	      return args.length == 2 && args[1].toLowerCase() == "display" ?
-	             ScriptObject.formatNum(ScriptManager.getPrice(parseInt(args[2]), Player)) :
-	             ScriptManager.getPrice(parseInt(args[2]), Player).toString();
+	      var a = parseInt(args[1]); if(isNaN(a)) a = (ScriptObject.getMaxUpgrade(Player) - ScriptObject.getLimit(Player))/1000; 
+	      return args.length == 3 && args[2].toLowerCase() == "display" ?
+	             ScriptObject.formatNum(ScriptObject.getPrice(a, Player)) :
+	             ScriptObject.getPrice(a, Player).toString();
+	    case "get-discount":
+	    	var discount = ScriptObject.getDiscount(Player);
+	    	if(discount == 0) {
+	    		return "";
+	    	} else return "&8&l[&a-" + discount.toString() + "%&8&l]";
 	    case "upgrade-10":
 	      ScriptObject.upgrade(/* upgrade value */ 10, /* target */ Player); return 0;
 	      break;
