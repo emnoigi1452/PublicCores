@@ -1,50 +1,202 @@
 var Player = BukkitPlayer;
-var Skyblock = BukkitServer.getPluginManager().getPlugin("SuperiorSkyblock2");
+var Server = BukkitServer;
+var Console = Server.getConsoleSender();
+var Manager = Server.getPluginManager();
+var Plugin = Manager.getPlugin("PlaceholderAPI");
 
-var BigDecimal = Java.type("java.math.BigDecimal");
-var ArrayList = Java.type("java.util.ArrayList");
-var HashMap = Java.type("java.util.HashMap");
+var Runnable = Java.type("java.lang.Runnable");
+var Scheduler = Server.getScheduler();
+var File = Java.type("java.io.File");
 
+var YamlConfiguration = org.bukkit.configuration.file.YamlConfiguration;
 var ChatColor = org.bukkit.ChatColor;
 
-var Levels = new HashMap(); var Worth = new HashMap();
-Levels.put("COAL_BLOCK", 0.5); Worth.put("COAL_BLOCK", 50);
-Levels.put("LAPIS_BLOCK", 0.5); Worth.put("LAPIS_BLOCK", 50);
-Levels.put("REDSTONE_BLOCK", 0.5); Worth.put("REDSTONE_BLOCK", 50);
-Levels.put("IRON_BLOCK", 1); Worth.put("IRON_BLOCK", 100);
-Levels.put("GOLD_BLOCK", 1.5); Worth.put("GOLD_BLOCK", 150);
-Levels.put("DIAMOND_BLOCK", 3); Worth.put("DIAMOND_BLOCK", 300);
-Levels.put("EMERALD_BLOCK", 2.5); Worth.put("EMERALD_BLOCK", 250);
-
+var Script = {
+   formatNum: function(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "_").replaceAll("__", ","); },
+   colorText: function(str) { return ChatColor.translateAlternateColorCodes('&', str); },
+   get_name: function(param, block) {
+      param = param.toUpperCase();
+      switch(param.toLowerCase()) {
+         case "coal": return block ? param.concat("_BLOCK") : param;
+         case "lapis": return block ? param.concat("_BLOCK") : "DYE_4";
+         case "iron":
+         case "gold":
+           return block ? param.concat("_BLOCK") : param.concat("_INGOT");
+         case "diamond":
+         case "emerald":
+           return block ? param.concat("_BLOCK") : param;
+         default: return "null";
+      }
+   },
+   get_essen_id: function(param, block) {
+      switch(param.toLowerCase()) {
+         case "coal": return block ? 173 : 263;
+         case "lapis": return block ? 22 : 351.4;
+         case "redstone": return block ? 152 : 331;
+         case "iron": return block ? 42 : 265;
+         case "gold": return block ? 41 : 266;
+         case "diamond": return block ? 57 : 264;
+         case "emerald": return block ? 133 : 388;
+         default: return -1;
+      }
+   },
+   translated: function(param, block) {
+      switch(param.toLowerCase()) {
+        case "coal": return block ? "&0Khối Than" : "&0Than";
+        case "lapis": return block ? "&1Khối Lưu Ly" : "&1Lưu Ly";
+        case "redstone": return block ? "&4Khối Đá Đỏ" : "&4Đá Đỏ";
+        case "iron": return block ? "&fKhối Sắt" : "&fThỏi Sắt";
+        case "gold": return block ? "&6Khối Vàng" : "&6Thỏi Vàng";
+        case "diamond": return block ? "&bKhối Kim Cương" : "&bKim Cương";
+        case "emerald": return block ? "&aKhối Ngọc Lục Bảo" : "&aNgọc Lục Bảo";
+      }
+   },
+   wipe_command: function(type, block) {
+      var id = this.get_essen_id(type, block);
+      // format decimal
+      var val = 0;
+      if(id % 1 > 0) { val = Math.round((id % 1)*10); id = Math.floor(id); } 
+      return "clear $p " + id.toString() + " $a " + val.toString();
+   },
+   get_amount: function(node, type) {
+      var inv = Player.getInventory(); var metadata = Player.getMetadata("playerData").get(0).value();
+      switch(node.toLowerCase()) {
+        case "inv-block":
+          var count = 0; var match = this.get_name(type, true);
+          for(var j = 0; j < 36; j++) {
+            var item = inv.getItem(j);
+            if(item == null) continue;
+            if(item.getType().name().equals(match))
+              count += item.getAmount();
+          } return count;
+        case "ph-ore":
+          var match = this.get_name(type, false); if(match == "DYE_4") match = "LAPIS_LAZULI";
+          return metadata.getBlock(match);
+        case "preventblock":
+          var Block = Plugin.getDataFolder() + "\\PreventBlock"; var key = "BlockData." + this.get_name(type, true);
+          var file = new File(Block + "\\" + Player.getUniqueId().toString() + ".yml");
+          return YamlConfiguration.loadConfiguration(file).get(key);
+        default: throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fPhương thức đổi không hợp lệ! Vui lòng kiểm tra lại!");
+      }
+   }
+};
 
 function main() {
-	try {
-		var GridManager = Skyblock.getGrid(); var SuperiorPlayer = Skyblock.getPlayers().getSuperiorPlayer(Player);
-		var SuperiorIsland = GridManager.getIsland(SuperiorPlayer);
-		if(SuperiorIsland == null) {
-			Player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSkyblock &8&l| &cLỗi: &fMáy chủ không xác định được đảo của bạn! Hãy thử lại sau!"));
-			return -1;
-		}
-		SuperiorIsland.setBonusWorth(new BigDecimal("0")); SuperiorIsland.setBonusLevel(new BigDecimal("0"));
-		SuperiorIsland.calcIslandWorth(SuperiorPlayer);
-		Player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSkyblock &8&l| &fTiến hành tính toán lại giá trị của đảo! Vui lòng chờ chút!"));
-		var locs = new ArrayList(); var stacks = GridManager.getStackedBlocks();
-		for each(var s in stacks) {
-			var island = GridManager.getIslandAt(s); // boolean: include owner - yes
-			if(SuperiorIsland.equals(island)) locs.add(s);
-		} 
-		var total_worth = 0; var total_level = 0;
-		for each(var ib in locs) {
-			var amount = GridManager.getBlockAmount(ib); var name = ib.getBlock().getType().name();
-			total_level += amount * Levels.get(name);
-			total_worth += amount * Worth.get(name);
-		} 
-		SuperiorIsland.setBonusWorth(new BigDecimal(total_worth.toString())); SuperiorIsland.setBonusLevel(new BigDecimal(total_level.toString()));
-		Player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-			"&aSkyblock &8&l| &aThông báo: &fHoàn tất! Đảo của bạn hiện cấp &a" + total_level.toString()));
-		return locs.size();
-	} catch(err) {
-		return "&eScript &8&l| &cLỗi: &e" + err.name + " - &f" + err.message;
-	}
+  try {
+    switch(args[0].toLowerCase()) {
+      case "inv-block": return Script.get_amount("inv-block", args[1]).toString();
+      case "ph": return Script.get_amount("ph-ore", args[1]).toString();
+      case "inv-block-formatted": return Script.formatNum(Script.get_amount("inv-block", args[1]));
+      case "ph-formatted": return Script.formatNum(Script.get_amount("ph-ore", args[1]));
+      case "stacks-block": return Math.floor(Script.get_amount("inv-block", args[1]) / 64).toString();
+      case "stacks-ph": return Math.floor(Script.get_amount("ph-ore", args[1]) / 576).toString();
+      case "stacks-preventblock": return Math.floor(Script.get_amount("preventblock", args[1]) / 64).toString();
+      case "stacks-ph-formatted": return Script.formatNum(Math.floor(Script.get_amount("ph-ore", args[1])));
+      case "stacks-preventblock-formatted": return Script.formatNum(Math.floor(Script.get_amount("preventblock", args[1])));
+      case "status-preventblock":
+        if(!Player.hasPermission("viewer.daituong"))
+          return "&cKhông có quyền &8[&c✘&8]"
+        else
+          return "&a" + Script.formatNum(Math.floor(Script.get_amount("preventblock", args[1])));
+      case "upgrade-block":
+        var type = args[1]; var amount = parseInt(args[2]);
+        if(Script.get_essen_id(type) == -1) throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!");
+        if(isNaN(amount)) {
+          if(args[2].toLowerCase() == "all")
+            amount = Math.floor(Script.get_amount("inv-block", type)/64);
+          else
+            throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fSố nhập vào không hợp lệ!");
+        }
+        var required = amount * 64; var inv_amount = Script.get_amount("inv-block", type);
+        if(required > inv_amount || required < 1) {
+          var error_temp = required < 1 ? 64 : required;
+          Player.sendMessage(Script.colorText("&eUpgrade &8&l| &cLỗi: &fBạn không có đủ khoáng sản! Cần tối thiểu &a" + Script.formatNum(error_temp) + " " + Script.translated(type, true) + " &ftrong túi để có thể trao đổi!"));
+          return;
+        } 
+        var clear = Script.wipe_command(type, true).replace("$p", Player.getName()).replace("$a", required.toString());
+        var load = "mi load custom " + type + "1 " + Player.getName() + " " + amount.toString();
+        var Task = Java.extend(Runnable, {
+          run: function() {
+            Server.dispatchCommand(Console, clear); Server.dispatchCommand(Console, load);
+            Player.sendMessage(Script.colorText("&eUpgrade &8&l| &aThông báo: &fĐã đổi thành công &a" + Script.formatNum(required) + " " + Script.translated(type, true) + " &fsang &a" + amount.toString() + " " + Script.translated(type) + " &eNâng Cấp&f! Trong túi bạn còn &a" + Script.formatNum(inv_amount-required) + " " + Script.translated(type, true)));
+          }
+        }); Scheduler.runTask(Plugin, new Task()); return 0;
+        break;
+      case "upgrade-ph":
+        var type = args[1]; var amount = parseInt(args[2]); var filled = false;
+        if(Script.get_essen_id(type) == -1) throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!");
+        if(isNaN(amount)) {
+          if(args[2].toLowerCase() == "all") {
+            var empty = 0;
+            for(var j = 0; j < 36; j++) {
+              if(Player.getInventory().getItem(j) == null)
+                empty += 64;
+            }
+            if(Math.floor(Script.get_amount("ph-ore", type)/576) > empty) {
+              filled = true; amount = empty;
+            } else amount = Math.floor(Script.get_amount("ph-ore", type)/576);
+          }
+          else
+            throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fSố nhập vào không hợp lệ!");
+        }
+        var required = amount * 576; var balance = Script.get_amount("ph-ore", type);
+        if(required > balance || required < 1) {
+          var error_temp = required < 1 ? 576 : required;
+          Player.sendMessage(Script.colorText("&eUpgrade &8&l| &cLỗi: &fBạn không có đủ khoáng sản! Cần tối thiểu &a" + Script.formatNum(error_temp) + " " + Script.translated(type) + " &ftrong kho khoáng sản để có thể trao đổi!"));
+          return;
+        }
+        var metadata = Player.getMetadata("playerData").get(0).value();
+        var key = type == "lapis" ? type.toUpperCase().concat("_LAZULI") : type == "iron" || type == "gold" ? type.toUpperCase().concat("_INGOT") : type.toUpperCase(); // ph key
+        var loadcmd = "mi load custom " + type + "1 " + Player.getName() + " " + amount.toString();
+        var Task_PH = Java.extend(Runnable, {
+          run: function() {
+            metadata.setBlock(key, (balance-required));
+            Server.dispatchCommand(Console, loadcmd);
+            Player.sendMessage(Script.colorText("&eUpgrade &8&l| &aThông báo: &fĐã đổi thành công &a" + Script.formatNum(required) + " " + Script.translated(type) + " &fsang &a" + Script.formatNum(amount) + " " + Script.translated(type) + " &eNâng Cấp&f! Trong kho khoáng sản của bạn còn &a" + Script.formatNum(balance-required) + " " + Script.translated(type, true)));
+          }
+        }); Scheduler.runTask(Plugin, new Task_PH()); return 0; // end
+        break;
+      case "upgrade-prevent-block":
+        var Block = Plugin.getDataFolder() + "\\PreventBlock";
+        var file = new File(Block + "\\" + Player.getUniqueId().toString() + ".yml");
+        if(!file.exists()) {
+          Player.sendMessage(Script.colorText("&eUpgrade &8&l| &cLỗi: &fBạn chưa cài đặt kho nén block! Vui lòng nhấn &e/block &fđể hệ thống nhận dạng được kho của bạn!")); return -1;
+        }
+        var type = args[1]; var key = "BlockData." + Script.get_name(type, true); var amount = parseInt(args[2]);
+        if(Script.get_essen_id(type) == -1) throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!");
+        if(isNaN(amount)) {
+          if(args[2].toLowerCase() == "all") {
+            var empty = 0;
+            for(var j = 0; j < 36; j++) {
+              if(Player.getInventory().getItem(j) == null)
+                empty += 64;
+            }
+            if(Math.floor(Script.get_amount("preventblock", type)/64) > empty) {
+              filled = true; amount = empty;
+            } else amount = Math.floor(Script.get_amount("preventblock", type)/64);
+          } else
+            throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fSố nhập vào không hợp lệ!");
+        }
+        var required = amount * 64; var balance = Script.get_amount("preventblock", type);
+        if(required > balance || required < 1) {
+          var error_temp = required < 1 ? 64 : required;
+          Player.sendMessage(Script.colorText("&eUpgrade &8&l| &cLỗi: &fBạn không có đủ khoáng sản! Cần tối thiểu &a" + Script.formatNum(error_temp) + " " + Script.translated(type, true) + " &ftrong kho chứa khối để có thể trao đổi!"));
+          return;
+        }
+        var database = YamlConfiguration.loadConfiguration(file);
+        var loadcmd = "mi load custom " + type + "1 " + Player.getName() + " " + amount.toString();
+        var Task_PB = Java.extend(Runnable, {
+          run: function() {
+            database.set(key, (balance-required)); database.save(file);
+            Server.dispatchCommand(Console, loadcmd);
+            Player.sendMessage(Script.colorText("&eUpgrade &8&l| &aThông báo: &fĐã đổi thành công &a" + Script.formatNum(required) + " " + Script.translated(type, true) + " &fsang &a" + Script.formatNum(amount) + " " + Script.translated(type) + " &eNâng Cấp&f! Trong kho chứa khối của bạn còn &a" + Script.formatNum(balance-required) + " " + Script.translated(type, true)));
+          }
+        }); Scheduler.runTask(Plugin, new Task_PB()); return; //end;
+        break;
+      default: throw Script.colorText("&eScript &8&l| &cLỗi: &fTùy chọn &c" + args[0].toLowerCase() + " &fkhông tồn tại trong code!");
+    }
+  } catch(err) {
+    return "&eScript &8&l| &cLỗi: &e" + err.name + " - &f" + err.message;
+  }
 }
 main();
