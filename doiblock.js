@@ -17,11 +17,12 @@ var Script = {
    get_name: function(param, block) {
       param = param.toUpperCase();
       switch(param.toLowerCase()) {
-         case "coal": return block ? param.concat("_BLOCK") : param;
          case "lapis": return block ? param.concat("_BLOCK") : "DYE_4";
          case "iron":
          case "gold":
            return block ? param.concat("_BLOCK") : param.concat("_INGOT");
+         case "coal":
+         case "redstone":
          case "diamond":
          case "emerald":
            return block ? param.concat("_BLOCK") : param;
@@ -42,8 +43,8 @@ var Script = {
    },
    translated: function(param, block) {
       switch(param.toLowerCase()) {
-        case "coal": return block ? "&0Khối Than" : "&0Than";
-        case "lapis": return block ? "&1Khối Lưu Ly" : "&1Lưu Ly";
+        case "coal": return block ? "&8Khối Than" : "&8Than";
+        case "lapis": return block ? "&9Khối Lưu Ly" : "&9Lưu Ly";
         case "redstone": return block ? "&4Khối Đá Đỏ" : "&4Đá Đỏ";
         case "iron": return block ? "&fKhối Sắt" : "&fThỏi Sắt";
         case "gold": return block ? "&6Khối Vàng" : "&6Thỏi Vàng";
@@ -84,20 +85,40 @@ var Script = {
 function main() {
   try {
     switch(args[0].toLowerCase()) {
+      case "cp-enabled":
+        var node = Player.getEffectivePermissions();
+        for each(var perm in node) {
+          if(perm.getPermission().startsWith("doiblock.cp."))
+            return true;
+        } return false;
+      case "cp-reset":
+        var node = Player.getEffectivePermissions();
+        for each(var permission in node) {
+          if(permission.getPermission().startsWith("doiblock.cp.")) {
+            var ResetTask = Java.extend(Runnable, {
+              run: function() {
+                Server.dispatchCommand(Console, "lp user " + Player.getName() + " permission unset " + permission.getPermission());
+              }
+            }); Scheduler.runTask(Plugin, new ResetTask());
+            return 0;
+          }
+        } return -1;
       case "inv-block": return Script.get_amount("inv-block", args[1]).toString();
       case "ph": return Script.get_amount("ph-ore", args[1]).toString();
+      case "preventblock": return Script.get_amount("preventblock", args[1]).toString();
       case "inv-block-formatted": return Script.formatNum(Script.get_amount("inv-block", args[1]));
       case "ph-formatted": return Script.formatNum(Script.get_amount("ph-ore", args[1]));
+      case "preventblock-formatted": Script.formatNum(Script.get_amount("preventblock", args[1]));
       case "stacks-block": return Math.floor(Script.get_amount("inv-block", args[1]) / 64).toString();
       case "stacks-ph": return Math.floor(Script.get_amount("ph-ore", args[1]) / 576).toString();
       case "stacks-preventblock": return Math.floor(Script.get_amount("preventblock", args[1]) / 64).toString();
-      case "stacks-ph-formatted": return Script.formatNum(Math.floor(Script.get_amount("ph-ore", args[1])));
-      case "stacks-preventblock-formatted": return Script.formatNum(Math.floor(Script.get_amount("preventblock", args[1])));
+      case "stacks-ph-formatted": return Script.formatNum(Math.floor(Script.get_amount("ph-ore", args[1])/576));
+      case "stacks-preventblock-formatted": return Script.formatNum(Math.floor(Script.get_amount("preventblock", args[1])/64));
       case "status-preventblock":
         if(!Player.hasPermission("viewer.daituong"))
           return "&cKhông có quyền &8[&c✘&8]"
         else
-          return "&a" + Script.formatNum(Math.floor(Script.get_amount("preventblock", args[1])));
+          return "&a" + Script.formatNum(Math.floor(Script.get_amount("preventblock", args[1]))) + " " + Script.translated(args[1], true);
       case "upgrade-block":
         var type = args[1]; var amount = parseInt(args[2]);
         if(Script.get_essen_id(type) == -1) throw Script.colorText("&eUpgrade &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!");
@@ -193,6 +214,45 @@ function main() {
           }
         }); Scheduler.runTask(Plugin, new Task_PB()); return; //end;
         break;
+      case "trade-status":
+        var node = args[1]; var type = args[2]; var amount = parseInt(args[3]); var balance = 0;
+        switch(node.toLowerCase()) {
+          case "inv": balance = Script.get_amount("inv-block", type); break;
+          case "ph": balance = Script.get_amount("ph-ore", type); break;
+          case "pb": balance = Script.get_amount("preventblock", type); break;
+          default: throw Script.colorText("&eScript &8&l| &cLỗi: &fHình thức giao dịch không hợp lệ!");
+        }
+        var multiplier = node.toLowerCase() == "ph" ? 576 : 64; var tradable = Math.floor(balance/multiplier);
+        if(isNaN(amount) && args[3] == "all") {
+          var empty = 0;
+          for(var j = 0; j < 36; j++) {
+            if(Player.getInventory().getItem(j) == null)
+              empty += 64;
+          }
+          if(node != "inv")
+            amount = tradable > empty ? empty : tradable;
+          else
+            amount = tradable;
+        }
+        var required = amount * multiplier;
+        if(required > balance || required < 1)
+          return "&cKhông đủ &8[&c✘&8]"
+        else
+          return "&a" + Script.formatNum(balance) + " &f-> &a" + Script.formatNum(balance-required);
+      case "can-ph":
+        if(Player.hasPermission("viewer.thieutuong"))
+          return true;
+        else
+          return Player.hasPermission("doiblock.use.ph");
+      case "all-stack-value":
+        var node = args[1]; var type = args[2]; var balance = 0;
+        switch(node.toLowerCase()) {
+          case "inv": balance = Script.get_amount("inv-block", type); break;
+          case "ph": balance = Script.get_amount("ph-ore", type); break;
+          case "pb": balance = Script.get_amount("preventblock", type); break;
+        }
+        var multiplier = node == "ph" ? 576 : 64;
+        return balance < multiplier ? "&cKhông thể đổi &8[&c✘&8]" : "&a" + Script.formatNum(Math.floor(balance / multiplier)) + " " + Script.translated(type) + " &eNâng Cấp";
       default: throw Script.colorText("&eScript &8&l| &cLỗi: &fTùy chọn &c" + args[0].toLowerCase() + " &fkhông tồn tại trong code!");
     }
   } catch(err) {
