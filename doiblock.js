@@ -251,8 +251,16 @@ function main() {
           case "ph": balance = Script.get_amount("ph-ore", type); break;
           case "pb": balance = Script.get_amount("preventblock", type); break;
         }
-        var multiplier = node == "ph" ? 576 : 64;
-        return balance < multiplier ? "&cKhông thể đổi &8[&c✘&8]" : "&a" + Script.formatNum(Math.floor(balance / multiplier)) + " " + Script.translated(type) + " &eNâng Cấp";
+        var multiplier = node == "ph" ? 576 : 64; var count = Math.floor(balance/multiplier);
+        if(node == "ph" || node == "pb") {
+          var em = 0;
+          for(var x = 0; x < 36; x++) {
+            if(Player.getInventory().getItem(x) == null)
+              em += 64;
+          }
+          if(count > em) count = em;
+        } // fix
+        return balance < multiplier ? "&cKhông thể đổi &8[&c✘&8]" : "&a" + Script.formatNum(count) + " " + Script.translated(type) + " &eNâng Cấp";
       default: throw Script.colorText("&eScript &8&l| &cLỗi: &fTùy chọn &c" + args[0].toLowerCase() + " &fkhông tồn tại trong code!");
     }
   } catch(err) {
