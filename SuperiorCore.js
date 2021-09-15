@@ -312,7 +312,7 @@ function main() {
               Server.broadcastMessage(ScriptManager.colorHandler(Broadcast));
               Player.sendMessage(ScriptManager.colorHandler(MessageInfo)); 
             }
-          }); new Thread(new Purchase()).start(); return; // execute task
+          }); Scheduler.runTask(Plugin, new Purchase()); return 0; // execute task
         }
         break;
       case "phm":
@@ -353,7 +353,7 @@ function main() {
                 Server.dispatchCommand(Console, Give);
                 Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fĐã cập nhật thành công đũa!"));
               }
-            }); new Thread(new Task()).start(); return;
+            }); Scheduler.runTask(Plugin, new Purchase()); return 0;
           }
         }
         break;
