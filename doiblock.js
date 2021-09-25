@@ -12,7 +12,13 @@ var YamlConfiguration = org.bukkit.configuration.file.YamlConfiguration;
 var ChatColor = org.bukkit.ChatColor;
 
 var Script = {
-   formatNum: function(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "_").replaceAll("__", ","); },
+   formatNum: function(x) {
+     x = x.toString();
+     var pattern = /(-?\d+)(\d{3})/;
+     while (pattern.test(x))
+         x = x.replace(pattern, "$1,$2");
+     return x;
+   }
    colorText: function(str) { return ChatColor.translateAlternateColorCodes('&', str); },
    get_name: function(param, block) {
       param = param.toUpperCase();
