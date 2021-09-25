@@ -18,7 +18,7 @@ var Script = {
      while (pattern.test(x))
          x = x.replace(pattern, "$1,$2");
      return x;
-   }
+   },
    colorText: function(str) { return ChatColor.translateAlternateColorCodes('&', str); },
    get_name: function(param, block) {
       param = param.toUpperCase();
