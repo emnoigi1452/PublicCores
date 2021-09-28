@@ -9,6 +9,7 @@ var Scheduler = Server.getScheduler();
 var File = Java.type("java.io.File");
 
 var YamlConfiguration = org.bukkit.configuration.file.YamlConfiguration;
+var FixedMetadataValue = org.bukkit.metadata.FixedMetadataValue;
 var ChatColor = org.bukkit.ChatColor;
 
 var Script = {
@@ -65,6 +66,47 @@ var Script = {
       if(id % 1 > 0) { val = Math.round((id % 1)*10); id = Math.floor(id); } 
       return "clear $p " + id.toString() + " $a " + val.toString();
    },
+   UpgradeData: function(Target) {
+      this.node = "none";
+      this.traded = new java.io.HashMap();
+      this.traded.put("COAL", 0);
+      this.traded.put("LAPIS", 0);
+      this.traded.put("REDSTONE", 0);
+      this.traded.put("IRON", 0);
+      this.traded.put("GOLD", 0);
+      this.traded.put("DIAMOND", 0);
+      this.traded.put("EMERALD", 0);
+      this.getNode() = function() {
+        return this.node;
+      };
+      this.getStats = function(term) {
+        var keys = this.traded.keySet();
+        if(!keys.contains(term))
+          throw this.colorText("&eScript &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ &c:<");
+        else return this.formatNum(this.traded.get(term));
+      };
+      this.addNode = function(key, val) {
+        if(!this.traded.keySet().contains(key.toUpperCase()))
+          throw this.colorText("&eScript &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ &c:<");
+        else {
+          var formatted = key.toUpperCase(); var default = this.traded.get(formatted);
+          this.traded.put(formatted, Math.floor(default + val));
+        }
+      }
+      this.setNode = function(term) {
+        if(term != "none" && !this.traded.keySet().contains(term.toUpperCase()));
+          throw this.colorText("&eScript &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ &c:<");
+        else this.node = term;
+      };
+      this.getNode = function() return this.node;
+   },
+   checkMetadata: function(p) {
+      if(!p.hasMetadata("doiblockData")) {
+        var objectHandler = new this.UpgradeData(p); // create new instance;
+        var value = new FixedMetadataValue(Plugin, objectHandler);
+        p.setMetadata("doiblockData", value); // doesn't have metadata
+      } return p.getMetadata("doiblockData").get(0).value();
+   },
    get_amount: function(node, type) {
       var inv = Player.getInventory(); var metadata = Player.getMetadata("playerData").get(0).value();
       switch(node.toLowerCase()) {
@@ -87,28 +129,18 @@ var Script = {
       }
    }
 };
-
 function main() {
   try {
+    var dataSet = Script.checkMetadata(Player);
     switch(args[0].toLowerCase()) {
       case "cp-enabled":
-        var node = Player.getEffectivePermissions();
-        for each(var perm in node) {
-          if(perm.getPermission().startsWith("doiblock.cp."))
-            return true;
-        } return false;
+        return dataSet.getNode() != "none";
       case "cp-reset":
-        var node = Player.getEffectivePermissions();
-        for each(var permission in node) {
-          if(permission.getPermission().startsWith("doiblock.cp.")) {
-            var ResetTask = Java.extend(Runnable, {
-              run: function() {
-                Server.dispatchCommand(Console, "lp user " + Player.getName() + " permission unset " + permission.getPermission());
-              }
-            }); Scheduler.runTask(Plugin, new ResetTask());
-            return 0;
-          }
-        } return -1;
+        dataSet.setNode("none"); return 0;
+      case "change-cp-node":
+        dataSet.setNode(args[1]); return 0;
+      case "get-cp-mode":
+        return dataSet.getNode();
       case "inv-block": return Script.get_amount("inv-block", args[1]).toString();
       case "ph": return Script.get_amount("ph-ore", args[1]).toString();
       case "preventblock": return Script.get_amount("preventblock", args[1]).toString();
@@ -144,7 +176,7 @@ function main() {
         var load = "mi load custom " + type + "1 " + Player.getName() + " " + amount.toString();
         var Task = Java.extend(Runnable, {
           run: function() {
-            Server.dispatchCommand(Console, clear); Server.dispatchCommand(Console, load);
+            Server.dispatchCommand(Console, clear); Server.dispatchCommand(Console, load); dataSet.addNode(type, amount);
             Player.sendMessage(Script.colorText("&eUpgrade &8&l| &aThông báo: &fĐã đổi thành công &a" + Script.formatNum(required) + " " + Script.translated(type, true) + " &fsang &a" + amount.toString() + " " + Script.translated(type) + " &eNâng Cấp&f! Trong túi bạn còn &a" + Script.formatNum(inv_amount-required) + " " + Script.translated(type, true)));
           }
         }); Scheduler.runTask(Plugin, new Task()); return 0;
@@ -178,7 +210,7 @@ function main() {
         var Task_PH = Java.extend(Runnable, {
           run: function() {
             metadata.setBlock(key, (balance-required));
-            Server.dispatchCommand(Console, loadcmd);
+            Server.dispatchCommand(Console, loadcmd); dataSet.addNode(type, amount);
             Player.sendMessage(Script.colorText("&eUpgrade &8&l| &aThông báo: &fĐã đổi thành công &a" + Script.formatNum(required) + " " + Script.translated(type) + " &fsang &a" + Script.formatNum(amount) + " " + Script.translated(type) + " &eNâng Cấp&f! Trong kho khoáng sản của bạn còn &a" + Script.formatNum(balance-required) + " " + Script.translated(type, true)));
           }
         }); Scheduler.runTask(Plugin, new Task_PH()); return 0; // end
@@ -215,7 +247,7 @@ function main() {
         var Task_PB = Java.extend(Runnable, {
           run: function() {
             database.set(key, (balance-required)); database.save(file);
-            Server.dispatchCommand(Console, loadcmd);
+            Server.dispatchCommand(Console, loadcmd); dataSet.addNode(type, amount);
             Player.sendMessage(Script.colorText("&eUpgrade &8&l| &aThông báo: &fĐã đổi thành công &a" + Script.formatNum(required) + " " + Script.translated(type, true) + " &fsang &a" + Script.formatNum(amount) + " " + Script.translated(type) + " &eNâng Cấp&f! Trong kho chứa khối của bạn còn &a" + Script.formatNum(balance-required) + " " + Script.translated(type, true)));
           }
         }); Scheduler.runTask(Plugin, new Task_PB()); return; //end;
@@ -271,6 +303,9 @@ function main() {
     }
   } catch(err) {
     return "&eScript &8&l| &cLỗi: &e" + err.name + " - &f" + err.message;
+  } finally {
+    if(dataSet != Player.getMetadata("doiblockData").get(0).value())
+      Player.setMetadata("doiblockData", dataSet);
   }
 }
 main();
