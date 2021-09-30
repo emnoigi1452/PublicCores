@@ -21,6 +21,7 @@ var HashSet = Java.type("java.util.HashSet");
 var HashMap = Java.type("java.util.HashMap");
 
 function FabledData(database, gifts, uses) {
+  this.build = false;
   this.database = database;
   this.gifts = gifts;
   this.uses = uses;
@@ -62,6 +63,15 @@ function FabledData(database, gifts, uses) {
   this.getGifts = function() return this.gifts;
   this.setGiftedList = function() return; // you can't modify the gifted list, sorry :'(
   this.addToGifted = function(receiver) this.gifts.add(receiver.getName());
+  this.getBuildMode = function() return this.build;
+  this.toggleBuildMode = function() {
+    this.build = !this.build;
+  };
+  this.setBuildMode = function(value) {
+    if(typeof value != "boolean")
+      throw "&cLỗi: &fLoại dữ liệu nhập vào không hợp lệ!";
+    this.build = value;
+  }
 };
 
 // Object responsible for global functions
@@ -148,7 +158,7 @@ function FabledCore() {
               }); var start = System.nanoTime(); Scheduler.runTask(Plugin, new Build()); var end = System.nanoTime();
               var formatter = new DecimalFormat("#0.0"); var time = formatter.format((end-start)/1000000);
               Player.sendMessage(ChatColor[Colors[0]]('&',
-                "&eFabled &8&l| &fĐã đặt thành công %a %b&f. Thời gian triển khai: %t")
+                "&eFabled &8&l| &fĐã đặt thành công &a%a %b&f. Thời gian triển khai: &a%tms")
               .replace("%a", Script.formatNumber(balance))
               .replace("%b", Script.getTranslatedName(type_key))
               .repalce("%t", time)); return -1;
@@ -157,6 +167,7 @@ function FabledCore() {
           break;
         case "data": /* coming soon */ break;
         case "is-fabled-user": /* maybe l8r */ break;
+        case "status": /* not yet */ break;
         case "add": /* coming soon */ break;
         case "remove": /* coming soon */ break;
         case "deposit": /* coming soon */ break;
