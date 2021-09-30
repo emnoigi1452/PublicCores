@@ -20,17 +20,39 @@ var DecimalFormat = Java.type("java.text.DecimalFormat");
 var HashSet = Java.type("java.util.HashSet");
 var HashMap = Java.type("java.util.HashMap");
 
-function FabledData(database, gifts, uses) {
+function FabledData(database, gifts, use_graph) {
   this.build = false;
   this.database = database;
   this.gifts = gifts;
-  this.uses = uses;
-  this.getUses = function() return this.uses;
-  this.setUses = function(param) {
-    if(isNaN(param) || param < 0)
-      throw "&cLỗi: &fSố điền vào không hợp lệ!";
-    else this.uses = param; // set value
+  this.use_graph = use_graph;
+  this.getTotalUses = function() {
+    var total = 0;
+    for each(var key in this.use_graph.keySet())
+      total += this.use_graph.get(key)[0];
+    return total;
   };
+  this.getTypeUsage = function(key) {
+    if(!this.use_graph.keySet.contains(key))
+      throw "&cLỗi: &fLoại khoáng sản không hợp lệ!";
+    else this.use_graph.get(key)[0];
+  };
+  this.getTotalBuildedBlocks = function() {
+    var combined = 0;
+    for each(var key in this.use_graph.keySet())
+      combined += this.use_graph.get(key)[1];
+    return total;
+  };
+  this.getBuildedBlockType = function(key) {
+    if(!this.use_graph.keySet.contains(key))
+      throw "&cLỗi: &fLoại khoáng sản không hợp lệ!";
+    else this.use_graph.get(key)[1];
+  };
+  this.getAverageUsage = function(key) {
+    if(!this.use_graph.keySet.contains(key))
+      throw "&cLỗi: &fLoại khoáng sản không hợp lệ!";
+    else
+      return Math.floor(this.getBuildedBlockType(key) / this.getTypeUsage(key));
+  }
   this.getDatabase = function() return this.database;
   this.setDatabase = function() return; // doesn't allow to modify table layout
   this.setValue = function(key, value) {
@@ -89,7 +111,12 @@ var Script = {
     dataMap.put("GOLD", 0);
     dataMap.put("DIAMOND", 0);
     dataMap.put("EMERALD", 0);
-    var dataInstance = new FabledData(dataMap, new ArrayList(), 0);
+    var graph = new HashMap();
+    graph.put("IRON", Java.to([0 ,0], "int[]"));
+    graph.put("GOLD", Java.to([0 ,0], "int[]"));
+    graph.put("DIAMOND", Java.to([0 ,0], "int[]"));
+    graph.put("EMERALD", Java.to([0 ,0], "int[]"));
+    var dataInstance = new FabledData(dataMap, new ArrayList(), graph);
     p.setMetadata("fabledData", new FixedMetadataValue(Plugin, dataInstance));
   },
   getIgnoreBlocks: function() {
