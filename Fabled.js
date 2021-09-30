@@ -81,7 +81,7 @@ var Script = {
     dataMap.put("EMERALD", 0);
     var dataInstance = new FabledData(dataMap, new ArrayList(), 0);
     p.setMetadata("fabledData", new FixedMetadataValue(Plugin, dataInstance));
-  };
+  },
   getIgnoreBlocks: function() {
     var ignore_set = new HashSet;
     ignore_set.add(Material.WATER);
@@ -90,11 +90,11 @@ var Script = {
     ignore_set.add(Material.STATIONARY_LAVA);
     ignore_set.add(Material.AIR);
     return ignore_set;
-  };
+  },
   getDataDirectory: function(key) {
     var metadata = Player.getMetadata("fabledData").get(0).value();
     return metadata.getDatabase().get(key);
-  };
+  },
   getTranslatedName: function(key) {
     switch(key.toLowerCase()) {
       case "iron": return "&fKhối Sắt";
