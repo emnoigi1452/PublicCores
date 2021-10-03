@@ -192,8 +192,48 @@ function FabledCore() {
             }
           }
           break;
-        case "data": /* coming soon */ break;
-        case "is-fabled-user": /* maybe l8r */ break;
+        case "data":
+          var mode = args[1].toLowerCase(); var modeMap = new ArrayList(['storage', 'usage', 'gifts']);
+          if(!modeMap.contains(mode))
+            throw "&cLỗi: &fLoại dữ liệu &e" + mode + " &fkhông tồn tại!";
+          else {
+            switch(mode) {
+              case "storage":
+                var type = args[2].toUpperCase();
+                if(Boolean(args[3]))
+                  return Script.formatNumber(fabledPlayerData.getDatabase().get(type));
+                else return fabledPlayerData.getDatabase().get(type).toString();
+              case "usage":
+                if(Boolean(args[2]))
+                  return Script.formatNumber(fabledPlayerData.getTotalUses());
+                else return fabledPlayerData.getTotalUses().toString();
+              case "usage-type":
+                var type = args[2].toUpperCase();
+                if(Boolean(args[3]))
+                  return Script.formatNumber(fabledPlayerData.getTypeUsage(type));
+                else return fabledPlayerData.getTypeUsage(type).toString();
+              case "builded":
+                if(Boolean(args[2]))
+                  return Script.formatNumber(fabledPlayerData.getTotalBuildedBlocks());
+                else return fabledPlayerData.getTotalBuildedBlocks().toString();
+              case "type-builded":
+                var type = args[2].toUpperCase();
+                if(Boolean(args[3]))
+                  return Script.formatNumber(fabledPlayerData.getBuildedBlockType(type));
+                else return fabledPlayerData.getBuildedBlockType(type).toString();
+              case "gifted":
+                var display = ""; var gifts = fabledPlayerData.getGifts();
+                for(var j = 0; j < (gifts.size()-1); j++)
+                  display += gifts.get(j).concat(", ");
+                display += gifts.get(j).concat(".");
+                return display; // list of gifted players
+              case "avg-usage":
+                var type = args[2].toLowerCase();
+                var uses = fabledPlayerData.getTypeUsage(type); var builded = fabledPlayerData.getBuildedBlockType(type);
+                return Script.formatNumber(Math.floor(builded/uses));
+              default: throw "&cLỗi: &fLoại thông tin không hợp lệ!";
+            }
+          }
         case "status": /* not yet */ break;
         case "add": /* coming soon */ break;
         case "remove": /* coming soon */ break;
