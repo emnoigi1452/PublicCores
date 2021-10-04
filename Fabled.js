@@ -61,7 +61,7 @@ function FabledData(database, gifts, use_graph) {
     else this.database.put(key, value); // update table
   };
   this.addToStorage = function(key, amount) {
-    if(!this.database.keySet().contains(key))
+    if(!this.database.keySet().contains(key) || isNaN(amount))
       throw "&cLỗi: &fLoại khoáng sản không hợp lệ!"
     else {
       var current = this.database.get(key); // get current data value
@@ -69,7 +69,7 @@ function FabledData(database, gifts, use_graph) {
     }
   };
   this.removeFromStorage = function(key, amount) {
-    if(!this.database.keySet().contains(key))
+    if(!this.database.keySet().contains(key) || isNaN(amount))
       throw "&cLỗi: &fLoại khoáng sản không hợp lệ!"
     else {
       var current = this.database.get(key); // current amount;
@@ -112,10 +112,10 @@ var Script = {
     dataMap.put("DIAMOND", 0);
     dataMap.put("EMERALD", 0);
     var graph = new HashMap();
-    graph.put("IRON", Java.to([0 ,0], "int[]"));
-    graph.put("GOLD", Java.to([0 ,0], "int[]"));
-    graph.put("DIAMOND", Java.to([0 ,0], "int[]"));
-    graph.put("EMERALD", Java.to([0 ,0], "int[]"));
+    graph.put("IRON", [0,0]);
+    graph.put("GOLD", [0,0]);
+    graph.put("DIAMOND", [0,0]);
+    graph.put("EMERALD", [0,0]);
     var dataInstance = new FabledData(dataMap, new ArrayList(), graph);
     p.setMetadata("fabledData", new FixedMetadataValue(Plugin, dataInstance));
   },
@@ -234,9 +234,26 @@ function FabledCore() {
               default: throw "&cLỗi: &fLoại thông tin không hợp lệ!";
             }
           }
-        case "status": /* not yet */ break;
-        case "add": /* coming soon */ break;
-        case "remove": /* coming soon */ break;
+        case "status":
+          var node = args[1].toLowerCase();
+          if(node != "toggle" && node != "display")
+            throw "&cLỗi: &fCú pháp lệnh không phù hợp!";
+          else {
+            if(node == "toggle") {
+              fabledPlayerData.toggleBuildMode(); var tag = fabledPlayerData.getBuildMode() ? "&aBật" : "&cTắt";
+              Player.sendMessage(ChatColor[Colors[0]]('&',
+                "&eFabled &8&l| &aThông báo: &fBạn đã " + tag + " &fchế độ xây dựng của đũa!"));
+              return -1;
+            } else
+              return fabledPlayerData.getBuildMode() ? "&aBật" : "&cTắt";
+          }
+          break;
+        case "add":
+          fabledPlayerData.addToStorage(args[1].toUpperCase(), parseInt(args[2]));
+          return -1;
+        case "remove":
+          fabledPlayerData.addToStorage(args[1].toUpperCase(), parseInt(args[2]));
+          return -1;
         case "deposit": /* coming soon */ break;
         case "withdraw": /* coming soon */ break;
         case "purchase": /* yea l8r */ break;
