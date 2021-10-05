@@ -12,6 +12,7 @@ var ChatColor = org.bukkit.ChatColor;
 var Colors = ["translateAlternateColorCodes", "stripColor"];
 var FixedMetadataValue = org.bukkit.metadata.FixedMetadataValue;
 var Material = org.bukkit.Material;
+var ItemStack = org.bukkit.inventory.ItemStack;
 
 var Runnable = Java.type("java.lang.Runnable");
 var Thread = Java.type("java.lang.Thread");
@@ -118,6 +119,41 @@ var Script = {
     graph.put("EMERALD", [0,0]);
     var dataInstance = new FabledData(dataMap, new ArrayList(), graph);
     p.setMetadata("fabledData", new FixedMetadataValue(Plugin, dataInstance));
+  },
+  getMaterial: function(param, block) {
+    if(typeof block != "boolean")
+      throw "&cLỗi: &fLoại dữ liệu không hợp lệ!";
+    switch(param.toLowerCase()) {
+      case "iron": return block ? Material.IRON_BLOCK : Material.IRON_INGOT;
+      case "gold": return block ? Material.GOLD_BLOCK : Material.GOLD_INGOT;
+      case "diamond": return block ? Material.DIAMOND_BLOCK : Material.DIAMOND;
+      case "emerald": return block ? Material.EMERALD_BLOCK : Material.EMERALD;
+      default:
+        throw "&cLỗi: &fLoại khoáng sản không hợp lệ!";
+    }
+  },
+  inventoryHandler: function(type, action) {
+    var valid = new ArrayList(["clear", "amount", "empty"]);
+    var empties = new HashMap(); var container = 0;
+    if(!valid.contains(action))
+      throw "&cLỗi: &fHình thức xử lí túi đồ không hợp lệ!";
+    else {
+      for(var j = 0; j < 36; j++) {
+        var slot = Player.getInventory().getItem(j);
+        if(slot == null)
+          empties.put(j, 64);
+        else {
+          if(!slot.getType().equals(type)) continue;
+          else {
+            if(slot.getAmount() < 64) empties.put(j, 64 - slot.getAmount());
+            container += slot.getAmount();
+            if(action == "clear") slot.setAmount(0);
+          }
+        }
+      }
+      if(action == "empty") return empties;
+      else return container;
+    }
   },
   getIgnoreBlocks: function() {
     var ignore_set = new HashSet;
@@ -254,8 +290,40 @@ function FabledCore() {
         case "remove":
           fabledPlayerData.addToStorage(args[1].toUpperCase(), parseInt(args[2]));
           return -1;
-        case "deposit": /* coming soon */ break;
-        case "withdraw": /* coming soon */ break;
+        case "deposit":
+          var key = args[1].toUpperCase(); var isBlock = Boolean(args[2]);
+          var handler = Script.inventoryHandler(Script.getMaterial(key, isBlock), "clear");
+          var trueBlock = isBlock ? handler : Math.floor(handler/9);
+          fabledPlayerData.addToStorage(key, trueBlock);
+          Player.sendMessage(ChatColor[Colors[0]]('&', 
+            "&eFabled &8&l| &aThông báo: &fĐã gửi &a%a %name &fvào kho của đũa!")
+            .replace("%a", Script.formatNumber(trueBlock))
+            .replace("%name", Script.getTranslatedName(key)));
+          return 0;
+        case "withdraw":
+          var key = args[1].toUpperCase(); var type = Script.getMaterial(key, true);
+          var handler = Script.inventoryHandler(type, "empty");
+          var received = 0;
+          for each(var slot in handler.keySet()) {
+            var givable = handler.get(slot); var bal = fabledPlayerData.getDatabase().get(key);
+            // amount giving...
+            if(bal >= givable) bal -= givable;
+            else { givable = bal; bal = 0 }
+            // item stack format
+            var stack = null; received += givable;
+            if(handler.get(slot) == 64)
+              stack = new ItemStack(type, 64);
+            else
+              stack = new ItemStack(type, (64-(handler.get(slot)))+givable);
+            Player.getInventory().setItem(slot, stack);
+            if(bal == 0) break;
+          }
+          Player.sendMessage(ChatColor[Colors[0]]('&', 
+            "&eFabled &8&l| &aThông báo: &fĐã nhận được &a%a %name &ftừ kho của đũa!")
+            .replace('%a', Script.formatNumber(received))
+            .replace('%name', Script.getTranslatedName(key)));
+          return 0;
+        case "reset": /* waiting for later implementation */
         case "purchase": /* yea l8r */ break;
         case "gift": /* coming soon */ break;
         default: throw ChatColor[Colors[0]]('&', "&cLỗi: &fCú pháp lệnh không tồn tại!");
