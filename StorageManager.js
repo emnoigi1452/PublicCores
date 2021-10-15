@@ -22,6 +22,8 @@ function numberWithCommas(x) {
 
 function main() {
    try {
+      if(Skyblock == null || Storage == null)
+         throw "&fMáy chủ không có &aSuperiorSkyblock2 &fhoặc &aPreventHopper&f!";
       var SuperiorPlayer = Skyblock.getPlayers().getSuperiorPlayer(Player);
       if(SuperiorPlayer.getPlayerRole().getId() == 3) {
          var Members = SuperiorPlayer.getIsland().getIslandMembers(false);
