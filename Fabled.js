@@ -1,10 +1,11 @@
 var Player = BukkitPlayer;
-var World = Player.getWorld();
 var Server = BukkitServer;
+var Console = Server.getConsoleSender();
 var Manager = Server.getPluginManager();
 var Plugin = Manager.getPlugin("PlaceholderAPI");
 var Fabled = Manager.getPlugin("FabledSkyblock");
 var LuckPerms = Manager.getPlugin("LuckPerms");
+var MyItems = Manager.getPlugin("MyItems");
 var Scheduler = Server.getScheduler();
 var Console = Server.getConsoleSender();
 
@@ -13,6 +14,8 @@ var Colors = ["translateAlternateColorCodes", "stripColor"];
 var FixedMetadataValue = org.bukkit.metadata.FixedMetadataValue;
 var Material = org.bukkit.Material;
 var ItemStack = org.bukkit.inventory.ItemStack;
+var JSONObject = org.json.simple.JSONObject;
+var JSONParser = org.json.simple.parser.JSONParser;
 
 var Runnable = Java.type("java.lang.Runnable");
 var Thread = Java.type("java.lang.Thread");
@@ -20,8 +23,16 @@ var System = Java.type("java.lang.System");
 var DecimalFormat = Java.type("java.text.DecimalFormat");
 var HashSet = Java.type("java.util.HashSet");
 var HashMap = Java.type("java.util.HashMap");
+var FileWriter = Java.type("java.io.FileWriter");
+var FileReader = Java.type("java.io.FileReader");
+var Calendar = Java.type("java.util.Calendar");
+var SimpleDateFormat = Java.type("java.text.SimpleDateFormat");
 
-function FabledData(database, gifts, use_graph) {
+var FabledStorage = Plugin.getDataFolder() + "\\Fabled.json";
+
+function FabledData(database, gifts, use_graph, purchased, price) {
+  this.purchased = purchased;
+  this.price = price;
   this.build = false;
   this.database = database;
   this.gifts = gifts;
@@ -94,7 +105,9 @@ function FabledData(database, gifts, use_graph) {
     if(typeof value != "boolean")
       throw "&cLỗi: &fLoại dữ liệu nhập vào không hợp lệ!";
     this.build = value;
-  }
+  };
+  this.getPurchasedDate = function() return this.purchased;
+  this.getPurchasedPrice = function() return this.price;
 };
 
 // Object responsible for global functions
@@ -106,7 +119,9 @@ var Script = {
          num = num.replace(pattern, "$1,$2");
      return num;
   },
-  createData: function(p) {
+  createData: function(p, time, price) {
+    if(typeof price != "int" || typeof time != "string")
+      throw "&cLỗi: &fĐịnh dạng biến không hợp lệ!";
     var dataMap = new HashMap();
     dataMap.put("IRON", 0);
     dataMap.put("GOLD", 0);
@@ -117,7 +132,7 @@ var Script = {
     graph.put("GOLD", [0,0]);
     graph.put("DIAMOND", [0,0]);
     graph.put("EMERALD", [0,0]);
-    var dataInstance = new FabledData(dataMap, new ArrayList(), graph);
+    var dataInstance = new FabledData(dataMap, new ArrayList(), graph, time, price);
     p.setMetadata("fabledData", new FixedMetadataValue(Plugin, dataInstance));
   },
   getMaterial: function(param, block) {
@@ -176,56 +191,76 @@ var Script = {
       case "emerald": return "&aKhối Lục Bảo";
       default: throw "&cLỗi: &fLoại khoáng sản không hợp lệ!";
     }
+  },
+  JSONFormat: function(user) {
+    var PlayerInstance = new JSONObject();
+    PlayerInstance.put("playerName", user.getName());
+    var InnerData = user.getMetadata("fabledData").get(0).value();
+    PlayerInstance.put("purchasedDate", InnerData.getPurchasedDate());
+    PlayerInstance.put("purchasedPrice", InnerData.getPurchasedPrice());
+    PlayerInstance.put("resetMode", false);
+    PlayerInstance.put("isAdmin", user.isOp());
+    return PlayerInstance;
   }
 };
 
 // Main code for the wand begins here :)
 function FabledCore() {
   try {
-    if(Fabled == null || LuckPerms == null)
-      throw ChatColor[Colors[0]]('&', "&cLỗi: &fMáy chủ chưa cài đặt &aFabledSkyblock &fhoặc &aLuckPerms&f!");
+    if(Fabled == null || LuckPerms == null || MyItems == null)
+      throw ChatColor[Colors[0]]('&', "&cLỗi: &fMáy chủ chưa cài đặt &aFabledSkyblock&f, &aLuckPerms &fhoặc &aMyItems&f!");
     else {
-      var IslandManager = Fabled.getIslandManager(); var StackManager = Fabled.getStackableManager(); var LevelManager = Fabled.getLevellingManager();
+      if(!Player.hasMetadata("fabledData")) {
+        Player.sendMessage(ChatColor[Colors[0]]('&', 
+          "&eFabled &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
+      }
+      if(!new File(FabledStorage).exists()) new File(FabledStorage).createNewFile();
+      var FileParser = new JSONParser(); var FabledManager = FileParser.parse(new FileReader(FabledStorage));
+      if(args[0].toLowerCase().trim() != "reset") {
+        var userKeys = FabledManager.keySet(); var userId = Player.getUniqueId().toString();
+        if(userKeys.contains(userId)) {
+          if(FabledManager.get(userId).get("resetMode")) {
+            var savedTime = FabledManager.get(userId).get("purchasedDate");
+            var savedPrice = FabledManager.get(userId).get("purchasedPrice");
+            Player.setMetadata("fabledData", Script.createData(Player, savedTime, savedPrice));
+          }
+        }
+      }; var IslandManager = Fabled.getIslandManager(); 
+      var StackManager = Fabled.getStackableManager(); var LevelManager = Fabled.getLevellingManager();
       var TargetIsland = IslandManager.getIsland(Player);
       var fabledPlayerData = Player.getMetadata("fabledData").get(0).value();
       switch(args[0].toLowerCase()) {
         case "build":
-          if(!Player.hasMetadata("fabledData")) {
+          var ignore_blocks = Script.getIgnoreBlocks(); var target = Player.getTargetBlock(ignore_blocks, 5);
+          if(!IslandManager.getIslandAtLocation(target.getLocation()).equals(TargetIsland)) {
             Player.sendMessage(ChatColor[Colors[0]]('&',
-              "&eFabled &8&l| &cLỗi: &fBạn không có quyền sử dùng vật phẩm này!"));
+              "&eFabled &8&l| &cLỗi: &fBạn chỉ có thể dùng đũa ở đảo của mình!"));
             return -1;
+          }
+          var type_key = target.getType().name().replace("_BLOCK", ""); var block_loc = target.getLocation();
+          if(!fabledPlayerData.getDatabase().keySet().contains(type_key)) {
+            Player.sendMessage(ChatColor[Colors[0]]('&',
+              "&eFabled &8&l| &cLỗi: &fLoại khối nhắm vào không hợp lệ!"));
+            return 1;
+          }
+          var balance = Script.getDataDirectory(type_key);
+          if(balance < 1) {
+            Player.sendMessage(ChatColor[Colors[0]]('&',
+              "&eFabled &8&l| &cLỗi: &fTrong kho khoáng sản không đủ vật phẩm!"));
           } else {
-            var ignore_blocks = Script.getIgnoreBlocks(); var target = Player.getTargetBlock(ignore_blocks, 5);
-            if(!IslandManager.getIslandAtLocation(target.getLocation()).equals(TargetIsland)) {
-              Player.sendMessage(ChatColor[Colors[0]]('&',
-                "&eFabled &8&l| &cLỗi: &fBạn chỉ có thể dùng đũa ở đảo của mình!"));
-              return -1;
-            }
-            var type_key = target.getType().name().replace("_BLOCK", "");
-            if(!fabledPlayerData.getDatabase().keySet().contains(type_key)) {
-              Player.sendMessage(ChatColor[Colors[0]]('&',
-                "&eFabled &8&l| &cLỗi: &fLoại khối nhắm vào không hợp lệ!"));
-              return 1;
-            }
-            var balance = Script.getDataDirectory(type_key);
-            if(balance < 1) {
-              Player.sendMessage(ChatColor[Colors[0]]('&',
-                "&eFabled &8&l| &cLỗi: &fTrong kho khoáng sản không đủ vật phẩm!"));
-            } else {
-              var Build = Java.extend(Runnable {
-                run: function() {
-                  var aimed = StackManager.getStacks().get(target.getLocation());
-                  aimed.setSize(aimed.getSize() + balance); LevelManager.startScan(Player, TargetIsland);
-                  fabledPlayerData.setValue(type_key, 0);
-                }
-              }); var start = System.nanoTime(); Scheduler.runTask(Plugin, new Build()); var end = System.nanoTime();
-              var formatter = new DecimalFormat("#0.0"); var time = formatter.format((end-start)/1000000);
-              Player.sendMessage(ChatColor[Colors[0]]('&',
-                "&eFabled &8&l| &fĐã đặt thành công &a%a %b&f. Thời gian triển khai: &a%tms")
-              .replace("%a", Script.formatNumber(balance))
-              .replace("%b", Script.getTranslatedName(type_key))
-              .repalce("%t", time)); return -1;
-            }
+            var Build = Java.extend(Runnable {
+              run: function() {
+                var aimed = StackManager.getStacks().get(target.getLocation());
+                aimed.setSize(aimed.getSize() + balance); LevelManager.startScan(Player, TargetIsland);
+                fabledPlayerData.setValue(type_key, 0);
+              }
+            }); var start = System.nanoTime(); Scheduler.runTask(Plugin, new Build()); var end = System.nanoTime();
+            var formatter = new DecimalFormat("#0.0"); var time = formatter.format((end-start)/1000000);
+            Player.sendMessage(ChatColor[Colors[0]]('&',
+              "&eFabled &8&l| &fĐã đặt thành công &a%a %b&f. Thời gian triển khai: &a%tms")
+            .replace("%a", Script.formatNumber(balance))
+            .replace("%b", Script.getTranslatedName(type_key))
+            .repalce("%t", time)); return -1;
           }
           break;
         case "data":
@@ -323,8 +358,43 @@ function FabledCore() {
             .replace('%a', Script.formatNumber(received))
             .replace('%name', Script.getTranslatedName(key)));
           return 0;
-        case "reset": /* waiting for later implementation */
-        case "purchase": /* yea l8r */ break;
+        case "reset":
+          if(!FabledManager.get(Player.getUniqueId().toString()).get("isAdmin"))
+            Player.sendMessage(ChatColor[Colors[0]]('&',
+              "&eFabled &8&l| &cLỗi: &fChỉ quản trị viên mới có quyền dùng lệnh này!"));
+            return -1;
+          else {
+            for each(var user in FabledManager.keySet())
+              FabledManager.get(user).put("resetMode", true);
+          }; return 0;
+          break;
+        case "purchase":
+          var PlayerPoints = Manager.getPlugin("PlayerPoints");
+          if(PlayerPoints == null)
+            throw "&cLỗi: &fMáy chủ chưa cài đặt plugin &aPlayerPoints&f!";
+          else {
+            var API = PlayerPoints.getAPI(); var price = 30000; 
+            var balance = API.look(Player.getUniqueId());
+            if(price > balance) {
+              Player.sendMessage(ChatColor[Colors[0]]('&', 
+                "&eFabled &8&l| &cLỗi: &fBạn không có đủ xu để thực hiện giao dịch!"));
+              return -1;
+            } else {
+              var Time = Calendar.getInstance().getTime(); var TimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+              var Task = Java.extend(Runnable,  {
+                run: function() {
+                  var cmd = "mi load custom bw " + Player.getName() + " 1";
+                  Script.createData(Player, TimeFormat.format(Time), price);
+                  API.take(Player.getUniqueId(), price);
+                  Server.dispatchCommand(Console, cmd);
+                  FabledManager.put(Player.getUniqueId().toString(), Script.JSONFormat(Player));
+                }
+              }); Scheduler.runTask(Plugin, new Task());
+              Player.sendMessage(ChatColor[Colors[0]]('&',
+                "&eFabled &8&l| &fĐã mua thành công &a1 &6FabledWand&f. Thanh toán: &a" + Script.formatNumber(price) + " xu")); 
+            }
+          }
+          return 0;
         case "gift": /* coming soon */ break;
         default: throw ChatColor[Colors[0]]('&', "&cLỗi: &fCú pháp lệnh không tồn tại!");
       }
@@ -333,6 +403,9 @@ function FabledCore() {
     return "&eScript &8&l| " + err.message;
   } finally {
     Player.setMetadata("fabledData", fabledPlayerData);
+    var FabledWriter = new FileWriter(FabledStorage);
+    FabledWriter.write(FabledManager.toJSONString());
+    FabledWriter.flush(); FabledWriter.close();
   }
 }
 FabledCore();
