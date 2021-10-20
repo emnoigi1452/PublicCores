@@ -27,7 +27,7 @@ function main() {
       var SuperiorPlayer = Skyblock.getPlayers().getSuperiorPlayer(Player);
       if(SuperiorPlayer.getPlayerRole().getId() == 3) {
          var Members = SuperiorPlayer.getIsland().getIslandMembers(false);
-         if(Members.size() == 1) {
+         if(Members.isEmpty()) {
             Player.sendMessage(ChatColor[color]('&',
                "&bStorage &8&l| &fBạn chỉ có một mình trên đảo! Quản lí cái nỗi gì -.-"));
             return -1;
