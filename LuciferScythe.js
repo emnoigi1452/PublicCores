@@ -60,7 +60,7 @@ function main() {
                var defenseStats = StatsManager.getItemStatsArmor(element); element.setFireTicks(50);
                var baseDefense = defenseStats.getTotalDefense(); var addon = defenseStats.getTotalPvPDefense();
                var victimBlockChance = Math.floor(defenseStats.getTotalBlockChance());
-               var probability = Math.random(100) + 1;
+               var probability = Math.floor(Math.random() * 100) + 1;
                var blockade = Script.getCalculatedStats(baseDefense, addon);
                if((blockade*defenseMultiplier) + element.getHealth() < skillForce && probability > victimBlockChance) {
                   victims++; gained += element.getHealth();
