@@ -59,8 +59,10 @@ function main() {
             for each(var element in starters) {
                var defenseStats = StatsManager.getItemStatsArmor(element); element.setFireTicks(20);
                var baseDefense = defenseStats.getTotalDefense(); var addon = defenseStats.getTotalPvPDefense();
+               var victimBlockChance = Math.floor(defenseStats.getTotalBlockChance());
+               var probability = Math.random(100) + 1;
                var blockade = Script.getCalculatedStats(baseDefense, addon);
-               if((blockade*defenseMultiplier) + element.getHealth() < skillForce) {
+               if((blockade*defenseMultiplier) + element.getHealth() < skillForce && probability > victimBlockChance) {
                   victims++; gained += element.getHealth();
                   var hellGate = element.getLocation(); element.setHealth(0);
                   World.spawnEntity(hellGate, EntityType.EVOKER_FANGS);
@@ -68,8 +70,7 @@ function main() {
                   var note = "&4Lucifer &8&l| &f&oMất hết ý chí chiến đấu, mất hết sức mạnh của mình...";
                   element.sendMessage(ChatColor.translateAlternateColorCodes('&', note));
                } else {
-                  var effectShock = new PotionEffect(PotionEffectType.BLINDNESS, 300, 5);
-                  element.damage(skillForce); effectShock.apply(element);
+                  var effectShock = new PotionEffect(PotionEffectType.BLINDNESS, 300, 5); effectShock.apply(element);
                   element.sendMessage(ChatColor.translateAlternateColorCodes('&',
                      "&4Lucifer &8&l| &f&oKhá lắm...Ngươi đã chứng minh mình có khả năng..."));
                }
