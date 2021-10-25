@@ -57,7 +57,7 @@ function main() {
          run: function() {
             var victims = 0; var gained = 0; var starters = Script.getNearbyPlayers(skillAreaOfEffect);
             for each(var element in starters) {
-               var defenseStats = StatsManager.getItemStatsArmor(element); element.setFireTicks(20);
+               var defenseStats = StatsManager.getItemStatsArmor(element); element.setFireTicks(50);
                var baseDefense = defenseStats.getTotalDefense(); var addon = defenseStats.getTotalPvPDefense();
                var victimBlockChance = Math.floor(defenseStats.getTotalBlockChance());
                var probability = Math.random(100) + 1;
