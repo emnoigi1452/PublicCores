@@ -15,6 +15,7 @@ var PotionEffectType = org.bukkit.potion.PotionEffectType;
 
 var Script = {
    Placeholder: "%worldguard_region_name%";
+   EventCheck: "%crazyenvoy_crates_left%";
    getRadius: function(level) {
       if(typeof level != "int")
          throw "Loại dữ liệu không hợp lệ!";
@@ -40,6 +41,12 @@ function main() {
       var level = parseInt(args[1]); 
       if(isNaN(level) || level > 3 || level < 1)
          throw "Cấp độ triển khai không hợp lệ!";
+      var CratesHolder = PlaceholderAPI.static.setPlaceholders(Executor, Script.EventCheck);
+      if(parseInt(CratesHolder) != 0) {
+         Player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+            "&4Lucifer &8&l| &f&oTa không phải kẻ muốn tàn sát một bữa tiệc vui...Hãy chờ đi..."));
+         return -1;
+      }
       var StatsManager = MyItems.getPlayerManager().getPlayerItemStatsManager();
       var Caster = StatsManager.getItemStatsWeapon(Executor);
       var baseDamage = Caster.getTotalDamage(); var multiplier = Caster.getTotalPvPDamage();
