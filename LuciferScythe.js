@@ -53,7 +53,7 @@ function main() {
       var skillForce = Script.getCalculatedStats(baseDamage, multiplier);
       var skillPenetration = Caster.getTotalPenetration(); var defenseMultiplier = 1 - (skillPenetration / 100);
       var skillAreaOfEffect = Script.getRadius(level);
-      var Skill = Java.extend(Runnable {
+      var Skill = Java.extend(Runnable, {
          run: function() {
             var victims = 0; var gained = 0; var starters = Script.getNearbyPlayers(skillAreaOfEffect);
             for each(var element in starters) {
