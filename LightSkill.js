@@ -70,7 +70,7 @@ function main() {
                   var weak = new PotionEffect(PotionEffectType.WEAKNESS, 600, 10);
                   blind.apply(target); weak.apply(target);
                   target.setVelocity(new Vector(0, 5, 0));
-                  if(isInView(Executor.getLocation(), target.getLocation())) {
+                  if(Script.isInView(Executor.getLocation(), target.getLocation())) {
                      World.strikeLightningEffect(target.getLocation());
                      var targetStamina = target.getHealth(); var targetCapacity = target.getMaxHealth();
                      if(lightningStrike > targetCapacity || lightningStrike > targetStamina) {
