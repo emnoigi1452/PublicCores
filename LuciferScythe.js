@@ -51,6 +51,7 @@ function main() {
       var Caster = StatsManager.getItemStatsWeapon(Executor);
       var baseDamage = Caster.getTotalDamage(); var multiplier = Caster.getTotalPvPDamage();
       var skillForce = Script.getCalculatedStats(baseDamage, multiplier);
+      var skillPenetration = Caster.getTotalPenetration(); var defenseMultiplier = 1 - (skillPenetration / 100);
       var skillAreaOfEffect = Script.getRadius(level);
       var Skill = Java.extend(Runnable {
          run: function() {
@@ -59,7 +60,7 @@ function main() {
                var defenseStats = StatsManager.getItemStatsArmor(element); element.setFireTicks(20);
                var baseDefense = defenseStats.getTotalDefense(); var addon = defenseStats.getTotalPvPDefense();
                var blockade = Script.getCalculatedStats(baseDefense, addon);
-               if(blockade < skillForce) {
+               if((blockade*defenseMultiplier) + element.getHealth() < skillForce) {
                   victims++; gained += element.getHealth();
                   var hellGate = element.getLocation(); element.setHealth(0);
                   World.spawnEntity(hellGate, EntityType.EVOKER_FANGS);
