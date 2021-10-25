@@ -107,3 +107,4 @@ function main() {
       return "&6Light &8&l| &cLỗi: &f" + err.message;
    }
 }
+main();
