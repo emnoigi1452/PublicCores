@@ -4,6 +4,8 @@ var Host = BukkitServer.getPluginManager().getPlugin("PlaceholderAPI");
 
 function main() {
   try {
+    if(MyItems == null)
+      throw "&fMáy chủ không có plugin &aMyItems! &fKhông thể sử dụng &bPlaceholder &fnày!"
     var PlayerStats = MyItems.getGameManager().getStatsManager();
     if(args.length != 2) throw "&fSố lượng tùy chọn trong lệnh không hợp lệ!";
     // Cú pháp placeholder: %javascript_mystats_<mục>,<loại>%
