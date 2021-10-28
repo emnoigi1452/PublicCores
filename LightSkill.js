@@ -57,7 +57,7 @@ function main() {
          var healthCap = Executor.getHealth() > 1536 ? 1536 :  Executor.getHealth();
          var skillRadius = Math.floor(Math.pow((healthCap / 15), Math.cos(102.4 * (Math.PI / 180))));
          var playerStats = StatsManager.getItemStatsWeapon(Executor);
-         var baseDamage = Math.floor(playerStats.getTotalDamage()); var additionPvP = playerStats.getTotalPvPDamage();
+         var baseDamage = Math.floor(playerStats.getTotalDamageMax()); var additionPvP = playerStats.getTotalPvPDamage();
          var skillForce = Math.floor(Script.getCalculatedValue(baseDamage, additionPvP));
          var ItemLoreStats = LoreStats.getLoreStatsWeapon(Executor.getInventory().getItemInMainHand());
          var critChance = ItemLoreStats.getCriticalChance(); var randomization = Math.floor(Math.random() * 100) + 1;
