@@ -210,7 +210,7 @@ function FabledCore() {
     if(Fabled == null || LuckPerms == null || MyItems == null)
       throw ChatColor[Colors[0]]('&', "&cLỗi: &fMáy chủ chưa cài đặt &aFabledSkyblock&f, &aLuckPerms &fhoặc &aMyItems&f!");
     else {
-      if(!Player.hasMetadata("fabledData")) {
+      if(args[1].toLowerCase() != "purchase" && args[1].toLowerCase() != "gift" && !Player.hasMetadata("fabledData")) {
         Player.sendMessage(ChatColor[Colors[0]]('&', 
           "&eFabled &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
       }
@@ -395,7 +395,27 @@ function FabledCore() {
             }
           }
           return 0;
-        case "gift": /* coming soon */ break;
+        case "gift":
+          var receiver = Server.getPlayer(args[1]); var PlayerPoints = Manager.getPlugin("PlayerPoints");
+          if(PlayerPoints == null) throw "&cLỗi: &fMáy chủ chưa cài đặt &aPlayerPoints&f!";
+          if(receiver == null) throw "&cLỗi: &fNgười chơi này hiện không trực tuyến!";
+          var API = PlayerPoints.getAPI(); var price = 30000; var balance = API.look(Player.getUniqueId());
+          if(price > balance) {
+            if(receiver.getInventory().getItemInMainHand() == null)
+              throw "&cLỗi: &fTay người nhận phải không cầm gì để thực hiện gửi quà!";
+            var Time = Calendar.getInstance().getTime(); var TimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            var GiftTask = Java.extend(Runnable, {
+              run: function() {
+                var cmd = "mi load custom bw " + receiver.getName() + " 1";
+                var broadcast = "&eFabled &8&l| &dGift&f: &a" + Player.getName() + " &fđã tặng &a" + receiver.getName() + " &5Đũa Ma Thuật&f!";
+                Script.createData(receiver, TimeFormat.format(Time), price);
+                fabledPlayerData.addToGifted(receiver); API.take(Player.getUniqueId(), price);
+                Server.dispatchCommand(Console, cmd); Server.broadcastMessage(ChatColor[Colors[0]]('&', broadcast));
+                FabledManager.put(receiver.getUniqueId().toString(), Script.JSONFormat(receiver));
+              }
+            }); Scheduler.runTask(Plugin, new Task());
+          } else throw "&cLỗi: &fBạn không có đủ xu để tiến hành tặng quà!";
+          break;
         default: throw ChatColor[Colors[0]]('&', "&cLỗi: &fCú pháp lệnh không tồn tại!");
       }
     }
