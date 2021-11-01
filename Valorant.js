@@ -75,7 +75,7 @@ function main() {
           var Wither = new PotionEffect(PotionEffectType.WITHER, Strikes*70, 5);
           Blindness.apply(e); Wither.apply(e); e.setVelocity(new Vector(0,7,0));
           World.createExplosion(e.getLocation(), 2.5);
-          Scheduler.scheduleSyncRepeatingTask(Plugin, new RoutineDamage(), 20, 50);
+          Scheduler.scheduleSyncRepeatingTask(Plugin, new RoutineDamage(), 20, 2);
         } else continue;
       }
       Executor.damage(Strikes); throw "&f&oĐại ma trận đã hoàn tất triển khai...";
