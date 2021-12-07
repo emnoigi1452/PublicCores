@@ -14,8 +14,8 @@ var PotionEffect = org.bukkit.potion.PotionEffect;
 var PotionEffectType = org.bukkit.potion.PotionEffectType;
 
 var Script = {
-   Placeholder: "%worldguard_region_name%";
-   EventCheck: "%crazyenvoy_crates_left%";
+   Placeholder: "%worldguard_region_name%",
+   EventCheck: "%crazyenvoy_crates_left%",
    getRadius: function(level) {
       if(typeof level != "int")
          throw "Loại dữ liệu không hợp lệ!";
@@ -33,7 +33,7 @@ var Script = {
    },
    getCalculatedStats: function(base, addition) {
       return Math.floor(base * (1 + (addition / 100)));
-   },
+   }
 };
 
 function main() {
