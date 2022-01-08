@@ -178,13 +178,13 @@ function PreventBlock() {
         }
       case "sell":
         var prices = new HashMap();
-        prices.put("COAL_BLOCK", 67.5);
-        prices.put("LAPIS_BLOCK", 85.5);
-        prices.put("REDSTONE_BLOCK", 85.5);
-        prices.put("IRON_BLOCK", 108);
-        prices.put("GOLD_BLOCK", 121.5);
-        prices.put("DIAMOND_BLOCK", 135);
-        prices.put("EMERALD_BLOCK", 153);
+        prices.put("COAL_BLOCK", 6.3);
+        prices.put("LAPIS_BLOCK", 4.5);
+        prices.put("REDSTONE_BLOCK", 4.5);
+        prices.put("IRON_BLOCK", 9);
+        prices.put("GOLD_BLOCK", 9);
+        prices.put("DIAMOND_BLOCK", 18);
+        prices.put("EMERALD_BLOCK", 18);
         var type = args[1]; var amount = parseInt(args[2]); if(isNaN(amount) || amount < 1) return "&eBlock &8&l| &cLỗi: &fSố lượng không hợp lệ!";
         if(get_id(type) == -1) return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
         var file = get_file(p); var config = YamlConfiguration.loadConfiguration(file); var key = "BlockData." + get_key(type);
