@@ -9,7 +9,6 @@ var database = server.getPluginManager().getPlugin("PlaceholderAPI").getDataFold
 
 /* Java classes - Imported via NashornAPI */
 var File = Java.type("java.io.File");
-var System = Java.type("java.lang.System");
 var HashMap = Java.type("java.util.HashMap");
 var ArrayList = Java.type("java.util.ArrayList");
 
@@ -178,16 +177,14 @@ function PreventBlock() {
           return "&eBlock &8&l| &fĐã gửi &ax" + amount.toFixed() + " " + get_translated_name(type) + " &fđến &a" + target.getName(); 
         }
       case "sell":
-        var newShop = System.currentTimeMillis();
-        var update = newShop > 1643648400000;
         var prices = new HashMap();
-        prices.put("COAL_BLOCK", update ? 6.3 : 67.5);
-        prices.put("LAPIS_BLOCK", update ? 4.5 : 85.5);
-        prices.put("REDSTONE_BLOCK", update ? 4.5 ? 85.5);
-        prices.put("IRON_BLOCK", update ? 9 : 108);
-        prices.put("GOLD_BLOCK", update ? 9 : 121.5);
-        prices.put("DIAMOND_BLOCK", update ? 18 : 135);
-        prices.put("EMERALD_BLOCK", update ? 18 : 153);
+        prices.put("COAL_BLOCK", 67.5);
+        prices.put("LAPIS_BLOCK", 85.5);
+        prices.put("REDSTONE_BLOCK", 85.5);
+        prices.put("IRON_BLOCK", 108);
+        prices.put("GOLD_BLOCK", 121.5);
+        prices.put("DIAMOND_BLOCK", 135);
+        prices.put("EMERALD_BLOCK", 153);
         var type = args[1]; var amount = parseInt(args[2]); if(isNaN(amount) || amount < 1) return "&eBlock &8&l| &cLỗi: &fSố lượng không hợp lệ!";
         if(get_id(type) == -1) return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
         var file = get_file(p); var config = YamlConfiguration.loadConfiguration(file); var key = "BlockData." + get_key(type);
