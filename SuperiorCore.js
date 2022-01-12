@@ -259,7 +259,7 @@ function main() {
         if(isNaN(parseInt(amount)) || !ScriptManager.validBlock(type.toUpperCase() + "_BLOCK"))
           throw ScriptManager.errorList("invalid-inputs");
         else {
-          var config = YamlConfiguration.loadConfiguration(ScriptManager.Player_Main_File);
+          var config = YamlConfiguration.loadConfiguration(Player_Main_File);
           config.set(ScriptManager.CONFIG_PATH(type), config.get(ScriptManager.CONFIG_PATH(type)) + parseInt(amount));
           config.save(ScriptManager.Player_Main_File);
           Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fBạn đã nhận được &a+" + amount + " " + ScriptManager.translatedName(type) + " &ftừ hệ thống!")); return;
