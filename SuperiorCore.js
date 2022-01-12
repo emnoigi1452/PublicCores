@@ -256,7 +256,7 @@ function main() {
         /* break; */
       case "add":
         var type = args[1]; var amount = parseInt(args[2]); // verified inputs
-        if(isNaN(amount)) || !ScriptManager.validBlock(type.toUpperCase() + "_BLOCK"))
+        if(isNaN(amount) || !ScriptManager.validBlock(type.toUpperCase() + "_BLOCK"))
           throw ScriptManager.errorList("invalid-inputs");
         else {
           var config = YamlConfiguration.loadConfiguration(Player_Main_File);
