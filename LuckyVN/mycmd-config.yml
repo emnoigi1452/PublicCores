@@ -215,24 +215,24 @@ reset-block:
   - 'TPS from last 1m, 5m, 15m: *220.0, *220.0, *220.0'
   permission-required: false
 wand-help:
-  command: /wand help
+  command: /wand-help
   type: TEXT
   permission-node: superiorwand.universal
   permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền sử dụng tính năng này!'
   register: true
   text:
   - '&f&m &m &m &M &M &b&m &m &M &m &m &f &eSuperior &av1.3 &f &b&m &m &m &m &M &f&m &m &M &M &M &f'
-  - '&a/wand help&f: &f&oHiển thị mục trợ giúp'
-  - '&a/wand buy&f: &f&oTiến hành mua &5Đũa Ma Thuật'
-  - '&a/wand withdraw <loại khối>&f: &f&oRút hết khối từ đũa'
-  - '&a/wand deposit <loại khối>&f: &fGửi hết khối vào đũa'
-  - '&a/wand toggle&f: &a&oBật&f/&c&oTắt &ftính năng của đũa'
-  - '&a/wand update&f: &f&oCập nhật đũa trên tay lên bản mới nhất!'
-  - '&a/wand gift <người nhận>&f: &f&oMua tặng đũa cho người khác!'
-  - '&a/wand info&f: Xem thông tin về đũa của bạn!'
+  - '&a/wand-help&f: &f&oHiển thị mục trợ giúp'
+  - '&a/wand-buy&f: &f&oTiến hành mua &5Đũa Ma Thuật'
+  - '&a/wand-withdraw <loại khối>&f: &f&oRút hết khối từ đũa'
+  - '&a/wand-deposit <loại khối>&f: &fGửi hết khối vào đũa'
+  - '&a/wand-toggle&f: &a&oBật&f/&c&oTắt &ftính năng của đũa'
+  - '&a/wand-update&f: &f&oCập nhật đũa trên tay lên bản mới nhất!'
+  - '&a/wand-gift <người nhận>&f: &f&oMua tặng đũa cho người khác!'
+  - '&a/wand-info&f: Xem thông tin về đũa của bạn!'
   - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &M &M &M &m &m &m &m &m &m &m &m &m &M &M &m &m &M &m &m &M &M &M &f'
 wand-info:
-  command: /wand info
+  command: /wand-info
   type: TEXT
   permisison-node: superiorwand.universal
   permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
@@ -247,21 +247,21 @@ wand-info:
   - '&f &f &f &e&o>> &2Khối Lục Bảo: &a%javascript_superior_storage,emerald%'
   - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &M &M &M &m &m &m &m &m &m &m &m &m &M &M &m &m &M &m &m &M &M &M &f'
 wand-buy:
-  command: /wand buy
+  command: /wand-buy
   type: RUN_CONSOLE
   permission-required: false
   register: true
   runcmd:
   - /papi parse %player_name% %javascript_superior_purchase%
 wand-gift:
-  command: /wand gift
+  command: /wand-gift
   type: RUN_CONSOLE
   runcmd:
   - /papi parse %player_name% %javascript_superior_gift,$arg1%
   register: true
   permission-required: false
 wand-update:
-  command: /wand update
+  command: /wand-update
   type: RUN_CONSOLE
   runcmd:
   - /papi parse %player_name% %javascript_superior_update%
@@ -269,7 +269,7 @@ wand-update:
   permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
   register: true
 wand-withdraw:
-  command: /wand withdraw
+  command: /wand-withdraw
   type: RUN_CONSOLE
   runcmd:
   - /papi parse %player_name% %javascript_superior_withdraw,$arg1%
@@ -283,7 +283,7 @@ wand-withdraw:
   permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
   register: true
 wand-deposit:
-  command: /wand deposit
+  command: /wand-deposit
   type: RUN_CONSOLE
   runcmd:
   - /papi parse %player_name% %javascript_superior_deposit,$arg1%
@@ -297,7 +297,7 @@ wand-deposit:
   permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
   register: true
 wand-toggle:
-  command: /wand toggle
+  command: /wand-toggle
   type: RUN_CONSOLE
   runcmd:
   - /papi parse %player_name% %javascript_superior_status,toggle%
