@@ -136,7 +136,7 @@ function PreventBlock() {
         var valid_amount = config.get("BlockData." + get_key(type));
         if(valid_amount < 1) return "&eHookCore &8&l| &cLỗi: &fKho chứa khối của bạn không có đủ " + get_translated_name(type) + "&f!";
         else {
-          var placeholder = "javascript_superior-core_util,add," + type + "," + valid_amount.toFixed(0);
+          var placeholder = "javascript_superior_add," + type + "," + valid_amount.toFixed(0);
           PlaceholderAPI.static.setPlaceholders(p, "%" + placeholder + "%");
           config.set("BlockData." + get_key(type), 0); config.save(block_file);
           return "&eHookCore &8&l| &fĐã chuyển đổi thành công &a" + valid_amount.toFixed() + " " + get_translated_name(type) + " &fsang &6SuperiorWand"; 
@@ -147,12 +147,12 @@ function PreventBlock() {
         var max_amount = config.get("BlockData." + get_key(type)); var input = parseInt(args[3]);
         var target = server.getPlayerExact(args[3]); if(target == null) return "&eHookCore &8&l| &cLỗi: &fNgười chơi không online!";
         if(isNaN(input) || input < 1) return "&eHookCore &8&l| &cLỗi: Số nhập vào không hợp lệ!";
-        if(input > max_amount) return "&eHook &8&l"
+        if(input > max_amount) return "&eHook &8&l| &cLỗi: &fBạn không có đủ khoáng sản để gửi!";
         if(!(get_id(type) == 41 || get_id(type) == 57 || get_id(type) == 133))
           return "&eBlock &8&l| &cLỗi: &fBạn chỉ được phép chuyển đối &6Vàng&f, &bKim Cương&f và &aNgọc Lục Bảo";
         if(input > max_amount) return "&eHookCore &8&l| &cLỗi: &fSố " + get_translated_name(type) + " &ftrong kho bạn không đủ để thực hiện lệnh!";
         else {
-          var placeholder = "javascript_superior-core_util,add," + type + "," + input.toFixed(0);
+          var placeholder = "javascript_superior_add," + type + "," + input.toFixed(0);
           PlaceholderAPI.static.setPlaceholders(target, "%" + placeholder + "%");
           config.set("BlockData." + get_key(type), max_amount - input); config.save(block_data);
           var receive = "&eHookCore &8&l| &fBạn đã nhận được &ax" + input.toFixed() + " " + get_translated_name(type) + " &ftừ &a" + p.getName();
