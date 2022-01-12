@@ -255,15 +255,15 @@ function main() {
         return config.get(ScriptManager.CONFIG_PATH(args[1])).toString();
         /* break; */
       case "add":
-        var type = args[1]; var amount = args[2]; // verified inputs
-        if(isNaN(parseInt(amount)) || !ScriptManager.validBlock(type.toUpperCase() + "_BLOCK"))
+        var type = args[1]; var amount = parseInt(args[2]); // verified inputs
+        if(isNaN(amount)) || !ScriptManager.validBlock(type.toUpperCase() + "_BLOCK"))
           throw ScriptManager.errorList("invalid-inputs");
         else {
           var config = YamlConfiguration.loadConfiguration(Player_Main_File);
-          config.set(ScriptManager.CONFIG_PATH(type), config.get(ScriptManager.CONFIG_PATH(type)) + parseInt(amount));
+          config.set(ScriptManager.CONFIG_PATH(type), config.get(ScriptManager.CONFIG_PATH(type)) + amount);
           config.save(ScriptManager.Player_Main_File);
-          Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fBạn đã nhận được &a+" + amount + " " + ScriptManager.translatedName(type) + " &ftừ hệ thống!")); return;
-        }
+          Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fBạn đã nhận được &a+" + amount.toString() + " " + ScriptManager.translatedName(type) + " &ftừ hệ thống!")); return;
+        }; return 0;
       case "reset":
         for each(var f in new File(Database).listFiles()) {
           if(!f.isDirectory()) {
