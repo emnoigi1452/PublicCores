@@ -271,6 +271,7 @@ function main() {
             config.set("Storage.GOLD", 0);
             config.set("Storage.DIAMOND", 0);
             config.set("Storage.EMERALD", 0);
+            config.save(f);
           }
         }
         return "&eSuperior &8&l| &aThông báo: &fĐã hoàn tất reset cơ sở dữ liệu của các đũa ma thuật!"; // message
