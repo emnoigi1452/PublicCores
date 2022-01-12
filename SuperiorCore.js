@@ -384,7 +384,7 @@ function main() {
             Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &a" + receiverInstance.getName() + " &fđã có &5Đũa Ma Thuật &frồi!")); return;
           } else {
             var lp = "lp user " + receiverInstance.getName() + " permission set superiorwand.universal true";
-            var give = "mi load superiorwand " + receiverInstance.getName() + " 1";
+            var give = "mi load custom superiorwand " + receiverInstance.getName() + " 1";
             Player.getInventory().setItem(take_slot, null);
             Server.dispatchCommand(Console, lp); Server.dispatchCommand(Console, give);
             Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &dGhi chú: &fBạn đã gửi tặng &a" + receiverInstance.getName() + " &5Đũa Ma Thuật &fthành công!"));
