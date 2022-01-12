@@ -354,7 +354,7 @@ function main() {
                 Server.dispatchCommand(Console, Give);
                 Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fĐã cập nhật thành công đũa!"));
               }
-            }); Scheduler.runTask(Plugin, new Purchase()); return 0;
+            }); Scheduler.runTask(Plugin, new Task()); return 0;
           }
         }
         break;
@@ -369,7 +369,7 @@ function main() {
              var is = Player.getInventory().getItem(i);
              if(is != null) {
               var meta = is.getItemMeta();
-              if(meta.hasDisplayName() && ChatColor.stripColor(meta.getDisplayName()).contains("SuperiorWand |"))
+              if(meta.hasDisplayName() && ChatColor.stripColor(meta.getDisplayName()).contains("Superior |"))
               { c++; take_slot = i; }
              } else continue;
           } var has_wands = c >= 2 && take_slot != -1;
