@@ -1,0 +1,306 @@
+fly:
+  command: /is
+  type: ALIAS
+  alias: /island
+  permission-required: false
+tpacceptalt:
+  command: /chapnhan
+  type: ALIAS
+  alias: /tpaccept
+  permission-required: false
+tpdenyalt:
+  command: /tuchoi
+  type: ALIAS
+  alias: /tpdeny
+  permission-required: false
+tuido:
+  command: /tuido
+  type: ALIAS
+  alias: /pv 1
+  permission-required: false
+gamemode_alasdiaasdads:
+  command: /baucua taophong
+  type: RUN_COMMAND
+  runcmd:
+  - /baucua create $arg1
+  permission-required: false
+gamemode_aliaasdads:
+  command: /baucua thamgia
+  type: RUN_COMMAND
+  runcmd:
+  - /baucua join $arg1
+  permission-required: false
+gamemode_aliaasdddads:
+  command: /baucua danhsach
+  type: ALIAS
+  runcmd:
+  - /baucua list
+  permission-required: false
+gamemode_aliaasdasds:
+  command: /baucua roikhoi
+  type: ALIAS
+  runcmd:
+  - /baucua leave
+  permission-required: false
+chuyendoi:
+  command: /chuyendoi
+  type: ALIAS
+  alias: /condense
+  permission-required: false
+veso:
+  command: /veso
+  type: ALIAS
+  alias: /projackpot
+  permission-required: false
+ve3so:
+  command: /messages
+  type: ALIAS
+  alias: /msg
+  permission-required: false
+v2eso:
+  command: /messagesgui
+  type: ALIAS
+  alias: /msg
+  permission-required: false
+kick4:
+  command: /messagesgui:joinleave
+  type: ALIAS
+  alias: /msg
+  permission-required: false
+kick5:
+  command: /messagesgui:messagesgui
+  type: ALIAS
+  alias: /msg
+  permission-required: false
+kick6:
+  command: /messagesgui:messages
+  type: ALIAS
+  alias: /msg
+  permission-required: false
+kick7:
+  command: /joinleave
+  type: ALIAS
+  alias: /msg
+  permission-required: false
+'1':
+  command: /discord
+  type: TEXT
+  text:
+  - '&8&l[&eLucky&c&lVN&8&l] &fTham gia Discord Server: &ehttps://discord.gg/3ZFB9NayaQ'
+  permission-required: false
+transfer:
+  command: /chuyenxu
+  type: RUN_CONSOLE
+  runcmd:
+  - /points take $arg1 $arg3
+  - /points give $arg2 $arg3
+  required_args: 3
+  error_message: '&e&lXU &8&l| &cLỗi: Cú pháp lệnh: /chuyenxu <người gửi> <người nhận> <số xu>'
+  permission-node: playerpoints.customcommand.transfer
+  permission-error: '&aSkyblock &8&l| &cLỗi: &fBạn đéo có quyền dùng lệnh này!'
+  register: true
+withdraw:
+  command: /takeblock
+  aliases:
+  - /rutblock
+  - /withdrawblock
+  - /wblock
+  - /wdblock
+  type: RUN_AS_OPERATOR
+  runcmd:
+  - /papi parse me %javascript_prevent-block_withdraw,$arg1%
+  tab-completer:
+    '1':
+    - coal
+    - lapis
+    - redstone
+    - iron
+    - gold
+    - diamond
+    - emerald
+  required_args: 1
+  error-message: '&bBlock &8&l| &cLỗi: &fCú pháp lệnh: &a/takeblock <loại khối>'
+  permission-node: viewer.daituong
+  permission-error: '&bBlock &8&l| &cLỗi: &fBạn phải có rank &bMVP &ftrở lên để dùng lệnh này!'
+  register: true
+sendtowanduser:
+  command: /towand
+  type: RUN_AS_OPERATOR
+  runcmd:
+  - /papi parse me %javascript_prevent-block_sendtowand,$arg1,$arg2,$arg3%
+  tab-completer:
+    '1':
+    - $player_list
+    '2':
+    - gold
+    - diamond
+    - emerald
+  required_args: 2
+  error-message: '&b&bBlock &8&l| &cLỗi: &fCú pháp lệnh: &a/towand <người dùng wand> <loại block> <số lượng>'
+  permission-node: viewer.daituong
+  permission-error: '&bBlock &8&l| Lỗi: Bạn phải có rank &bMVP &ftrở lên để dùng tính năng này!'
+  register: true
+payblock:
+  command: /guiblock
+  aliases:
+  - /sendblock
+  - /payblock
+  type: RUN_AS_OPERATOR
+  runcmd:
+  - /papi parse me %javascript_prevent-block_pay,$arg1,$arg2,$arg3%
+  tab-completer:
+    '1':
+    - $player_list
+    '2':
+    - coal
+    - lapis
+    - redstone
+    - iron
+    - gold
+    - diamond
+    - emerald
+  required_args: 3
+  error-message: '&bBlock &8&l| &cLỗi: &fCú pháp lệnh: &a/guiblock <người chơi> <loại block> <số lượng>'
+  permission-node: viewer.daituong
+  permission-error: '&bBlock &8&l| &cLỗi: &fBạn phải có rank &bMVP &ftrở lên để dùng tính năng này!'
+  register: true
+sellblock:
+  command: /sellblock
+  aliases:
+  - /banblock
+  - /bankhoi
+  type: RUN_AS_OPERATOR
+  runcmd:
+  - /papi parse me %javascript_prevent-block_sell,$arg1,$arg2%
+  tab-completer:
+    '1':
+    - coal
+    - lapis
+    - redstone
+    - iron
+    - gold
+    - diamond
+    - emerald
+  required_args: 2
+  error-message: '&bBlock &8&l| &cLỗi: &fCú pháp lệnh: &a/sellblock <loại block> <số lượng>'
+  permission-node: viewer.daituong
+  permission-error: '&bBlock &8&l| &cLỗi: &fBạn cần phải có rank &bMVP &ftrở lên để dùng tính năng này!'
+  register: true
+convert:
+  command: /convert
+  type: RUN_AS_OPERATOR
+  runcmd:
+  - /papi parse me %javascript_prevent-block_convert,$arg1%
+  tab-completer:
+    '1':
+    - gold
+    - diamond
+    - emerald
+  error-message: '&bBlock &8&l| &cLỗi: &fCú pháp lệnh: &a/convert <loại block>'
+  permission-node: viewer.daituong
+  permission-error: '&bBlock &8&l| &cLỗi: &fBạn phải có rank &bMVP &ftrở lên để dùng lệnh này!'
+  register: true
+reset-block:
+  command: /resetblock
+  type: RUN_COMMAND
+  runcmd:
+  - /papi parse $arg1 %javascript_prevent-block_reset%
+  permission-node: placeholderapi.admin
+  permission-error: '&bBlock &8&l| &cLỗi: &fChỉ có quản trị viên mới có quyền dùng lệnh này!'
+  register: true
+'122':
+  command: /rickroll
+  type: TEXT
+  text:
+  - 'TPS from last 1m, 5m, 15m: *220.0, *220.0, *220.0'
+  permission-required: false
+wand-help:
+  command: /wand help
+  type: TEXT
+  permission-node: superiorwand.universal
+  permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền sử dụng tính năng này!'
+  register: true
+  text:
+  - '&f&m &m &m &M &M &b&m &m &M &m &m &f &eSuperior &av1.3 &f &b&m &m &m &m &M &f&m &m &M &M &M &f'
+  - '&a/wand help&f: &f&oHiển thị mục trợ giúp'
+  - '&a/wand buy&f: &f&oTiến hành mua &5Đũa Ma Thuật'
+  - '&a/wand withdraw <loại khối>&f: &f&oRút hết khối từ đũa'
+  - '&a/wand deposit <loại khối>&f: &fGửi hết khối vào đũa'
+  - '&a/wand toggle&f: &a&oBật&f/&c&oTắt &ftính năng của đũa'
+  - '&a/wand update&f: &f&oCập nhật đũa trên tay lên bản mới nhất!'
+  - '&a/wand gift <người nhận>&f: &f&oMua tặng đũa cho người khác!'
+  - '&a/wand info&f: Xem thông tin về đũa của bạn!'
+  - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &M &M &M &m &m &m &m &m &m &m &m &m &M &M &m &m &M &m &m &M &M &M &f'
+wand-info:
+  command: /wand info
+  type: TEXT
+  permisison-node: superiorwand.universal
+  permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
+  register: true
+  text:
+  - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &M &M &M &m &m &m &m &m &m &m &m &m &M &M &m &m &M &m &m &M &M &M &f'
+  - '&f &8[&a-&8] &fChủ nhân: &a%player_name%'
+  - '&f &8[&a-&8] &fTrạng thái: %javascript_superior_status,display%'
+  - '&f &8[&a-&8] &fKho chứa của đũa:'
+  - '&f &f &f &e&o>> &6Khối Vàng: &a%javascript_superior_storage,gold%'
+  - '&f &f &f &e&o>> &bKhối Kim Cương: &a%javascript_superior_storage,diamond%'
+  - '&f &f &f &e&o>> &2Khối Lục Bảo: &a%javascript_superior_storage,emerald%'
+  - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &M &M &M &m &m &m &m &m &m &m &m &m &M &M &m &m &M &m &m &M &M &M &f'
+wand-buy:
+  command: /wand buy
+  type: RUN_CONSOLE
+  permission-required: false
+  register: true
+  runcmd:
+  - /papi parse %player_name% %javascript_superior_purchase%
+wand-gift:
+  command: /wand gift
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_superior_gift,$arg1%
+  register: true
+  permission-required: false
+wand-update:
+  command: /wand update
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_superior_update%
+  permission-node: superiorwand.universal
+  permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
+  register: true
+wand-withdraw:
+  command: /wand withdraw
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_superior_withdraw,$arg1%
+  tab-completer:
+    '1':
+    - gold
+    - diamond
+    - emerald
+  error-message: '&eSuperior &8&l| &cLỗi: &fCú pháp lệnh: &a/wand withdraw <loại khối>'
+  permission-node: superiorwand.universal
+  permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
+  register: true
+wand-deposit:
+  command: /wand deposit
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_superior_deposit,$arg1%
+  tab-completer:
+    '1':
+    - gold
+    - diamond
+    - emerald
+  error-message: '&eSuperior &8&l| &cLỗi: &fCú pháp lệnh: &a/wand deposit <loại khối>'
+  permission-node: superiorwand.universal
+  permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
+  register: true
+wand-toggle:
+  command: /wand toggle
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_superior_status,toggle%
+  permission-node: superiorwand.universal
+  permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
+  register: true
