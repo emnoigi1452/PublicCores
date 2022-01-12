@@ -261,7 +261,7 @@ function main() {
         else {
           var config = YamlConfiguration.loadConfiguration(Player_Main_File);
           config.set(ScriptManager.CONFIG_PATH(type), config.get(ScriptManager.CONFIG_PATH(type)) + amount);
-          config.save(ScriptManager.Player_Main_File);
+          config.save(Player_Main_File);
           Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fBạn đã nhận được &a+" + amount.toString() + " " + ScriptManager.translatedName(type) + " &ftừ hệ thống!")); return;
         }; return 0;
       case "reset":
