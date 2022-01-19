@@ -67,3 +67,9 @@ Superior-Build:
   Command:
     Console:
     - papi parse {player} %javascript_superior_build%
+Auto-Build:
+  Consume: false
+  KeyLore: '&6Điều khiển kho'
+  Command:
+    Console:
+    - papi parse {player} %javascript_ap_skill%
