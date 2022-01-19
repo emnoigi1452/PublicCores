@@ -225,8 +225,8 @@ wand-help:
   - '&a/wand-help&f: &f&oHiển thị mục trợ giúp'
   - '&a/wand-buy&f: &f&oTiến hành mua &5Đũa Ma Thuật'
   - '&a/wand-withdraw <loại khối>&f: &f&oRút hết khối từ đũa'
-  - '&a/wand-deposit <loại khối>&f: &fGửi hết khối vào đũa'
-  - '&a/wand-toggle&f: &a&oBật&f/&c&oTắt &ftính năng của đũa'
+  - '&a/wand-deposit <loại khối>&f: &f&oGửi hết khối vào đũa'
+  - '&a/wand-toggle&f: &a&oBật&f/&c&oTắt &f&otính năng của đũa'
   - '&a/wand-update&f: &f&oCập nhật đũa trên tay lên bản mới nhất!'
   - '&a/wand-gift <người nhận>&f: &f&oMua tặng đũa cho người khác!'
   - '&a/wand-info&f: Xem thông tin về đũa của bạn!'
@@ -303,4 +303,54 @@ wand-toggle:
   - /papi parse %player_name% %javascript_superior_status,toggle%
   permission-node: superiorwand.universal
   permission-error: '&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!'
+  register: true
+pickaxe-help:
+  command: /aphelp
+  type: TEXT
+  permission-required: false
+  register: true
+  text:
+  - '&f&m &m &m &m &m &b&m &m &m &m &m &f ---------- &f &b&m &m &m &m &m &f&m &m &m &m &m &f'
+  - '&a/kichhoat &f&o- Kích hoạt cúp để có thể dùng skill!'
+  - '&a/datblock <Loại block> &f&o- Đặt loại block để cúp tự động xử lí'
+  - '&a/sudung &f&o- Kiểm tra giới hạn dùng skill trong ngày'
+  - '&a/guixp &f&o- Gửi hết XP vào cúp để tích trữ nâng cấp'
+  - '&a/checkup &f&o- Kiểm tra điều kiện nâng cấp cúp'
+  - '&f'
+  - '&fCác loại block: &acoal, lapis, redstone, iron, gold, diamond, emerald'
+  - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &f'
+activate-pick:
+  command: /kichhoat
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_ap_verify%
+  permission-required: false
+  register: true
+switch-block:
+  command: /datblock
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_ap_set-block,$arg1%
+  permission-required: false
+  register: true
+check-usage:
+  command: /sudung
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_ap_usage-check%
+  permission-required: false
+  register: true
+deposit-exp:
+  command: /guixp
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_ap_deposit-xp%
+  permission-required: false
+  register: true
+check-upgrade-status:
+  command: /checkup
+  type: RUN_CONSOLE
+  runcmd:
+  - /papi parse %player_name% %javascript_ap_check%
+  permission-required: false
   register: true
