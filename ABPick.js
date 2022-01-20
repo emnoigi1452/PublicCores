@@ -211,6 +211,7 @@ function main() {
                   Grid.setBlockAmount(BlockLocation.getBlock(), Amount + BlockValue);
                   LogConfig.set("Usage.".concat(Player.getName()), Math.floor(CurrentBuild + BlockValue));
                   LogConfig.save(TodayLog); Build = true;
+                  Server.dispatchCommand(Server.getConsoleSender(), "is admin recalc ".concat(Player.getName()));
                   Player.sendMessage(ChatColor.translateAlternateColorCodes("&",
                     "&eLucky&cVN &8&l| &fĐã đặt &a" + BlockValue.toString().concat(" ") +
                     SkillHandle.handleTranslation(BuildType.split("_")[0]) + " &flên đảo của bạn!"));
