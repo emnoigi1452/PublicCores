@@ -9,7 +9,7 @@ function main() {
     var Days = Math.floor(Seconds / 86400);
     Seconds -= (Days * 86400);
     var Hours = Math.floor(Seconds / 3600);
-    Seconds -= (Days * 3600);
+    Seconds -= (Hours * 3600);
     var Minutes = Math.floor(Seconds / 60);
     var Seconds = Seconds % 60;
     // Formatting smh
@@ -20,7 +20,7 @@ function main() {
     var FullMessage = "";
     if(Days > 0)
       FullMessage += FormatDay.replace("%d", Days.toString());
-    if(Hour > 0)
+    if(Hours > 0)
       FullMessage += FormatHour.replace("%h", Hours.toString());
     if(Minutes > 0)
       FullMessage += FormatMin.replace("%m", Minutes.toString());
