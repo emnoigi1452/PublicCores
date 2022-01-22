@@ -316,7 +316,7 @@ pickaxe-help:
   - '&a/sudung &f&o- Kiểm tra giới hạn dùng skill trong ngày'
   - '&a/guixp &f&o- Gửi hết XP vào cúp để tích trữ nâng cấp'
   - '&a/checkup &f&o- Kiểm tra điều kiện nâng cấp cúp'
-  - '&a/nangcap &f&o- Nâng cấp skill của cúp!'
+  - '&a/nangcup &f&o- Nâng cấp skill của cúp!'
   - '&f'
   - '&fCác loại block: &acoal, lapis, redstone, iron, gold, diamond, emerald'
   - '&f&m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &f'
