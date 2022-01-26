@@ -17,9 +17,7 @@ var Script = {
    Placeholder: "%worldguard_region_name%",
    EventCheck: "%crazyenvoy_crates_left%",
    getRadius: function(level) {
-      if(typeof level != "int")
-         throw "Loại dữ liệu không hợp lệ!";
-      else return level * 25;
+      return 25 * level;
    },
    getNearbyPlayers: function(radii) {
       var members = Server.getOnlinePlayers(); var match = new ArrayList();
