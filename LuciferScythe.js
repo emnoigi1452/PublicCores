@@ -49,7 +49,7 @@ function main() {
       }
       var StatsManager = MyItems.getPlayerManager().getPlayerItemStatsManager();
       var Caster = StatsManager.getItemStatsWeapon(Executor);
-      var baseDamage = Caster.getTotalDamage(); var multiplier = Caster.getTotalPvPDamage();
+      var baseDamage = Caster.getTotalDamageMax(); var multiplier = Caster.getTotalPvPDamage();
       var skillForce = Script.getCalculatedStats(baseDamage, multiplier);
       var skillPenetration = Caster.getTotalPenetration(); var defenseMultiplier = 1 - (skillPenetration / 100);
       var skillAreaOfEffect = Script.getRadius(level);
