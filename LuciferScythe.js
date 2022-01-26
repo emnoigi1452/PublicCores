@@ -42,23 +42,26 @@ function main() {
       if(isNaN(level) || level > 3 || level < 1)
          throw "Cấp độ triển khai không hợp lệ!";
       var CratesHolder = PlaceholderAPI.static.setPlaceholders(Executor, Script.EventCheck);
-      if(parseInt(CratesHolder) != 0) {
+      if(parseInt(CratesHolder) > 0) {
          Player.sendMessage(ChatColor.translateAlternateColorCodes('&',
             "&4Lucifer &8&l| &f&oTa không phải kẻ muốn tàn sát một bữa tiệc vui...Hãy chờ đi..."));
          return -1;
       }
       var StatsManager = MyItems.getPlayerManager().getPlayerItemStatsManager();
       var Caster = StatsManager.getItemStatsWeapon(Executor);
-      var baseDamage = Caster.getTotalDamageMax(); var multiplier = Caster.getTotalPvPDamage();
+      var baseDamage = Caster.getTotalDamageMax(); 
+      var multiplier = Caster.getTotalPvPDamage();
       var skillForce = Script.getCalculatedStats(baseDamage, multiplier);
-      var skillPenetration = Caster.getTotalPenetration(); var defenseMultiplier = 1 - (skillPenetration / 100);
+      var skillPenetration = Caster.getTotalPenetration(); 
+      var defenseMultiplier = 1 - (skillPenetration / 100);
       var skillAreaOfEffect = Script.getRadius(level);
       var Skill = Java.extend(Runnable, {
          run: function() {
             var victims = 0; var gained = 0; var starters = Script.getNearbyPlayers(skillAreaOfEffect);
             for each(var element in starters) {
                var defenseStats = StatsManager.getItemStatsArmor(element); element.setFireTicks(50);
-               var baseDefense = defenseStats.getTotalDefense(); var addon = defenseStats.getTotalPvPDefense();
+               var baseDefense = defenseStats.getTotalDefense(); 
+               var addon = defenseStats.getTotalPvPDefense();
                var victimBlockChance = Math.floor(defenseStats.getTotalBlockChance());
                var probability = Math.floor(Math.random() * 100) + 1;
                var blockade = Script.getCalculatedStats(baseDefense, addon);
@@ -82,7 +85,7 @@ function main() {
          }
       }); Scheduler.runTask(Host, new Skill()); return 0;
    } catch(err) {
-      return "&4Lucifer &8&l| &cLỗi: &f" + err.message;
+      return "&4Lucifer &8&l| &cLỗi: &f" + err;
    }
 }
 main();
