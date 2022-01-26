@@ -3,7 +3,7 @@ var World = Executor.getWorld();
 var Server = BukkitServer;
 var MyItems = Server.getPluginManager().getPlugin("MyItems");
 var Scheduler = Server.getScheduler();
-var Host = Server.getPluginManager.getPlugin("PlaceholderAPI");
+var Host = Server.getPluginManager().getPlugin("PlaceholderAPI");
 
 var Runnable = Java.type("java.lang.Runnable");
 var ArrayList = Java.type("java.util.ArrayList");
@@ -26,7 +26,7 @@ var Script = {
       members.stream().filter(function(player) {
          var reg = PlaceholderAPI.static.setPlaceholders(player, this.Placeholder);
          return player.getWorld().equals(World) && reg == "pvp" && !player.equals(Executor) &&
-                && player.getLocation().distance(Executor.getLocation()) <= radii;
+               player.getLocation().distance(Executor.getLocation()) <= radii;
       }).forEach(function(same) {
          match.add(same);
       }); return match;
@@ -38,7 +38,7 @@ var Script = {
 
 function main() {
    try {
-      var level = parseInt(args[1]); 
+      var level = parseInt(args[0]); 
       if(isNaN(level) || level > 3 || level < 1)
          throw "Cấp độ triển khai không hợp lệ!";
       var CratesHolder = PlaceholderAPI.static.setPlaceholders(Executor, Script.EventCheck);
