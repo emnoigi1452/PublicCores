@@ -78,7 +78,40 @@ var SkillHandle = {
       RequiredUp = (2 * Level) + 7;
     XPPoints += Math.round(RequiredUp * Progress);
     return Math.floor(XPPoints);
+  },
+  /*
+  calculateContent: function(target, value) {
+    // Return value: Array[<Level>, <Progress to Next Level>]
+    var Current = this.calculatedXP(target) + value;
+    var T1 = 0; var T2 = 353; var T3 = 1508;
+    var Level = 0 // Type: Int
+    // Using inverse formula provided by the Minecraft wiki :3
+    if(Current >= T3)
+      Level = Math.floor((325/18) + Math.sqrt((2/9) * (Current - (54215/72))));
+    else if(Current >= T2 && Current < T3)
+      Level = Math.floor((81/10) + Math.sqrt((2/5) * (Current - (7839/40))));
+    else
+      Level = Math.floor(Math.sqrt(Current+9) - 3);
+    function formatTotalEXP(param) {
+      if(Level >= 32)
+        return Math.round((4*5(param*2)) - (162.5*param) + 2220);
+      else if(Level >= 17 && Level < 32)
+        return Math.round((2.5*(param*param)) - (40.5*param) + 360);
+      else
+        return Math.round((Level*param) + (6*param));
+    }
+    function getRequiredLevelUp(param) {
+      if(param >= 31)
+        return (9*param) - 158;
+      else if(param >= 16 && param < 31)
+        return (5*param) - 38;
+      else
+        return (2*param) + 7;
+    }
+    var Progress = Math.floor(Current - formatTotalEXP(Level));
+    return [Level, Progress / getRequiredLevelUp(Level)];
   }
+  */
 }
 
 function main() {
@@ -195,35 +228,28 @@ function main() {
             var Tracker = ProgressConfig.get("Progress.".concat(Player.getName()));
             var Increment = [Math.floor((Tracker + BlockValue) / 1000), (Tracker + BlockValue) % 1000];
             var UpdateDatabase = ProgressConfig.get("Database.".concat(Player.getName())) + Increment[0];
-            if(Increment[0] > 0)
-              Player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                "&eLucky&cVN &8&l| &fBạn đã nhận được &a" + Increment[0].toString() + " &eMảnh vỡ&f!"));
-            ProgressConfig.set("Progress.".concat(Player.getName()), Increment[1]);
-            ProgressConfig.set("Database.".concat(Player.getName()), UpdateDatabase);
-            ProgressConfig.save(ShardManager); var Build = false; var Default = Storage.getBlock(NewKey);
-            Storage.setBlock(NewKey, Default - (BlockValue*9));
             for each(var BlockLocation in Grid.getStackedBlocks()) {
               if(Grid.getIslandAt(BlockLocation).equals(SuperiorPlayer.getIsland())) {
                 var Type = BlockLocation.getBlock().getType().name();
                 if(Type != BuildType) continue;
                 else {
                   var Amount = Grid.getBlockAmount(BlockLocation);
+                  if(Increment[0] > 0)
+                    Player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                      "&eLucky&cVN &8&l| &fBạn đã nhận được &a" + Increment[0].toString() + " &eMảnh vỡ&f!"));
+                  ProgressConfig.set("Progress.".concat(Player.getName()), Increment[1]);
+                  ProgressConfig.set("Database.".concat(Player.getName()), UpdateDatabase);
+                  ProgressConfig.save(ShardManager); var Default = Storage.getBlock(NewKey);
+                  Storage.setBlock(NewKey, Default - (BlockValue*9));
                   Grid.setBlockAmount(BlockLocation.getBlock(), Amount + BlockValue);
                   LogConfig.set("Usage.".concat(Player.getName()), Math.floor(CurrentBuild + BlockValue));
                   LogConfig.save(TodayLog); Build = true;
-                  SuperiorPlayer.getIsland().calcIslandWorth(SuperiorPlayer);
                   Player.sendMessage(ChatColor.translateAlternateColorCodes("&",
                     "&eLucky&cVN &8&l| &fĐã đặt &a" + BlockValue.toString().concat(" ") +
                     SkillHandle.handleTranslation(BuildType.split("_")[0]) + " &flên đảo của bạn!"));
                   break;
                 }
               } else continue;
-            }
-            if(!Build) {
-              Player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                "&eLucky&cVN &8&l| &cLỗi: &fKhông tìm thấy bất kì " + SkillHandle.handleTranslation(BuildType.split("_")[0])
-                + " &ftrên đảo của bạn!"));
-              Storage.setBlock(NewKey, Default);
             }
           }
         }); Scheduler.runTask(Host, new AutoBuildTask()); return 0;
