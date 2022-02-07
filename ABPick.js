@@ -229,6 +229,7 @@ function main() {
             var Increment = [Math.floor((Tracker + BlockValue) / 1000), (Tracker + BlockValue) % 1000];
             var UpdateDatabase = ProgressConfig.get("Database.".concat(Player.getName())) + Increment[0];
             for each(var BlockLocation in Grid.getStackedBlocks()) {
+              if(Grid.getIslandAt(BlockLocation) == null) continue;
               if(Grid.getIslandAt(BlockLocation).equals(SuperiorPlayer.getIsland())) {
                 var Type = BlockLocation.getBlock().getType().name();
                 if(Type != BuildType) continue;
