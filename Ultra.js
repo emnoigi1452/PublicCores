@@ -13,7 +13,6 @@ var ItemStack = org.bukkit.inventory.ItemStack;
 var Material = org.bukkit.Material;
 var CraftItemStack = org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 // var FixedMetadataValue = org.bukkit.metadata.FixedMetadataValue;
-var ScriptParser = new org.json.simple.parser.JSONParser();
 var JSONArray = org.json.simple.JSONArray;
 var JSONObject = org.json.simple.JSONObject;
 
@@ -60,8 +59,8 @@ var Language = {
   alreadyRegistered: '&fBạn đã đăng ký mua &eĐũa Nâng Cấp &ftừ trước rồi!',
   registerSuccess: '&fĐăng ký thành công! Chúc bạn cày cuốc vật phẩm vui vẻ!',
   invalidItem: "&fVật phẩm để rèn &eĐũa Nâng Cấp &fkhông hợp lệ!",
-  sentXP: '&fĐã gửi &a%t XP &fvào việc rèn &eĐũa Nâng Cấp&f!'
-  sentMineral: '&fĐã gửi &a%t %n &fvào cho &eĐũa Nâng Cấp&f!',
+  sentXP: '&fĐã gửi &a$t XP &fvào việc rèn &eĐũa Nâng Cấp&f!',
+  sentMineral: '&fĐã gửi &a$t $n &fvào cho &eĐũa Nâng Cấp&f!',
 }
 
 var UltraCore = {
@@ -166,10 +165,32 @@ function main() {
   try {
     if(MyItems == null || PreventHopper == null)
       throw Language['missingDepend'];
-    var ItemManager = MyItems.getGameManager().getItemManager(); var Database = new File(ScriptData);
-    if(!Database.exists()) Database.createNewFile();
-    var DataWatcher = ScriptParser.parse(new BufferedReader(new FileReader(Database)));
-    if(DataWatcher == null) { DataWatcher = new JSONObject(); DataWatcher.put("null", null); }
+    var ItemManager = MyItems.getGameManager().getItemManager();
+    var DataWatcher = null; var Progress = null;
+    switch(args[0].toLowerCase()) {
+      case "purchase":
+        var StickProgress = new File(Host.getDataFolder().getAbsolutePath() + "/StickProgress.json");
+        if(!StickProgress.exists()) {
+          StickProgress.createNewFile(); Progress = new JSONObject();
+          Progress.put("null", null); Progress.put("Regs", new JSONArray());
+        } else {
+          var ProgressReader = new BufferedReader(new FileReader(StickProgress));
+          Progress = new org.json.simple.parser.JSONParser().parse(ProgressReader);
+          ProgressReader.close();
+        }
+        break;
+      default:
+        var Database = new File(ScriptData);
+        if(!Database.exists()) {
+          Database.createNewFile(); DataWatcher = new JSONObject();
+          DataWatcher.put("null", null);
+        } else {
+          var DataReader = new BufferedReader(new FileReader(Database));
+          DataWatcher = new org.json.simple.parser.JSONParser().parse(DataReader);
+          DataReader.close();
+        }
+        break;
+    }
     switch(args[0].toLowerCase()) {
       case "verify":
         var UID = Player.getUniqueId().toString();
@@ -414,11 +435,7 @@ function main() {
         }
         return -1;
       case "purchase":
-        var StickProgress = new File(Host.getDataFolder().getAbsolutePath() + "/StickProgress.json");
-        if(!StickProgress.exists()) StickProgress.createNewFile();
-        var Progress = ScriptParser.parse(new BufferedReader(new FileReader(StickProgress)));
         var TotalEXPReq = 15000000; var PerMineralReq = 2000000; var UID = Player.getUniqueId().toString();
-        return 0;
         function saveData() {
           var Writer = new BufferedWriter(new FileWriter(StickProgress));
           Writer.write(Progress.toJSONString());
@@ -426,17 +443,17 @@ function main() {
         }
         switch(args[1].toLowerCase()) {
           case "register":
-            if(!Progress.keySet().contains(UID) && !DataWatcher.keySet().contains(UID)) {
+            if(!Progress.keySet().contains(UID) && !Progress.get("Regs").contains(UID)) {
               var RegisteredDataObject = new JSONObject();
               RegisteredDataObject.put("Name", Player.getName());
-              RegisteredDataObject.put("XP", Player.getName());
+              RegisteredDataObject.put("XP", 0);
               var MineralArray = new JSONObject();
               ['coal','lapis','redstone','iron','gold','diamond','emerald'].forEach(function(e) {
                 var AlternateHopperKeyValue = UltraCore.getHopperKey(e);
                 MineralArray.put(AlternateHopperKeyValue, 0);
               }); RegisteredDataObject.put("Minerals", MineralArray);
               Progress.put(UID, RegisteredDataObject);
-              saveData(); return 0;
+              saveData(); Player.sendMessage(Language.colorText("registerSuccess", 'note')); return 0;
             } else {
               Player.sendMessage(Language.colorText("alreadyRegistered", 'error'));
             }
@@ -446,15 +463,15 @@ function main() {
               Player.sendMessage(Language.colorText('noPermission', 'error'));
             else {
               var PurchaseProgress = Progress.get(UID);
-              var Nodes = ['coal','lapis','redstone','iron','gold','diamond','emerald','exp'];
+              var Nodes = ['coal','lapis','redstone','iron','gold','diamond','emerald','exp','xp'];
               if(Nodes.indexOf(args[2].toLowerCase()) != -1) {
-                var SwitchObjectModule = args[2].toLowerCase() == "exp" ? "XP" : "Mineral";
+                var SwitchObjectModule = (['exp','xp']).indexOf(args[2].toLowerCase()) != -1 ? "XP" : "Mineral";
                 switch(SwitchObjectModule) {
                   case "XP":
                     var ConvertEXPPoints = UltraCore.calculatedXP(Player);
                     var FixedValue = args[3].toLowerCase() == "all" ? ConvertEXPPoints : parseInt(args[3]);
                     if(isNaN(FixedValue)) {
-                      Player.sendMessage(Language.colorText("invalidInt"));
+                      Player.sendMessage(Language.colorText("invalidInt", 'error'));
                     } else {
                       FixedValue = FixedValue > ConvertEXPPoints ? ConvertEXPPoints : FixedValue;
                       var ProcessedContent = UltraCore.calculateContent(ConvertEXPPoints, -FixedValue);
@@ -467,7 +484,7 @@ function main() {
                       Progress.put(UID, PurchaseProgress);
                       saveData();
                       Player.sendMessage(Language.colorText("sentXP", 'note').replace(
-                        "%t", FixedValue.toString()));
+                        "$t", FixedValue.toString()));
                       return 0;
                     }
                     break;
@@ -483,28 +500,58 @@ function main() {
                         Withdraw = Withdraw > Storage.getBlock(HopperAccess) ? Storage.getBlock(HopperAccess) : Withdraw;
                         var Aftermath = Storage.getBlock(HopperAccess) - Withdraw;
                         Storage.setBlock(HopperAccess, Aftermath);
-                        var MineralTable = PurchaseProgress.get("Mineral");
+                        var MineralTable = PurchaseProgress.get("Minerals");
                         var LimitControl = Math.floor(PerMineralReq - MineralTable.get(HopperAccess));
                         Withdraw = Withdraw > LimitControl ? LimitControl : Withdraw;
                         MineralTable.put(HopperAccess, MineralTable.get(HopperAccess) + Withdraw);
-                        PurchaseProgress.put("Mineral", MineralTable); Progress.put(UID, PurchaseProgress);
-                        saveData();
+                        PurchaseProgress.put("Minerals", MineralTable); Progress.put(UID, PurchaseProgress);
+                        saveData(); var OreID = ChatColor.translateAlternateColorCodes('&', UltraCore.translateKey(Format));
                         Player.sendMessage(Language.colorText("sentMineral", 'note').replace(
-                          "%t", Withdraw.toString()).replace("%n", UltraCore.translateKey(Format)));
+                          "$t", Withdraw.toString()).replace("$n", OreID));
                         return 0;
                       }
                     } else Player.sendMessage(Language.colorText("invalidType", 'error'));
-                    return -1;
+                    break;
                 }
                 return 0;
-              } else Player.sendMessage(Language.colorText("invalidItem").replace("%t", args[2].toLowerCase()));
+              } else Player.sendMessage(Language.colorText("invalidItem", 'error'));
             }
             return -1;
+          case "display":
+            var DataTag = Progress.get(Player.getUniqueId().toString());
+            var MineralTable = DataTag.get("Minerals");
+            // thks stackoverflow
+            function format(param) {
+              param = param.toString();
+              var pattern = /(-?\d+)(\d{3})/;
+              while (pattern.test(param))
+                param = param.replace(pattern, "$1,$2");
+              return param;
+            }
+            switch(args[2].toLowerCase()) {
+              case "xp": return format(DataTag.get("XP"));
+              default: return format(MineralTable.get(
+                UltraCore.getHopperKey(args[2])));
+            }
+            return -1;
+          case "check":
+            var UID = Player.getUniqueId().toString();
+            return Progress.keySet().contains(UID) || Progress.get("Regs").contains(UID);
+          case "purchased":
+            return Progress.get("Regs").contains(Player.getUniqueId().toString());
         }
         break;
     }
   } catch(err) {
-    return "&5Ultra &8&l| &cLỗi: &f" + err.message;
+    return "&5Ultra &8&l| &cLỗi: &f" + err;
+  } finally {
+    var w1 = new BufferedWriter(new FileWriter(Database));
+    var w2 = new BufferedWriter(new FileWriter(StickProgress));
+    if(DataWatcher != null) w1.write(DataWatcher.toJSONString());
+    if(Progress != null) w2.write(Progress.toJSONString());
+    w1.flush(); w2.flush();
+    w1.close(); w2.close();
+
   }
 }
 main();
