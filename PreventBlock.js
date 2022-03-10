@@ -163,7 +163,7 @@ function PreventBlock() {
         }
       case "pay":
         var target = server.getPlayerExact(args[1]); var type = args[2]; var amount = parseInt(args[3]);
-        if(target == null) return "&eBlock &8&l| &cLỗi: &fNgười chơi này hiện không trực tuyến!";
+        if(target == null || target.equals(p)) return "&eBlock &8&l| &cLỗi: &fNgười chơi này hiện không trực tuyến!";
         if(isNaN(amount) || amount < 1) return "&eBlock &8&l| &cLỗi: &fSố lượng được nhập vào không hợp lệ!";
         if(get_id(type) == -1) return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản không hợp lệ!";
         var file_sender = get_file(p); var file_target = get_file(target);
