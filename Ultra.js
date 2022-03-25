@@ -394,11 +394,12 @@ function main() {
         }
         return -1;
       case "buy-coins":
-        var UID = Player.getUniqueId().toString();
+        var UID = Player.getUniqueId().toString(); var Coins = parseInt(args[1]);
+        if(isNaN(Coins)) Coins = 1;
         if(DataWatcher.keySet().contains(UID)) {
           var StorageDataObject = Player.getMetadata("playerData").get(0).value();
           var UserDataObject = DataWatcher.get(UID);
-          var OreReq = 10000; var ExpReq = 10000; var OreNode = true;
+          var OreReq = 10000*Coins; var ExpReq = 10000*Coins; var OreNode = true;
           ['coal','lapis','redstone','iron','gold','diamond','emerald'].forEach(function(e) {
             if(StorageDataObject.getBlock(UltraCore.getHopperKey(e)) < OreReq)
               OreNode = false;
@@ -416,7 +417,7 @@ function main() {
                   var IntInstance = new java.lang.Integer(XPRem[0].toString());
                   var FloatInstance = new java.lang.Float(XPRem[1].toString());
                   Player.setExp(FloatInstance); Player.setLevel(IntInstance);
-                  UserDataObject.put("GachaCoins", UserDataObject.get("GachaCoins")+1);
+                  UserDataObject.put("GachaCoins", UserDataObject.get("GachaCoins")+Coins);
                   DataWatcher.put(UID, UserDataObject);
                   var WriterObject = new BufferedWriter(new FileWriter(Database));
                   WriterObject.write(DataWatcher.toJSONString());
