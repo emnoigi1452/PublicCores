@@ -6,19 +6,19 @@ var Manager = Server.getPluginManager();
 var MyItems = Manager.getPlugin("MyItems");
 var PvPManager = Manager.getPlugin("PvPManager");
 var Host = Manager.getPlugin("PlaceholderAPI");
-var DevMode = Player.getName() != "DucTrader";
-
+var DevMode = false
+ 
 var ArrayList = Java.type("java.util.ArrayList");
 var HashMap = Java.type("java.util.HashMap");
 var Runnable = Java.type("java.lang.Runnable");
-
+ 
 var ChatColor = org.bukkit.ChatColor;
 var Vector = org.bukkit.util.Vector;
 var Location = org.bukkit.Location;
 var Particle = org.bukkit.Particle;
 var PotionEffect = org.bukkit.potion.PotionEffect;
 var PotionEffectType = org.bukkit.potion.PotionEffectType;
-
+ 
 var Light = {
   _SKILL_RADIUS_: 30,
   checkPvPStatus: function(target, pvpInstance) {
@@ -43,7 +43,7 @@ var Light = {
     var v1 = Player.getLocation().toVector();
     var v2 = target.getLocation().toVector();
     var dif = v2.subtract(v1).normalize();
-    return dir.dot(dif) < 0.25;
+    return dir.dot(dif) > 0.25;
   },
   cdist: function(damage, distance) {
     var formula = 100 - (2.5 * distance);
@@ -53,7 +53,7 @@ var Light = {
     return Math.floor(base * (inc / 100));
   }
 }
-
+ 
 function main() {
   try {
     if(DevMode)
@@ -78,28 +78,31 @@ function main() {
               var PVP = Offensive.getTotalPvPDamage(); var PVE = Offensive.getTotalPvEDamage();
               var BaseDMG = Offensive.getTotalDamageMax();
               Matches.stream().forEach(function(e) {
+                var Defensive = StatsControl.getItemStatsArmor(e);
                 e.setVelocity(new Vector(0, 3, 0)); var Sight = Light.checkSighting(e);
                 var distance = Player.getLocation().distance(e.getLocation());
-                var Health = e.getHealth();
+                var Health = e.getHealth(); var def = Light.calc(Defensive.getTotalDefense(), Defensive.getTotalPvEDefense());
                 var baseFlare = Light.calc(Health, PVE);
+                if(def > baseFlare / 2) baseFlare = (def - baseFlare) / 2; else baseFlare -= def; 
                 baseFlare = Light.cdist(baseFlare, distance); e.setFireTicks(600);
                 var p1 = new PotionEffect(PotionEffectType.WITHER, 5, 300);
                 var p2 = new PotionEffect(PotionEffectType.BLINDNESS, 5, 300);
                 p1.apply(e); p2.apply(e);
-                e.sendMessage(Light.color("&eLight &8&l| &f&oTrong cơn sốc, ngươi có nhìn được định mệnh?..."));
+                e.sendMessage(Light.color("&eLight &8&l| &f&oTrong cơn sốc, ngươi có nhìn được định mệnh?&e&o..."));
                 if(e.getHealth() < baseFlare) e.setHealth(0);
                 else e.setHealth(e.getHealth() - baseFlare);
                 if(Sight) {
-                  e.sendMessage(Light.color("&eLight &8&l| &f&oThời khắc đã đến, hình phạt đã quyết..."));
-                  var Knock = Light.calc(BaseDMG, PVP);
+                  e.sendMessage(Light.color("&eLight &8&l| &f&oThời khắc quyết định đã đến, hình phạt đã sẵn sàng&c&o..."));
+                  var Knock = Light.calc(BaseDMG, PVP); var Block = Defensive.getTotalBlockRate() * 0.75;
+                  Knock = Light.calc(Knock, Block);
                   World.strikeLightningEffect(e.getLocation());
                   if(Knock > e.getHealth()) e.setHealth(0); else e.setHealth(1);
                 }
-              }); Player.sendMessage(Light.color("&eLight &8&l| &f&oMọi thứ kết thúc...tan biến hoàn toàn..."));
+              }); Player.sendMessage(Light.color("&eLight &8&l| &f&oMọi thứ kết thúc&c&o...&f&otan biến hoàn toàn&c&o..."));
             } catch(e) { Player.sendMessage(e.toString()); }
           }
         }); Scheduler.runTaskLater(Host, new InfernoSkillTask(), new java.lang.Long(10)); return 1;
-      } else Player.sendMessage(Light.color("&eLight &8&l| &f&oKhông thể triển phép nơi không phải trận địa..."));
+      } else Player.sendMessage(Light.color("&eLight &8&l| &f&oKhông thể triển phép nơi không phải trận địa&c&o..."));
     } return -1;
   } catch(err) {
     return "&eLight &8&l| &cLỗi: &f" + err;
