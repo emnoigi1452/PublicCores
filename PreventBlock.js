@@ -100,7 +100,7 @@ function PreventBlock() {
             metadata.setBlock(get_prevent_key(args[1]), remain);
             data_config.set("BlockData." + get_key(args[1]), data_config.get("BlockData." + get_key(args[1])) + block_count);
             data_config.save(player_file); // Save
-            p.sendMessage(update_color("&eBlock &8&l| &fĐã nén thành công &a" + block_count.toString() + " " + name + "&ftừ kho khoáng sản!"));
+            p.sendMessage(update_color("&eBlock &8&l| &fĐã nén thành công &a" + block_count.toString() + " " + name + " &ftừ kho khoáng sản!"));
             return "&a";
           } else {
             p.sendMessage(update_color("&eBlock &8&l| &cLỗi: &fBạn không có đủ " + name + " &fđể tiến hành nén!"));
