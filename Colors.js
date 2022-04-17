@@ -12,7 +12,6 @@ var FixedMetadataValue = org.bukkit.metadata.FixedMetadataValue;
 var YamlConfiguration = org.bukkit.configuration.file.YamlConfiguration;
 
 var System = java.lang.System;
-var Thread = java.lang.Thread;
 var Runnable = java.lang.Runnable;
 var HashMap = java.util.HashMap;
 var ArrayList = java.util.ArrayList;
@@ -131,7 +130,15 @@ function main() {
       }); Scheduler.runTask(Host, new KickTask());
       return false;
     } else {
-      if(args.length == 0) return true;
+      if(args.length == 0) {
+        var ScheduledSavedTaskID = config.get("Task.ID");
+        if(ScheduledSavedTaskID != -1 && !(Scheduler.isQueued(ScheduledSavedTaskID))) {
+          (['ID','Start','Upcoming']).forEach(function(e) {
+            config.set("Task.".concat(e), new java.lang.Long("-1"));
+          }); config.save(userData);
+          Scheduler.cancelTask(ScheduledSavedTaskID);
+        } 
+      }
       var userData = new File(DataContainer, FileID); var config = YamlConfiguration.loadConfiguration(userData);
       switch(args[0].toLowerCase()) {
         case "skill":
