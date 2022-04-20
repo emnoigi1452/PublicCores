@@ -2,13 +2,11 @@ var Player = BukkitPlayer;
 var Server = BukkitServer;
 var Manager = Server.getPluginManager();
 var Scheduler = Server.getScheduler();
-var Messenger = Server.getMessenger();
 var Host = Manager.getPlugin("PlaceholderAPI");
 var PreventHopper = Manager.getPlugin("PreventHopper-ORE");
 var Skyblock = Manager.getPlugin("SuperiorSkyblock2");
 
 var ChatColor = org.bukkit.ChatColor;
-var FixedMetadataValue = org.bukkit.metadata.FixedMetadataValue;
 var YamlConfiguration = org.bukkit.configuration.file.YamlConfiguration;
 
 var System = java.lang.System;
