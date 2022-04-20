@@ -28,7 +28,7 @@ load('https://pastebin.com/raw/k4XhJdff'); // Import CompressorAPI
 
 var Utils = {
   typeArray: ['coal','lapis','redstone','iron','gold','diamond','emerald'],
-  delay: 60,
+  delay: 300,
   color: function(input) { return ChatColor.translateAlternateColorCodes('&', input); },
   getStartupTime: function() {
     var ManagementFactory = java.lang.management.ManagementFactory;
