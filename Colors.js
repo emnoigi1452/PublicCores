@@ -128,6 +128,7 @@ function main() {
       }); Scheduler.runTask(Host, new KickTask());
       return false;
     } else {
+      var userData = new File(DataContainer, FileID); var config = YamlConfiguration.loadConfiguration(userData);
       if(args.length == 0) {
         var ScheduledSavedTaskID = config.get("Task.ID");
         if(ScheduledSavedTaskID != -1 && !(Scheduler.isQueued(ScheduledSavedTaskID))) {
@@ -137,7 +138,6 @@ function main() {
           Scheduler.cancelTask(ScheduledSavedTaskID);
         } 
       }
-      var userData = new File(DataContainer, FileID); var config = YamlConfiguration.loadConfiguration(userData);
       switch(args[0].toLowerCase()) {
         case "skill":
           var PlayerData = Player.getMetadata("playerData").get(0).value();
