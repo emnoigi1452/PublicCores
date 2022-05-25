@@ -147,7 +147,7 @@ function PreventBlock() {
         var block_data = get_file(p); var config = YamlConfiguration.loadConfiguration(block_data); var type = args[2];
         if(get_id(type) == -1) return "&eBlock &8&l| &cLỗi: &fLoại khoáng sản nhập vào không hợp lệ!";
         var max_amount = config.get("BlockData." + get_key(type)); var input = parseInt(args[3]);
-        var target = server.getPlayerExact(args[3]); if(target == null) return "&eHookCore &8&l| &cLỗi: &fNgười chơi không online!";
+        var target = server.getPlayer(args[1]); if(target == null) return "&eHookCore &8&l| &cLỗi: &fNgười chơi không online!";
         if(isNaN(input) || input < 1) return "&eHookCore &8&l| &cLỗi: Số nhập vào không hợp lệ!";
         if(input > max_amount) return "&eHook &8&l| &cLỗi: &fBạn không có đủ khoáng sản để gửi!";
         if(!(get_id(type) == 41 || get_id(type) == 57 || get_id(type) == 133))
