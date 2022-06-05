@@ -1,0 +1,84 @@
+Settings:
+  Spawn-Chance: 50 #The chance that this tier will spawn.
+  Use-Chance: true #If true then it uses the chance option in the prizes and if false then each prize has a 1/(Amount of Prizes) chance of winning.
+  Placed-Block: '54' #The block that will be clicked when they land.
+  Bulk-Prizes: #This allows players to win multiple prizes from one crate.
+    Toggle: false #Toggle if players can win multiple prizes.
+    Random: true #If true then it will pick a random bulk from 1-MaxBulk.
+    Max-Bulk: 3 #The max amount of prizes.
+  Hologram-Toggle: true #Toggle on and off holograms.
+  Hologram-Height: 1.5 #How high the hologram will be from the crate.
+  Hologram: #Holograms only show if Holographic Displays is on the server.
+    - '&8[&d❤&8] &fHòm cơ bản'
+  Firework-Toggle: true #Toggle on or off fireworks.
+  Firework-Colors: #The colors the fireworks will be.
+    - 'Green'
+    - 'Yellow'
+    - 'Aqua'
+  Signal-Flare:
+    Toggle: true
+    Time: '15s'
+    Colors:
+      - 'Green'
+      - 'Yellow'
+      - 'Aqua'
+###################################
+#             Items: Options
+# Item:<ID:MD> - You can choose the item with its id and meta data.
+# Amount:<Number> - Choose how many of the item you get.
+# Name:<Name> - The display name that goes on the item.
+# Lore:<Line 1>,<Line 2>,<Line 3>,<Line 4> - The lore that will go under the enchantments. Split lines with a ','
+# Glowing:<True/False> - Will make the item have a glowing effect without having an enchantment on the item. (Only supports 1.8 - 1.11)
+# Unbreakable-Item:<True/False> - Will add the Unbreaking NBT tag to the item to allow custom textured items to be gained through the envoys.
+# <Enchantment>:<Level> - Choose the enchantment you want to add to the item. You can use the in-game names of the enchantment if you want. Replace the spaces in the name with "_".
+###################################
+Prizes:
+  '1':
+    Chance: 15
+    Messages: 
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &a$50,000&f!'
+    Commands:
+      - 'eco give %Player% 50000'
+  '2':
+    Chance: 12
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax128 &fKhối Sắt&f!'
+    Commands:
+      - 'give %Player% 42 128'
+  '3':
+    Chance: 12
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax256 &4Khối Đá Đỏ&f!'
+    Commands:
+      - 'give %Player% 152 256'
+  '4':
+    Chance: 15
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &a10,000 XP&f!'
+    Commands:
+      - 'xp give %Player% 10000'
+  '5':
+    Chance: 20
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax16 &5Mắt Ender&f!'
+    Commands:
+      - 'give %Player% 368 16'
+  '6':
+    Chance: 10
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax128 &6Khối Vàng'
+    Commands:
+      - 'give %Player% 41 128'
+  '7':
+    Chance: 9
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax128 &bKhối Kim Cương'
+    Items:
+      - 'give %Player% 57 128'
+  '8':
+    Chance: 7
+    Messages:
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax128 &aKhối Lục Bảo'
+    Commands:
+      - 'give %Player% 133 128'
+
