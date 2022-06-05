@@ -60,7 +60,7 @@ Prizes:
   '5':
     Chance: 20
     Messages:
-      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax16 &5Mắt Ender&f!'
+      - '&aBasic &3| &fBạn mở hòm và đã nhận được &ax16 &5Ngọc Ender&f!'
     Commands:
       - 'give %Player% 368 16'
   '6':
