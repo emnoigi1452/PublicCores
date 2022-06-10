@@ -521,6 +521,19 @@ function main() {
         }; break;
       case "auto":
         switch(args[1].toLowerCase()) {
+          case "refresh":
+            var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
+            if(PlayerConfig.get("Auto.Task.ID") == -1)
+              return -1;
+            else {
+              if(!Scheduler.isQueued(PlayerConfig.get("Auto.Task.ID"))) {
+                var ThreadRefresh = Java.extend(Runnable, {
+                  run: function() {
+                    ['ID','Start'].forEach(function(k) { PlayerConfig.set("Auto.Task." + k, new java.lang.Long(-1)); });
+                  }
+                }); new Thread(new ThreadRefresh()).start(); return 0;
+              }
+            }; break;
           case "execute":
             var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
             var KeyHandle = "Auto.Handler."; var KeyConfig = "Auto.Task.";
