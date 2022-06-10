@@ -20,7 +20,6 @@ var Thread = java.lang.Thread;
 var File = java.io.File
 var System = java.lang.System;
 var ArrayList = java.util.ArrayList;
-var HashMap = java.util.HashMap;
 var JavaString = java.lang.String;
 var UUID = java.util.UUID;
 var StringBuilder = java.lang.StringBuilder;
@@ -114,6 +113,7 @@ var Messenger = {
   getNote: function(key) {
     return this.handleMessage('note', key);
   },
+  internalError: '&fTính năng đã xảy ra lỗi! Vui lòng liên lạc &eDucTrader &fđể khắc phục!',
   notEnoughPlugins: '&fMáy chủ không có đủ plugin để bắt đầu &eEvent&f!',
   isBlacklistEntry: '&fBạn hiện bị cấm tham gia sự kiện! Liên hệ &eDucTrader &fđể giải quyết!',
   alreadyRegistered: '&fBạn đã đăng ký sự kiện từ trước rồi!',
@@ -128,6 +128,11 @@ var Messenger = {
   pointsObtain: '&fTrao đổi hoàn tất! Bạn nhận được &a$a &eĐiểm Bạch Kim!',
   notEnoughPoints: '&fBạn không có đủ điểm để thực hiện giao dịch này!',
   autoUnlocked: '&fĐã mở khóa thành công tính năng tự động trao đổi!',
+  autoTaskLoaded: '&fĐã triển khai tính năng tự động cống nạp khoáng sản!',
+  toggleHandle: '&fĐã cập nhật! Bộ xử lí của $n: $s',
+  autoStopped: '&fĐã tắt chế độ tự động xử lí!',
+  handleStarting: '&fHệ thống tự động cống hiến bắt đầu xử lí kho...',
+  cooldownUpdated: '&fĐã cập nhật thành công thời gian chờ!',
 }
 
 var Platinum = {
@@ -399,7 +404,7 @@ function main() {
           var Config = YamlConfiguration.loadConfiguration(TempF);
           if(!Config.contains("Auto"))
             Player.sendMessage(Platinum.colorHandler(Messenger.getError('noPermission')));
-          else { DataFile = TempF; return true; }
+          else { DataFile = TempF; break; }
         }
         return false;
       default: throw "&eInvalid module";
@@ -493,6 +498,7 @@ function main() {
             }
             Config.set("Auto.Task.ID", new java.lang.Integer(-1));
             Config.set("Auto.Task.Start", new java.lang.Integer(-1));
+            Config.set("Auto.Task.Cooldown", new java.lang.Integer(60));
             Platinum.KEYS.forEach(function(z) {
               Config.set("Auto.Handler." + z, false);
             });
@@ -514,8 +520,150 @@ function main() {
           case "points": return DataConfig.get("Points").toString();
         }; break;
       case "auto":
-        // Cái này để code sau xd
+        switch(args[1].toLowerCase()) {
+          case "execute":
+            var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
+            var KeyHandle = "Auto.Handler."; var KeyConfig = "Auto.Task.";
+            var TaskInfo = { HOST: Player.getName() };
+            Platinum.KEYS.forEach(function(k) {
+              var V = PlayerConfig.get(KeyHandle + k);
+              TaskInfo[k] = V;
+            });
+            var DailyModule = new File(FileManager[Module], "Daily/" + FileManager.Date.concat(".yml"));
+            //var DailyConfig = YamlConfiguration.loadConfiguration(DailyModule);
+            var AutoSendTask = Java.extend(Runnable, {
+              run: function() {
+                if(!Server.getOfflinePlayer(TaskInfo.HOST).isOnline()) {
+                  var SavedTaskID = PlayerConfig.get(KeyConfig + "ID");
+                  PlayerConfig.set(KeyConfig.concat("ID"), new java.lang.Long(-1));
+                  PlayerConfig.set(KeyConfig.concat("Start"), new java.lang.Long(-1));
+                  PlayerConfig.save(DataFile); Scheduler.cancelTask(SavedTaskID);
+                }
+                var Storage = Player.getMetadata("playerData").get(0).value();
+                var HandleList = new ArrayList();
+                Platinum.KEYS.forEach(function(e) {
+                  var ConfigOptions = PlayerConfig.get(KeyHandle + e);
+                  if(Storage.getBlock(e) > 0 && ConfigOptions)
+                    HandleList.add(e);
+                });
+                if(HandleList.size() > 0) {
+                  Player.sendMessage(Platinum.colorHandler(Messenger.getNote("handleStarting")));
+                  var DailyConfig = YamlConfiguration.loadConfiguration(DailyModule);
+                  var Hash = DataFile.getName().replace(".yml", "");
+                  HandleList.stream().forEach(function(i) {
+                    var StreamDailyKey = "Daily." + Hash + "." + i;
+                    function _d_(m) { return m + "." + i; }
+                    var Balance = Storage.getBlock(i);
+                    var XP = Balance * Platinum.getTableValue(i);
+                    print(XP);
+                    DailyConfig.set(StreamDailyKey, DailyConfig.get(StreamDailyKey) + XP);
+                    PlayerConfig.set(_d_("XP"), PlayerConfig.get(_d_("XP")) + XP);
+                    PlayerConfig.set(_d_("Given"), PlayerConfig.get(_d_("Given")) + Balance);
+                    DailyConfig.save(DailyModule); PlayerConfig.save(DataFile);
+                    Storage.setBlock(i, new java.lang.Integer(0));
+                    Player.sendMessage(Platinum.colorHandler(
+                      Messenger.getNote("mineralSent").replace(
+                        "$c", Platinum.formatNumber(Balance)).replace(
+                        "$x", Platinum.formatNumber(XP)).replace(
+                        "$t", Platinum.translateKey(i))));
+                  });
+                }
+              }
+            });
+            if(PlayerConfig.get("Auto.Task.ID") != -1)
+              return -1;
+            var Delay = new java.lang.Long(PlayerConfig.get(KeyConfig + "Cooldown")*20);
+            var Time = System.currentTimeMillis();
+            var ScheduledBukkitLoop = Scheduler.runTaskTimer(Host, new AutoSendTask(), 20, Delay);
+            PlayerConfig.set(KeyConfig + "ID", ScheduledBukkitLoop.getTaskId());
+            PlayerConfig.set(KeyConfig + "Start", Time); PlayerConfig.save(DataFile);
+            Player.sendMessage(Platinum.colorHandler(Messenger.getNote("autoTaskLoaded")));
+            return 0;
+          case "stop-auto":
+            var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
+            var StopID = PlayerConfig.get("Auto.Task.ID");
+            if(StopID == -1)
+              return -1;
+            var ThreadTaskEnd = Java.extend(Runnable, {
+              run: function() {
+                ['ID','Start'].forEach(function(key) { PlayerConfig.set("Auto.Task." + key, new java.lang.Long(-1)); });
+                Player.sendMessage(Platinum.colorHandler(Messenger.getNote("autoStopped")));
+                Scheduler.cancelTask(StopID); PlayerConfig.save(DataFile);
+              }
+            }); new Thread(new ThreadTaskEnd()).start(); return 0;
+          case "toggle-process":
+            var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
+            if(PlayerConfig.get("Auto.Task.ID") != -1)
+              return;
+            var Key = Platinum.getKey(args[2]); var AccessPath = "Auto.Handler.";
+            if(Key == "NONE")
+              throw "InvalidKey";
+            var ThreadProcess = Java.extend(Runnable, {
+              run: function() {
+                var Status = PlayerConfig.get(AccessPath.concat(Key));
+                PlayerConfig.set(AccessPath.concat(Key), !Status); PlayerConfig.save(DataFile);
+                var HandleLable = !Status ? "&aBật" : "&cTắt";
+                Player.sendMessage(Platinum.colorHandler(Messenger.getNote("toggleHandle").replace(
+                  "$n", Platinum.translateKey(Key)).replace(
+                  "$s", HandleLable)));
+              }
+            }); new Thread(new ThreadProcess()).start(); return 0;
+          case "edit-cooldown":
+            var Cooldown = args[2];
+            var CodeTable = {
+              1: 60,
+              2: 300,
+              3: 900,
+              4: 1800,
+              5: 3600
+            }
+            if(CodeTable[Cooldown] == null)
+              return;
+            var ThreadEdit = Java.extend(Runnable, {
+              run: function() {
+                var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
+                var TableValue = CodeTable[Cooldown];
+                PlayerConfig.set("Auto.Task.Cooldown", TableValue); PlayerConfig.save(DataFile);
+                Player.sendMessage(Platinum.colorHandler(Messenger.getNote("cooldownUpdated")));
+              }
+            }); new Thread(new ThreadEdit()).start(); return 0;
+          case "placeholder":
+            var PlayerConfig = YamlConfiguration.loadConfiguration(DataFile);
+            switch(args[2].toLowerCase()) {
+              case "id": return PlayerConfig.get("Auto.Task.ID");
+              case "start":
+                var DateFormatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+                var StringDate = DateFormatter.format(new Date(PlayerConfig.get("Auto.Task.Start")));
+                return "&a" + StringDate;
+              case "cooldown":
+                switch(PlayerConfig.get("Auto.Task.Cooldown")) {
+                  case 60: return "&a1m";
+                  case 300: return "&a5m";
+                  case 900: return "&a15m";
+                  case 1800: return "&a30m";
+                  case 3600: return "&a1h";
+                  default:
+                    PlayerConfig.set("Auto.Task.Cooldown", 60); PlayerConfig.save(DataFile);
+                    return "&a1m";
+                }
+              case "handle":
+                var KeyHandle = "Auto.Handler."; var KeyType = Platinum.getKey(args[3]);
+                return PlayerConfig.get(KeyHandle + KeyType) ? "&aBật" : "&cTắt";
+              case "toggle-status":
+                var KeyHandle = "Auto.Handler."; var KeyType = Platinum.getKey(args[3]);
+                return !PlayerConfig.get(KeyHandle + KeyType) ? "&aBật" : "&cTắt";
+              default: throw "Invalid key";
+            }; return 0;
+        }
     }
-  } catch(err) { return err; }
+  } catch(err) {
+    var ErrorThread = Java.extend(Runnable, {
+      run: function() {
+        Player.sendMessage(Platinum.colorHandler(Messenger.getError("internalError")));
+        print(err);
+      }
+    }); new Thread(new ErrorThread()).start(); return -1;
+  }
 }
+
 main();
