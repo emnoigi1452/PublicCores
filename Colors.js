@@ -14,6 +14,10 @@ var Runnable = java.lang.Runnable;
 var HashMap = java.util.HashMap;
 var ArrayList = java.util.ArrayList;
 var File = java.io.File;
+var JavaString = java.lang.String;
+var BigInteger = java.math.BigInteger;
+var Base64 = java.util.Base64;
+var MessageDigest = java.security.MessageDigest;
 /*
 var BufferedWriter = java.io.BufferedWriter;
 var FileWriter = java.io.FileWriter;
@@ -21,8 +25,27 @@ var BufferedReader = java.io.BufferedReader;
 var FileReader = java.io.FileWriter;
 */
 
+var Compressor = {
+  formatter: function(bytes) {
+    // Format code taken from AuthMe, thanks :D
+    return JavaString.format("\u00250" + (bytes.length << 1) + "x", new BigInteger(1, bytes));
+  },
+  hashUserID: function(playerName) {
+    var BaseBytes = playerName.getBytes();
+    var HashAlgorithm = null;
+    try {
+      HashAlgorithm = MessageDigest.getInstance("SHA-256");
+    } catch(err) { print(err); }
+    var FormatByteHeader = this.formatter(Base64.getEncoder().encode(BaseBytes));
+    var PreHashLayout = playerName + "_" + FormatByteHeader;
+    // Hashing process
+    HashAlgorithm.reset(); HashAlgorithm.update(PreHashLayout.getBytes());
+    var DigestedBytes = HashAlgorithm.digest();
+    return this.formatter(DigestedBytes);
+  },
+}
+
 var DataContainer = Host.getDataFolder().getAbsolutePath().concat("/Color_Drops");
-load('https://pastebin.com/raw/k4XhJdff'); // Import CompressorAPI
 
 var Utils = {
   typeArray: ['coal','lapis','redstone','iron','gold','diamond','emerald'],
@@ -137,6 +160,7 @@ function main() {
           }); config.save(userData);
           Scheduler.cancelTask(ScheduledSavedTaskID);
         } 
+        return 0;
       }
       switch(args[0].toLowerCase()) {
         case "skill":
@@ -278,6 +302,4 @@ function main() {
     return err;
   }
 }
-
-
 main();
