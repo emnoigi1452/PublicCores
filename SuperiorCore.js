@@ -355,25 +355,8 @@ function main() {
         } return 0;
         break;
       case "update":
-        if(!Player.hasPermission("superiorwand.universal")) {
-          Player.sendMessage(ScriptManager.colorHandler(ScriptManager.errorList("no-permission"))); return;
-        } else {
-          var item = Player.getInventory().getItemInMainHand(); if(item == null) return;
-          var meta = item.getItemMeta();
-          if(!meta.hasDisplayName() || !ChatColor.stripColor(meta.getDisplayName().contains("SuperiorWand |")) || !meta.hasLore()) {
-            Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn cần phải cầm bản cũ của &5Đũa Ma Thuật &ftrên tay để tiến hành update!")); return;
-          } else {
-            var Task = Java.extend(Runnable, {
-              run: function() {
-                var Give = "mi load custom superiorwand " + Player.getName() + " 1";
-                Player.getInventory().setItemInMainHand(null);
-                Server.dispatchCommand(Console, Give);
-                Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aThông báo: &fĐã cập nhật thành công đũa!"));
-              }
-            }); Scheduler.runTask(Plugin, new Task()); return 0;
-          }
-        }
-        break;
+        Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &aGhi chú: &fTính năng này đã ngừng hoạt động &c:( &fTiếc ha..."))
+        return -1;
       case "gift":
         if(!Player.hasPermission("superiorwand.universal")) {
           Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
