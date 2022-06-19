@@ -13,7 +13,7 @@ version: 211
 # %rarity_color% - Màu của độ hiếm
 # %fish% - Tên của con cá (trong fish_en.yml)
 # %fish_with_rarity% - Định dạng "[Độ Hiếm] [Tên cá]" (có màu)
-catch-fish: "&eSkyblock &3| &a%player% &fđã câu được &8[%rarity_color%%rarity%&8] &f%fish_with_rarity% &f- Độ dài: %rarity_color%%length% cm"
+catch-fish: "&eSkyblock &3| &a%player% &fđã câu được &8[%rarity_color%%rarity%&8] &f%fish% &f- Độ dài: %rarity_color%%length% cm"
 get-1st: "&eSkyblock &3| &dSự kiện: &a%player% &fđể lên hạng nhất! &fChúc mừng &d:3"
 no-fishing-allowed: "&eSkyblock &3| &cLỗi: &fChỉ có thể câu cá trong sự kiện!"
 
