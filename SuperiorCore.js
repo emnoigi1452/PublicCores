@@ -85,6 +85,8 @@ var ScriptManager = {
     }
   },
   generateFile: function(id) {
+    if(!Player.hasPermission("superiorwand.universal"))
+      return null;
     var unique_file_id = id.getUniqueId().toString() + ".yml";
     var path = Database + "\\" + unique_file_id;
     var file_instance = new File(path);
@@ -125,6 +127,8 @@ function main() {
       throw ScriptManager.errorList("not-enough-plugin");
     var Home_Folder = new File(Database); if(!Home_Folder.exists()) Home_Folder.mkdir();
     var Player_Main_File = ScriptManager.generateFile(Player);
+    if(Player_Main_File == null)
+      return -1;
     switch(args[0].toLowerCase()) {
       case "build":
         if(!Player.hasPermission("superiorwand.universal")) {
@@ -231,6 +235,10 @@ function main() {
         }
         break;
       case "status":
+        if(!Player.hasPermission("superiorwand.universal")) {
+          Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
+          return;
+        }
         var player_manager = YamlConfiguration.loadConfiguration(Player_Main_File);
         var status = player_manager.get("Enabled"); // path to check enable status
         if(args.length < 2) throw ScriptManager.errorList("insufficient-arguments");
@@ -291,6 +299,10 @@ function main() {
         return;
         break;
       case "purchase":
+        if(!Player.hasPermission("superiorwand.universal")) {
+          Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
+          return;
+        }
         var price = 30000; var balance = Manager.getPlugin("PlayerPoints").getAPI().look(Player.getUniqueId());
         var sufficient = balance >= price; var has_slot = false;
         for(var i = 0; i < 36; i++) { if(Player.getInventory().getItem(i) == null) { has_slot = true; break; }};
@@ -317,6 +329,10 @@ function main() {
         }
         break;
       case "phm":
+        if(!Player.hasPermission("superiorwand.universal")) {
+          Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
+          return;
+        }
         var type = args[1]; var metadata = Player.getMetadata("playerData").get(0).value(); // instance of playerData
         var config = YamlConfiguration.loadConfiguration(Player_Main_File);
         if(!ScriptManager.validBlock(type.toUpperCase() + "_BLOCK")) {
@@ -344,7 +360,7 @@ function main() {
         } else {
           var item = Player.getInventory().getItemInMainHand(); if(item == null) return;
           var meta = item.getItemMeta();
-          if(!meta.hasDisplayName() || !ChatColor.stripColor(meta.getDisplayName().contains("SuperiorWand |"))) {
+          if(!meta.hasDisplayName() || !ChatColor.stripColor(meta.getDisplayName().contains("SuperiorWand |")) || !meta.hasLore()) {
             Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn cần phải cầm bản cũ của &5Đũa Ma Thuật &ftrên tay để tiến hành update!")); return;
           } else {
             var Task = Java.extend(Runnable, {
@@ -359,6 +375,10 @@ function main() {
         }
         break;
       case "gift":
+        if(!Player.hasPermission("superiorwand.universal")) {
+          Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fBạn không có quyền dùng tính năng này!"));
+          return;
+        }
         var sendTo = args[1]; var receiverInstance = Server.getPlayer(sendTo);
         if(receiverInstance == null) {
           Player.sendMessage(ScriptManager.colorHandler("&eSuperior &8&l| &cLỗi: &fNgười chơi này hiện không trực tuyến!")); return;
