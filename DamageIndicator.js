@@ -1,6 +1,9 @@
 /* Dependencies: ProtocolLib, SealWatch
  */
 
+/* Dependencies: ProtocolLib, SealWatch
+ */
+
 var Player = BukkitPlayer;
 var Server = BukkitServer;
 var Host = Server.getPluginManager().getPlugin("PlaceholderAPI");
@@ -97,7 +100,7 @@ var Play = {
       var Y = (E1.getY() + E2.getY()) / 2;
       var Z = (E1.getZ() + E2.getZ()) / 2;
       var Hologram = new Location(Damager.getWorld(), X, Y, Z);
-      Hologram.setY(Hologram.getY()-0.8);
+      Hologram.setY(Hologram.getY()+1.2);
       Play.stand(Hologram, e.getDamage());
     }, false);
     SealAPI.getHandlers().registerEvent(API.getBukkitClass("event.entity.EntityDamageByEntityEvent").class, "damage", Wrapper);
@@ -123,13 +126,9 @@ var Play = {
     else
       Color += "a";
     var Stand = loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-    Stand.setVisible(false);
+    Stand.setVisible(false); Stand.setMarker(true); Stand.setCustomNameVisible(true);
     Stand.getBoundingBox().expand(-1);
-    Stand.setCustomNameVisible(true);
-    Stand.setGravity(false);
-    Stand.setCanPickupItems(false);
-    Stand.setInvulnerable(true);
-    Stand.getBoundingBox().expand(-1);
+    Stand.setGravity(false); Stand.setInvulnerable(true); Stand.setCanPickupItems(false);
     Stand.setCustomName(API.getBukkitClass("ChatColor").translateAlternateColorCodes('&', Color + "&l" + val.toFixed(1)));
     var Clear = (new BukkitRunnable() {
       run: function() {
