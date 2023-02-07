@@ -1,9 +1,6 @@
 /* Dependencies: ProtocolLib, SealWatch
  */
 
-/* Dependencies: ProtocolLib, SealWatch
- */
-
 var Player = BukkitPlayer;
 var Server = BukkitServer;
 var Host = Server.getPluginManager().getPlugin("PlaceholderAPI");
@@ -92,7 +89,7 @@ var Play = {
     var Location = API.getBukkitClass("Location");
     var Wrapper = SealAPI.toolbox.createWrapper(function(e) {
       var Damager = e.getDamager();
-      if((!(Damager.class.getName().contains("CraftPlayer"))) || e.getCause().equals(EntityDamageEvent.DamageCause.THORNS))
+      if((!(Damager.class.getName().contains("CraftPlayer"))) || (!(e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK))))
         return;
       var E1 = Damager.getLocation().clone();
       var E2 = e.getEntity().getLocation().clone();
@@ -101,7 +98,7 @@ var Play = {
       var Z = (E1.getZ() + E2.getZ()) / 2;
       var Hologram = new Location(Damager.getWorld(), X, Y, Z);
       Hologram.setY(Hologram.getY()+1.2);
-      Play.stand(Hologram, e.getDamage());
+      Play.cloud(Hologram, e.getFinalDamage());
     }, false);
     SealAPI.getHandlers().registerEvent(API.getBukkitClass("event.entity.EntityDamageByEntityEvent").class, "damage", Wrapper);
   },
@@ -109,31 +106,30 @@ var Play = {
     var SealAPI = Server.getPluginManager().getPlugin("SealWatch");
     SealAPI.getHandlers().unregisterAll(API.getBukkitClass("event.entity.EntityDamageByEntityEvent").class);
   },
-  stand: function(loc, val) {
+  cloud: function(loc, val) {
     var EntityType = API.getBukkitClass("entity.EntityType");
     var BukkitRunnable = API.getBukkitClass("scheduler.BukkitRunnable");
+    var Location = API.getBukkitClass("Location");
     var Color = "&";
-    if(val >= 500)
+    if(val >= 100)
       Color += "5";
-    else if(val >= 250)
+    else if(val >= 60)
       Color += "4";
-    else if(val >= 100)
+    else if(val >= 30)
       Color += "c";
-    else if(val >= 50)
+    else if(val >= 15)
       Color += "6";
-    else if(val >= 20)
+    else if(val >= 5)
       Color += "e";
     else
       Color += "a";
-    var Stand = loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-    Stand.setVisible(false); Stand.setMarker(true); Stand.setCustomNameVisible(true);
-    Stand.getBoundingBox().expand(-1);
-    Stand.setGravity(false); Stand.setInvulnerable(true); Stand.setCanPickupItems(false);
-    Stand.setCustomName(API.getBukkitClass("ChatColor").translateAlternateColorCodes('&', Color + "&l" + val.toFixed(1)));
-    var Clear = (new BukkitRunnable() {
-      run: function() {
-        Stand.remove();
-      }
-    }).runTaskLater(Host, 20);
-  },
+    var Optional = new Location(loc.getWorld(), 256, 256, 256);
+    var Cloud = loc.getWorld().spawnEntity(Optional, EntityType.AREA_EFFECT_CLOUD);
+    Cloud.setRadius(0); Cloud.setRadiusOnUse(0); Cloud.setWaitTime(0);
+    Cloud.setDuration(20); Cloud.setDurationOnUse(0);
+    Cloud.setRadiusPerTick(0); Cloud.setReapplicationDelay(0);
+    Cloud.setCustomNameVisible(true); Cloud.getBoundingBox().expand(-1);
+    Cloud.setCustomName(API.getBukkitClass("ChatColor").translateAlternateColorCodes('&', Color + "&l" + val.toFixed(1)));
+    Cloud.teleport(loc);
+  }
 }
